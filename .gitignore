@@ -1,0 +1,12 @@
+backups
+
+server/node_modules
+server/logs
+
+docker/pg/data
+
+.DS_Store
+*.DS_Store
+._.DS_Store
+**/.DS_Store
+**/._.DS_Store

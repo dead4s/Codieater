@@ -12,9 +12,5 @@ $ docker-compose build
 $ docker-compose up -d
 ```
 
-```
-$ yarn
-```
-
 ## 참고 사항
 https://github.com/sigmadream/pnu-swedu-ccm.git 예제코드 위에서 작업

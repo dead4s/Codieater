@@ -5,7 +5,7 @@ const { env } = process;
 const common = {
   database: env.DATABASE,
   host: env.HOST,
-  username: 'postgres',
+  username: env.USERNAME,
   password: env.PASSWORD,
   dialect: 'postgres',
   define: {

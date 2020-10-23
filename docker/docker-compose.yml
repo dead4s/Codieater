@@ -10,7 +10,7 @@ services:
       ports:
          - 5000:5000
       volumes:
-         - ../Codieater:/home/Codieater
+         - ../server:/home/Codieater
 
    db:
       container_name: pg
