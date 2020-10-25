@@ -2,6 +2,7 @@ backups
 
 server/node_modules
 server/logs
+server/yarn-error.log
 
 docker/pg/data
 

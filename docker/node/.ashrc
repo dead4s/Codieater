@@ -1,0 +1,4 @@
+alias seq='npx sequelize'
+alias l='ls -CF'
+alias ll='ls -alF'
+alias c='clear'
