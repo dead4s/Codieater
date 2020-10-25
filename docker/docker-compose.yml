@@ -21,4 +21,11 @@ services:
       ports:
          - 5432:5432
       volumes:
-         - ./pg/data:/var/lib/postgresql/data
+         - codi_pg_data:/var/lib/postgresql/data
+      environment:
+         - POSTGRES_USER=codi
+         - POSTGRES_PASSWORD=codicodi
+         - LANG=ko_KR.utf8
+
+volumes:
+   codi_pg_data:

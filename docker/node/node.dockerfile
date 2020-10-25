@@ -1,6 +1,6 @@
 FROM node:14.14.0-alpine3.12
 
-COPY ./.ashrc /root/
+COPY ./node/.ashrc /root/
 ENV ENV="/root/.ashrc"
 
 WORKDIR /home/Codieater
