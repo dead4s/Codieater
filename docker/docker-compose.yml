@@ -22,3 +22,12 @@ services:
          - 5432:5432
       volumes:
          - ./pg/data:/var/lib/postgresql/data
+
+   judge:
+      container_name: judge
+      image: judge:1.0
+      build: 
+        context: ./
+        dockerfile: ./judge/judge.dockerfile
+      volumes:
+        - ../judge:/home/judge
