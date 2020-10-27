@@ -5,15 +5,17 @@ using namespace std;
 ProblemInfo::ProblemInfo(int t, int m, Lang l, string code, string data):
 _time(t), _memory(m), _lang(l), _codeDir(code), _dataDir(data){}
 
+
 ostream& operator << (ostream& os, const ProblemInfo& info){
     os << "===== ProblemInfo ====\n" 
     << "time limt = \t\t" << info._time << "\n"
-    << "memory limit = \t\t" << info._time  << "\n"
+    << "memory limit = \t\t" << info._memory  << "\n"
     << "lang select = \t\t" <<  lang2Str(info._lang) << "\n"
     << "codeDir = \t\t" << info._codeDir << "\n"
     << "dataDir = \t\t" << info._dataDir << "\n";
     return os; 
 }   
+
 
 Lang str2Lang(char* str){
     Lang res; 
@@ -40,6 +42,7 @@ Lang str2Lang(char* str){
     }
     return res; 
 }
+
 
 const char* lang2Str(enum Lang l) 
 {

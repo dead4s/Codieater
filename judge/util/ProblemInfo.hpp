@@ -8,7 +8,13 @@
 
 using namespace std; 
 
+
 enum Lang {CPP11, CPP14, CPP17, PYTHON2, PYTHON3, JAVA, INVALID}; 
+
+Lang str2Lang(char* str);
+
+const char* lang2Str(enum Lang l);
+
 
 class ProblemInfo{
 friend ostream& operator << (ostream& os, const ProblemInfo& info);
@@ -22,11 +28,8 @@ private:
 
 public: 
     ProblemInfo(int t, int m, Lang l, string code, string data);
-
-
 }; 
 
-Lang str2Lang(char* str);
-const char* lang2Str(enum Lang l);
+
 
 #endif
