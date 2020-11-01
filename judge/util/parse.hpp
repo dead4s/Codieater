@@ -12,8 +12,8 @@ static void showUsage(string programName){
         << "\t-t --time\t\t(Optional)Set execution time Limit in ms, default value = 2000ms\n"
         << "\t-m --memory\t\t(Optional)Set max memory Limit in MB, default value = 512MB\n"
         << "\t-l --lang\t\tSet judge Language\n"
-        << "\t-c --code\t\tSet code file Name and Directory, usually in /home/input/code/{codefile}\n"
-        << "\t-d --data\t\tSet data files Directory, usually in /home/input/data/[1-9]*'.'(in|out)?\n";
+        << "\t-c --code\t\tSet mark number to be judged\n"
+        << "\t-d --data\t\tSet problem number to get input and ouput data\n";
     return;  
 }
 

@@ -31,3 +31,4 @@ services:
         dockerfile: ./judge/judge.dockerfile
       volumes:
         - ../judge:/home/judge
+        - ../data:/home/data
