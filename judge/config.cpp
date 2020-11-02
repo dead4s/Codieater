@@ -3,6 +3,8 @@
 string MARKPATH; 
 string PROBPATH; 
 
+const int COMPILE_MSG_LENGTH = 1024; 
+
 void setEnv(){
     try{
         MARKPATH = string(getenv("MARKPATH")); 

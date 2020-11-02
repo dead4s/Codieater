@@ -3,6 +3,7 @@
 
 #include "../util/ProblemInfo.hpp"
 #include "../util/error.hpp"
+#include "../process/childproc.hpp"
 #include "../config.hpp"
 //#include "IBaseLang.hpp"
 #include "CPP_14.hpp"
@@ -19,12 +20,11 @@ private:
     ProblemInfo pinfo;  //problme info 
     //IBaseLang* lang;    //ibaseLang 
     CPP_14 lang;  
-    void getReadyArgs(vector<char*>& readyArgs); 
 
 public:
     ExecuteBox(ProblemInfo _p)
     :pinfo(_p){}
-    bool compile();
+    bool compile(char* compileMsg, int msgSize);
 };
 
 #endif

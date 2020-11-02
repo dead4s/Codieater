@@ -8,6 +8,8 @@ using namespace std;
 extern string MARKPATH; 
 extern string PROBPATH; 
 
+extern const int COMPILE_MSG_LENGTH; 
+
 void setEnv(); 
 
 #endif

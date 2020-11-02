@@ -17,7 +17,7 @@ const string PROC_FORK_FAIL = "fork to create subprocess Failed, PID is negative
 
 const string PROC_CHILD_RET_ERROR = "child process have some problem";
 
-const string PROC_CHILD_KILLED = "child process is killed by sginal"; 
+const string PROC_CHILD_KILLED = "child process is killed by signal"; 
 
 const string PROC_CHILD_RET_UNKOWN = "child process have some problem but not specified in the code"; 
 

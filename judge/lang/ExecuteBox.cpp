@@ -1,27 +1,6 @@
 #include "ExecuteBox.hpp"
 
-
-void ExecuteBox::getReadyArgs(vector<char*>& readyArgs){
-    cout << "getReadyArgs" << endl; 
-    const vector<string>& langArgs = lang.getArgs();
-    string compiler = lang.getCompiler(); 
-
-    string inputCode = MARKPATH + pinfo.getMarkNo() + "/" + lang.getFname();  
-    readyArgs.push_back(const_cast<char*>(compiler.c_str())); 
- 
-    cout << "inputCode : " << inputCode << endl; 
-    cout <<"compiler : " << compiler.c_str() << endl; 
-    for(int i = 0; i < langArgs.size(); i++){
-        readyArgs.push_back(const_cast<char*>(langArgs[i].c_str())); 
-        cout << langArgs[i] << endl; 
-    }
-    readyArgs.push_back(const_cast<char*>(inputCode.c_str()));
-    readyArgs.push_back(nullptr); 
-    return; 
-}
-
-
-bool ExecuteBox::compile(){
+bool ExecuteBox::compile(char* compileMsg, int msgSize){
     string f =  "compile"; 
 
     int pipeFile[2]; 
@@ -49,20 +28,20 @@ bool ExecuteBox::compile(){
         }
         else if(WIFEXITED(status)){
             int compileResult = WEXITSTATUS(status); 
-            //TODO : write to result.json 
-            dup2(1, pipeFile[0]); 
-            fflush(stdout); 
+            read(pipeFile[1], compileMsg, msgSize); 
+            printf("%s\n", compileMsg); 
             close(pipeFile[0]); 
             close(pipeFile[1]); 
-
-           if(compileResult == 0){
+            /*
+            if(compileResult == 0){
                 cout << "compile success " << endl; 
             }
             else{
                 cout << "compile Result : " << compileResult << endl; 
                 cout << "compile error " << endl; 
             }
-            return bool(compileResult); 
+            */
+            return !bool(compileResult); 
         }
         else{
             throw runtime_error(addTag(PROC_CHILD_RET_UNKOWN, f)); 
@@ -72,19 +51,11 @@ bool ExecuteBox::compile(){
         //dup2(pipeFile[1], 1); 
         //dup2(pipeFile[1], 2); 
 
-        vector<char*> readyArgs; 
-        getReadyArgs(readyArgs); 
-        const char* path = lang.getCompiler().c_str(); 
-        char** args = readyArgs.data(); 
-
-        cout << readyArgs.size() << endl; 
-        for(int i = 0; i < readyArgs.size(); i++){
-            cout << string(readyArgs[i]) << endl; 
-        }
-
-        execv(path, &(args[0])); 
-        cerr << strerror(errno) << endl; 
-        _exit(-1); 
-    }
+        string path = MARKPATH + pinfo.getMarkNo(); 
+        string cmd = lang.getCompiler(); 
+        vector<string> arg = lang.getArgs(); 
+        vector<string> env; 
+        startChildProc(path, cmd, arg, env); 
+    }  
     return 0; 
 }

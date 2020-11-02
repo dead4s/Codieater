@@ -1,9 +1,13 @@
 #include "CPP_14.hpp"
 
 vector<string> CPP_14::saveArg = {
-    "-o", "happy",
+    "-o", "main",
+    "-O2", 
+    "-lm",
+    "-Wall",
     "-static",
     "-std=gnu++14",     
+    "Main.cpp"
 };
 
 vector<string> CPP_14::saveEnv = {

@@ -11,7 +11,7 @@ private:
     static const string srcFile;
 
 public: 
-    static const string getCompiler(){
+    static const string& getCompiler(){
         return compiler; 
     }
 
@@ -23,7 +23,7 @@ public:
         return saveEnv; 
     }
 
-    static const string getFname(){
+    static const string& getFname(){
         return srcFile; 
     }
 }; 
