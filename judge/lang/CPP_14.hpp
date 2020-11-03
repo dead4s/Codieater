@@ -3,28 +3,32 @@
 
 #include "IBaseLang.hpp"
 
-class CPP_14{
+class CPP_14 : public IBaseLang{
 private:
-    static vector<string> saveArg; 
-    static vector<string> saveEnv; 
-    static const string compiler; 
-    static const string srcFile;
+    vector<string> saveArg = {
+        "-o", "main",
+        "-O2", 
+        "-lm",
+        "-Wall",
+        "-static",
+        "-std=gnu++14",     
+        "Main.cpp"
+    };
+    vector<string> saveEnv = {
+    }; 
+    const string compiler = "/usr/bin/g++"; 
 
 public: 
-    static const string& getCompiler(){
+    virtual const string& getCompiler(){
         return compiler; 
     }
 
-    static const vector<string>& getArgs(){
+    virtual const vector<string>& getArgs(){
         return saveArg; 
     }
 
-    static const vector<string>& getEnv(){
+    virtual const vector<string>& getEnv(){
         return saveEnv; 
-    }
-
-    static const string& getFname(){
-        return srcFile; 
     }
 }; 
 #endif

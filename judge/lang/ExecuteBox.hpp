@@ -5,7 +5,7 @@
 #include "../util/error.hpp"
 #include "../process/childproc.hpp"
 #include "../config.hpp"
-//#include "IBaseLang.hpp"
+#include "IBaseLang.hpp"
 #include "CPP_14.hpp"
 
 #include <fstream> 
@@ -18,12 +18,19 @@ class ExecuteBox{
 private: 
     ofstream file;      //result file
     ProblemInfo pinfo;  //problme info 
-    //IBaseLang* lang;    //ibaseLang 
-    CPP_14 lang;  
+    IBaseLang* lang;    //ibaseLang 
+    //CPP_14 lang;  
 
 public:
     ExecuteBox(ProblemInfo _p)
-    :pinfo(_p){}
+    :pinfo(_p){
+        if(pinfo.getLang() == CPP14){
+            lang = new CPP_14; 
+        }
+        else{
+            lang = new CPP_14; 
+        }
+    }
     bool compile(char* compileMsg, int msgSize);
 };
 

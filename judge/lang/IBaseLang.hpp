@@ -5,14 +5,12 @@
 #include <vector>
 using namespace std; 
 
-const int MAX_ARG_LEN = 20; 
-
 //language interface
 class IBaseLang{
 public:
-    virtual string getCompiler() = 0; 
-    virtual string syntaxCheck() = 0; 
-    virtual string execute() = 0;
+    virtual const string& getCompiler() = 0; 
+    virtual const vector<string>& getArgs() = 0; 
+    virtual const vector<string>& getEnv() = 0; 
 }; 
 
 #endif

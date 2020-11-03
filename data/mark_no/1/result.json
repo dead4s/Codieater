@@ -4,6 +4,6 @@
 Main.cpp:13:15: warning: unused variable β€aβ€™ [-Wunused-variable]
    13 |     short int a = b;
       |               ^
-τεÿ" ,
+" ,
 	"result" : [	] 
 }

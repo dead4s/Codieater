@@ -27,6 +27,7 @@ bool ExecuteBox::compile(char* compileMsg, int msgSize){
         }
         else if(WIFEXITED(status)){
             int compileResult = WEXITSTATUS(status); 
+            memset(compileMsg, '\0', msgSize); 
             read(pipeFile[0], compileMsg, msgSize); 
             close(pipeFile[0]); 
             close(pipeFile[1]); 
@@ -41,8 +42,8 @@ bool ExecuteBox::compile(char* compileMsg, int msgSize){
         dup2(pipeFile[1], 2);  //stderr -> pipeFile[0]
 
         string path = MARKPATH + pinfo.getMarkNo(); 
-        string cmd = lang.getCompiler(); 
-        vector<string> arg = lang.getArgs(); 
+        string cmd = lang->getCompiler(); 
+        vector<string> arg = lang->getArgs(); 
         vector<string> env; 
         startChildProc(path, cmd, arg, env); 
     }  

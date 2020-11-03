@@ -36,6 +36,9 @@ public:
     int getMemory(){
         return _memory; 
     }
+    Lang getLang(){
+        return _lang; 
+    }
     string getMarkNo(){
         return _markNo; 
     }
