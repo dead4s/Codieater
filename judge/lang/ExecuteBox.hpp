@@ -5,6 +5,7 @@
 #include "../util/error.hpp"
 #include "../process/childproc.hpp"
 #include "../config.hpp"
+
 #include "IBaseLang.hpp"
 #include "C.hpp"
 #include "CPP.hpp"
@@ -18,9 +19,11 @@
 #include <sys/wait.h>
 #include <fcntl.h> 
 
+#include <sys/time.h> 
+#include <sys/resource.h>
+
 class ExecuteBox{
 private: 
-    ofstream file;      //result file
     ProblemInfo pinfo;  //problme info 
     IBaseLang* lang;    //ibaseLang 
 
@@ -52,9 +55,9 @@ public:
         else{ //default
             throw logic_error("invalid language selection in executeBox"); 
         }
-
     }
     bool compile(char* compileMsg, int msgSize);
+    int gradeTestCase(int testCaseNo);
 };
 
 #endif

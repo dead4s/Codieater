@@ -5,6 +5,9 @@
 #include <fstream> 
 #include <string>
 #include <vector> 
+#include <sstream>
+#include <iomanip>
+
 using namespace std; 
 
 class TestCaseResult{

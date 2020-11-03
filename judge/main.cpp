@@ -12,6 +12,14 @@
 
 using namespace std; 
 
+int getTestCasesCount(string probNo){
+    int count; 
+    string countCommand = "ls -l " + PROBPATH + probNo + "/in/" + "*[0-9].in | wc -l"; 
+    FILE* countFile = popen(countCommand.c_str(), "r"); 
+    fscanf(countFile, "%d", &count); 
+    fclose(countFile);     
+    return count; 
+}
 
 int main(int argc, char* argv[]){
 
@@ -28,6 +36,13 @@ int main(int argc, char* argv[]){
     bool compileResult = xbox.compile(compileMsg, COMPILE_MSG_LENGTH); 
     result.compileResult = compileResult; 
     result.compileMessage = string(compileMsg); 
+
+    //EXECUTE TEST
+    int count = getTestCasesCount(pinfo.getProbNo()); 
+    for(int i = 1; i < count; i++){
+        bool tcResult = xbox.gradeTestCase(i); 
+        result.tcResults.emplace_back(tcResult, "default msg"); 
+    }
 
     cout <<"== JudgeResult DUMP ==" << endl; 
     cout << result << endl; 

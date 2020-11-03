@@ -1,17 +1,266 @@
 {
-	"compile" : "0" ,
-	"compile_msg" : "Traceback (most recent call last):
-  File "/usr/lib/python2.7/runpy.py", line 174, in _run_module_as_main
-    "__main__", fname, loader, pkg_name)
-  File "/usr/lib/python2.7/runpy.py", line 72, in _run_code
-    exec code in run_globals
-  File "/usr/lib/python2.7/py_compile.py", line 181, in <module>
-    sys.exit(main())
-  File "/usr/lib/python2.7/py_compile.py", line 173, in main
-    compile(filename, doraise=True)
-  File "/usr/lib/python2.7/py_compile.py", line 106, in compile
-    with open(file, 'U') as f:
-IOError: [Errno 2] No such file or directory: 'Main.py'
-" ,
-	"result" : [	] 
+	"compile" : "1" ,
+	"compile_msg" : "Main.cpp: In function ‘int main()’:\u000aMain.cpp:13:15: warning: unused variable ‘a’ [-Wunused-variable]\u000a   13 |     short int a = b;\u000a      |               ^\u000a" ,
+	"result" : [
+		{
+		"check" : "1" ,
+		"msg" : "default msg"
+		}, 
+		{
+		"check" : "1" ,
+		"msg" : "default msg"
+		}, 
+		{
+		"check" : "1" ,
+		"msg" : "default msg"
+		}, 
+		{
+		"check" : "1" ,
+		"msg" : "default msg"
+		}, 
+		{
+		"check" : "1" ,
+		"msg" : "default msg"
+		}, 
+		{
+		"check" : "1" ,
+		"msg" : "default msg"
+		}, 
+		{
+		"check" : "1" ,
+		"msg" : "default msg"
+		}, 
+		{
+		"check" : "1" ,
+		"msg" : "default msg"
+		}, 
+		{
+		"check" : "1" ,
+		"msg" : "default msg"
+		}, 
+		{
+		"check" : "1" ,
+		"msg" : "default msg"
+		}, 
+		{
+		"check" : "1" ,
+		"msg" : "default msg"
+		}, 
+		{
+		"check" : "1" ,
+		"msg" : "default msg"
+		}, 
+		{
+		"check" : "1" ,
+		"msg" : "default msg"
+		}, 
+		{
+		"check" : "1" ,
+		"msg" : "default msg"
+		}, 
+		{
+		"check" : "1" ,
+		"msg" : "default msg"
+		}, 
+		{
+		"check" : "1" ,
+		"msg" : "default msg"
+		}, 
+		{
+		"check" : "1" ,
+		"msg" : "default msg"
+		}, 
+		{
+		"check" : "1" ,
+		"msg" : "default msg"
+		}, 
+		{
+		"check" : "1" ,
+		"msg" : "default msg"
+		}, 
+		{
+		"check" : "1" ,
+		"msg" : "default msg"
+		}, 
+		{
+		"check" : "1" ,
+		"msg" : "default msg"
+		}, 
+		{
+		"check" : "1" ,
+		"msg" : "default msg"
+		}, 
+		{
+		"check" : "1" ,
+		"msg" : "default msg"
+		}, 
+		{
+		"check" : "1" ,
+		"msg" : "default msg"
+		}, 
+		{
+		"check" : "1" ,
+		"msg" : "default msg"
+		}, 
+		{
+		"check" : "1" ,
+		"msg" : "default msg"
+		}, 
+		{
+		"check" : "1" ,
+		"msg" : "default msg"
+		}, 
+		{
+		"check" : "1" ,
+		"msg" : "default msg"
+		}, 
+		{
+		"check" : "1" ,
+		"msg" : "default msg"
+		}, 
+		{
+		"check" : "1" ,
+		"msg" : "default msg"
+		}, 
+		{
+		"check" : "1" ,
+		"msg" : "default msg"
+		}, 
+		{
+		"check" : "1" ,
+		"msg" : "default msg"
+		}, 
+		{
+		"check" : "1" ,
+		"msg" : "default msg"
+		}, 
+		{
+		"check" : "1" ,
+		"msg" : "default msg"
+		}, 
+		{
+		"check" : "1" ,
+		"msg" : "default msg"
+		}, 
+		{
+		"check" : "1" ,
+		"msg" : "default msg"
+		}, 
+		{
+		"check" : "1" ,
+		"msg" : "default msg"
+		}, 
+		{
+		"check" : "1" ,
+		"msg" : "default msg"
+		}, 
+		{
+		"check" : "1" ,
+		"msg" : "default msg"
+		}, 
+		{
+		"check" : "1" ,
+		"msg" : "default msg"
+		}, 
+		{
+		"check" : "1" ,
+		"msg" : "default msg"
+		}, 
+		{
+		"check" : "1" ,
+		"msg" : "default msg"
+		}, 
+		{
+		"check" : "1" ,
+		"msg" : "default msg"
+		}, 
+		{
+		"check" : "1" ,
+		"msg" : "default msg"
+		}, 
+		{
+		"check" : "1" ,
+		"msg" : "default msg"
+		}, 
+		{
+		"check" : "1" ,
+		"msg" : "default msg"
+		}, 
+		{
+		"check" : "1" ,
+		"msg" : "default msg"
+		}, 
+		{
+		"check" : "1" ,
+		"msg" : "default msg"
+		}, 
+		{
+		"check" : "1" ,
+		"msg" : "default msg"
+		}, 
+		{
+		"check" : "1" ,
+		"msg" : "default msg"
+		}, 
+		{
+		"check" : "1" ,
+		"msg" : "default msg"
+		}, 
+		{
+		"check" : "1" ,
+		"msg" : "default msg"
+		}, 
+		{
+		"check" : "1" ,
+		"msg" : "default msg"
+		}, 
+		{
+		"check" : "1" ,
+		"msg" : "default msg"
+		}, 
+		{
+		"check" : "1" ,
+		"msg" : "default msg"
+		}, 
+		{
+		"check" : "1" ,
+		"msg" : "default msg"
+		}, 
+		{
+		"check" : "1" ,
+		"msg" : "default msg"
+		}, 
+		{
+		"check" : "1" ,
+		"msg" : "default msg"
+		}, 
+		{
+		"check" : "1" ,
+		"msg" : "default msg"
+		}, 
+		{
+		"check" : "1" ,
+		"msg" : "default msg"
+		}, 
+		{
+		"check" : "1" ,
+		"msg" : "default msg"
+		}, 
+		{
+		"check" : "1" ,
+		"msg" : "default msg"
+		}, 
+		{
+		"check" : "1" ,
+		"msg" : "default msg"
+		}, 
+		{
+		"check" : "1" ,
+		"msg" : "default msg"
+		}, 
+		{
+		"check" : "1" ,
+		"msg" : "default msg"
+		}
+	] 
 }

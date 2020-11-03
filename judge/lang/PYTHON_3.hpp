@@ -11,6 +11,7 @@ private :
     };
     vector<string> saveEnv = {}; 
     const string compiler = "/usr/bin/python3";  
+    const string target = "Main.py";
 public: 
     virtual const string& getCompiler(){
         return compiler; 
@@ -22,6 +23,9 @@ public:
 
     virtual const vector<string>& getEnv(){
         return saveEnv; 
+    }
+    virtual const string& getTarget(){
+        return target; 
     }
 }; 
 

@@ -2,9 +2,22 @@
 
 using namespace std; 
 
+string jsonEncoding(const string &s) {
+    ostringstream encoded;
+    for (auto c = s.cbegin(); c != s.cend(); c++) {
+        if (*c == '"' || *c == '\\' || ('\x00' <= *c && *c <= '\x1f')) {
+            encoded << "\\u"
+              << hex << setw(4) << setfill('0') << (int)*c;
+        } else {
+            encoded << *c;
+        }
+    }
+    return encoded.str();
+}
+
 ostream& operator<< (ostream& os, const TestCaseResult& tcRes){
     os << "check \t\t" << tcRes.check << endl; 
-    os << "message \t\t" << tcRes.check << endl; 
+    os << "message \t\t" << tcRes.msg << endl; 
     return os; 
 }
 
@@ -24,10 +37,14 @@ ostream& operator<< (ostream& os, const JudgeResult& res){
 bool JudgeResult::seq2json(ofstream& file, string space){
     file << "{" << endl;
     file << space << "\"compile\" : " << "\"" << compileResult << "\" ," << endl; 
-    file << space << "\"compile_msg\" : " << "\"" << compileMessage << "\" ," << endl; 
-    file << space << "\"result\" : ["; 
+    file << space << "\"compile_msg\" : " << "\"" << jsonEncoding(compileMessage) << "\" ," << endl; 
+    file << space << "\"result\" : [" << endl; 
     for(int i = 0; i < tcResults.size(); i++){
         tcResults[i].seq2json(file, space + "\t"); 
+        if(i != tcResults.size() - 1)
+            file << ", " << endl; 
+        else 
+            file << endl; 
     }
     file << space <<  "] " << endl;  
     file << "}" << endl; 
@@ -36,8 +53,8 @@ bool JudgeResult::seq2json(ofstream& file, string space){
  
 bool TestCaseResult::seq2json(ofstream& file, string space){
     file << space << "{" << endl; 
-    file << space << "'check' : " << check <<"' ," << endl; 
-    file << space << "'msg' : " << msg <<"' ," << endl; 
-    file << space << "} ," << endl; 
+    file << space << "\"check\" : \"" << check <<"\" ," << endl; 
+    file << space << "\"msg\" : \"" << msg <<"\"" << endl; 
+    file << space << "}"; 
     return true; 
 }

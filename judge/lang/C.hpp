@@ -17,6 +17,7 @@ private:
     vector<string> saveEnv = {
     }; 
     const string compiler = "/usr/bin/gcc"; 
+    const string target = "main"; 
 public: 
     C(int version){
         if(version == 11){
@@ -39,6 +40,10 @@ public:
 
     virtual const vector<string>& getEnv(){
         return saveEnv; 
+    }
+
+    virtual const string& getTarget(){
+        return target; 
     }
 }; 
 #endif

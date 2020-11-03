@@ -11,6 +11,7 @@ public:
     virtual const string& getCompiler() = 0; 
     virtual const vector<string>& getArgs() = 0; 
     virtual const vector<string>& getEnv() = 0; 
+    virtual const string& getTarget() = 0; 
 }; 
 
 #endif

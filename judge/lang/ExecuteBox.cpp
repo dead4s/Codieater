@@ -43,8 +43,8 @@ bool ExecuteBox::compile(char* compileMsg, int msgSize){
         }
     }
     else{ //child process
-        dup2(pipeFile[1], 1); //stdout -> pipeFile[1]
-        dup2(pipeFile[1], 2);  //stderr -> pipeFile[0]
+        dup2(pipeFile[1], STDOUT_FILENO); //stdout -> pipeFile[1]
+        dup2(pipeFile[1], STDERR_FILENO);  //stderr -> pipeFile[0]
 
         string path = MARKPATH + pinfo.getMarkNo(); 
         string cmd = lang->getCompiler(); 
@@ -52,5 +52,52 @@ bool ExecuteBox::compile(char* compileMsg, int msgSize){
         vector<string> env; 
         startChildProc(path, cmd, arg, env); 
     }  
+    return 0; 
+}
+
+int ExecuteBox::gradeTestCase(int testCaseNo){
+    string f = "gradeTestCase"; 
+    pid_t pid; 
+    int status; 
+
+    pid = fork(); 
+    if(pid < 0){
+        throw runtime_error(addTag(PROC_FORK_FAIL, f)); 
+    }
+    if(pid> 0){ //parent process
+        pid_t waitPid; 
+        while( ((waitPid = wait(&status)) == -1) && errno == EINTR); 
+ 
+        if(waitPid == -1){
+            throw runtime_error(addTag(PROC_CHILD_RET_ERROR, f)); 
+        }
+        else if(WIFSIGNALED(status)){
+            cerr << strerror(errno) <<  endl; 
+            throw runtime_error(addTag(PROC_CHILD_KILLED, f)); 
+        }
+        else if(WIFEXITED(status)){
+            int tcResult = WEXITSTATUS(status); 
+            return !bool(tcResult); 
+        }
+        else{
+            throw runtime_error(addTag(PROC_CHILD_RET_UNKOWN, f)); 
+        }
+    }
+    else{//child process
+        string inputFile = PROBPATH + pinfo.getProbNo() +"/in/" + to_string(testCaseNo) +".in"; 
+        string outputFile = MARKPATH + pinfo.getProbNo() + "/" +  to_string(testCaseNo) + ".out"; 
+        int inputFd = open(inputFile.c_str(), O_RDONLY); 
+        int outputFd = open(outputFile.c_str(), O_CREAT| O_WRONLY | O_TRUNC, 0666); 
+        dup2(inputFd, STDIN_FILENO); 
+        dup2(outputFd, STDOUT_FILENO); 
+        close(inputFd); 
+        close(outputFd); 
+
+        string path = "."; 
+        string prog = MARKPATH + pinfo.getProbNo() + "/" + lang->getTarget();
+        vector<string> arg; 
+        vector<string> env;
+        startChildProc(path, prog, arg, env); 
+    }
     return 0; 
 }
