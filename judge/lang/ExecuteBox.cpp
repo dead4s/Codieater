@@ -9,6 +9,11 @@ bool ExecuteBox::compile(char* compileMsg, int msgSize){
     if(pipe(pipeFile) == - 1){
         throw runtime_error(addTag(PROC_PIPE_CREATE_FAIL, f)); 
     }
+    //make sure that pipe is non blocking
+    //if not, read function can stuck 
+    if (fcntl(pipeFile[0], F_SETFL, O_NONBLOCK) < 0) 
+        exit(2); 
+
     pid_t pid; 
     pid = fork(); 
     if(pid < 0){
@@ -17,7 +22,7 @@ bool ExecuteBox::compile(char* compileMsg, int msgSize){
     if(pid > 0){ //parent process 
         pid_t waitPid; 
         while( ((waitPid = wait(&status)) == -1) && errno == EINTR); 
-        
+ 
         if(waitPid == -1){
             throw runtime_error(addTag(PROC_CHILD_RET_ERROR, f)); 
         }

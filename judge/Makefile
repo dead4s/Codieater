@@ -10,7 +10,7 @@ main.o : main.cpp util/parse.hpp
 ProblemInfo.o : util/ProblemInfo.cpp util/ProblemInfo.hpp
 	$(CC) $(CFLAGS) -o $@ util/ProblemInfo.cpp 
 
-ExecuteBox.o : lang/ExecuteBox.cpp lang/ExecuteBox.hpp
+ExecuteBox.o : lang/ExecuteBox.cpp lang/ExecuteBox.hpp lang/CPP_14.hpp
 	$(CC) $(CFLAGS) -o $@ lang/ExecuteBox.cpp
 
 config.o : config.cpp config.hpp

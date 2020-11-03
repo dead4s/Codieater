@@ -7,12 +7,14 @@
 #include "../config.hpp"
 #include "IBaseLang.hpp"
 #include "CPP_14.hpp"
+#include "PYTHON_3.hpp"
 
 #include <fstream> 
 #include <iostream> 
 #include <unistd.h>
 #include <sys/types.h> 
 #include <sys/wait.h>
+#include <fcntl.h> 
 
 class ExecuteBox{
 private: 
@@ -24,10 +26,10 @@ private:
 public:
     ExecuteBox(ProblemInfo _p)
     :pinfo(_p){
-        if(pinfo.getLang() == CPP14){
-            lang = new CPP_14; 
+        if(pinfo.getLang() == PYTHON3){
+            lang = new PYTHON_3; 
         }
-        else{
+        else{ //default
             lang = new CPP_14; 
         }
     }
