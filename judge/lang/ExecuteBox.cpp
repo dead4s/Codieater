@@ -14,8 +14,7 @@ bool ExecuteBox::compile(char* compileMsg, int msgSize){
     if(pid < 0){
         throw runtime_error(addTag(PROC_FORK_FAIL, f)); 
     }
-    if(pid > 0){
-        //parent process
+    if(pid > 0){ //parent process 
         pid_t waitPid; 
         while( ((waitPid = wait(&status)) == -1) && errno == EINTR); 
         
@@ -28,28 +27,18 @@ bool ExecuteBox::compile(char* compileMsg, int msgSize){
         }
         else if(WIFEXITED(status)){
             int compileResult = WEXITSTATUS(status); 
-            read(pipeFile[1], compileMsg, msgSize); 
-            printf("%s\n", compileMsg); 
+            read(pipeFile[0], compileMsg, msgSize); 
             close(pipeFile[0]); 
             close(pipeFile[1]); 
-            /*
-            if(compileResult == 0){
-                cout << "compile success " << endl; 
-            }
-            else{
-                cout << "compile Result : " << compileResult << endl; 
-                cout << "compile error " << endl; 
-            }
-            */
             return !bool(compileResult); 
         }
         else{
             throw runtime_error(addTag(PROC_CHILD_RET_UNKOWN, f)); 
         }
     }
-    else{
-        //dup2(pipeFile[1], 1); 
-        //dup2(pipeFile[1], 2); 
+    else{ //child process
+        dup2(pipeFile[1], 1); //stdout -> pipeFile[1]
+        dup2(pipeFile[1], 2);  //stderr -> pipeFile[0]
 
         string path = MARKPATH + pinfo.getMarkNo(); 
         string cmd = lang.getCompiler(); 

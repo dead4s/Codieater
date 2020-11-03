@@ -3,7 +3,7 @@
 string MARKPATH; 
 string PROBPATH; 
 
-const int COMPILE_MSG_LENGTH = 1024; 
+const int COMPILE_MSG_LENGTH = 2048; 
 
 void setEnv(){
     try{

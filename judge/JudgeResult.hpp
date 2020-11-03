@@ -2,6 +2,7 @@
 #define __JUDGERES__H_
 
 #include <iostream> 
+#include <fstream> 
 #include <string>
 #include <vector> 
 using namespace std; 
@@ -13,6 +14,7 @@ public:
     string msg;  
     TestCaseResult(bool c, string m)
     :check(c), msg(m){}
+    bool seq2json(ofstream& file, string space = "\t"); 
 }; 
 
 class JudgeResult{
@@ -22,6 +24,7 @@ public:
     string compileMessage; 
     vector<TestCaseResult> tcResults; 
     JudgeResult(){}
+    bool seq2json(ofstream& file, string space = "\t"); 
 }; 
 
 #endif

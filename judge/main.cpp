@@ -31,5 +31,10 @@ int main(int argc, char* argv[]){
 
     cout <<"== JudgeResult DUMP ==" << endl; 
     cout << result << endl; 
+
+    ofstream resultFile(MARKPATH + pinfo.getMarkNo() + "/result.json"); 
+    result.seq2json(resultFile); 
+    resultFile.close(); 
+
     return 0;
 }

@@ -2,12 +2,16 @@
 #include <iostream> 
 #include <stack>
 #include <algorithm> 
-wrong grammer
+
+
 using namespace std; 
 
 typedef long long ll; 
 
 int main(){
+    int b = 20; 
+    short int a = b; 
+
     int N; 
     cin >> N; 
     int heights[N]; 

@@ -20,3 +20,24 @@ ostream& operator<< (ostream& os, const JudgeResult& res){
     }
     return os; 
 }
+
+bool JudgeResult::seq2json(ofstream& file, string space){
+    file << "{" << endl;
+    file << space << "\"compile\" : " << "\"" << compileResult << "\" ," << endl; 
+    file << space << "\"compile_msg\" : " << "\"" << compileMessage << "\" ," << endl; 
+    file << space << "\"result\" : ["; 
+    for(int i = 0; i < tcResults.size(); i++){
+        tcResults[i].seq2json(file, space + "\t"); 
+    }
+    file << space <<  "] " << endl;  
+    file << "}" << endl; 
+    return true; 
+}
+ 
+bool TestCaseResult::seq2json(ofstream& file, string space){
+    file << space << "{" << endl; 
+    file << space << "'check' : " << check <<"' ," << endl; 
+    file << space << "'msg' : " << msg <<"' ," << endl; 
+    file << space << "} ," << endl; 
+    return true; 
+}

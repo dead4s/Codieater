@@ -1,0 +1,9 @@
+{
+	"compile" : "1" ,
+	"compile_msg" : "Main.cpp: In function β€int main()β€™:
+Main.cpp:13:15: warning: unused variable β€aβ€™ [-Wunused-variable]
+   13 |     short int a = b;
+      |               ^
+τεÿ" ,
+	"result" : [	] 
+}
