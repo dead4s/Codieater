@@ -1,9 +1,9 @@
 {
-	"compile" : "1" ,
-	"compile_msg" : "Main.cpp: In function ‘int main()’:
-Main.cpp:13:15: warning: unused variable ‘a’ [-Wunused-variable]
-   13 |     short int a = b;
-      |               ^
+	"compile" : "0" ,
+	"compile_msg" : "Main.c:2:10: fatal error: iostream: No such file or directory
+    2 | #include <iostream>
+      |          ^~~~~~~~~~
+compilation terminated.
 " ,
 	"result" : [	] 
 }

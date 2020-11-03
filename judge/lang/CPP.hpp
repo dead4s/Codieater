@@ -1,9 +1,9 @@
-#ifndef __CPP14__H_
-#define __CPP14__H_
+#ifndef __CPP__H_
+#define __CPP__H_
 
 #include "IBaseLang.hpp"
 
-class CPP_14 : public IBaseLang{
+class CPP : public IBaseLang{
 private:
     vector<string> saveArg = {
         "-o", "main",
@@ -11,14 +11,26 @@ private:
         "-lm",
         "-Wall",
         "-static",
-        "-std=gnu++14",     
         "Main.cpp"
     };
     vector<string> saveEnv = {
     }; 
     const string compiler = "/usr/bin/g++"; 
-
 public: 
+    CPP(int version){
+        if(version == 11){
+            saveArg.push_back("-std=gnu++11"); 
+        }
+        else if(version == 14){
+            saveArg.push_back("-std=gnu++14"); 
+        }
+        else if(version ==17){
+            saveArg.push_back("-std=gnu++17"); 
+        }
+        else{
+            throw logic_error("invalid version for g++ , only 11, 14, 17 is possible");
+        }
+    }
     virtual const string& getCompiler(){
         return compiler; 
     }

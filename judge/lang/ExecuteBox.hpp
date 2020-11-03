@@ -6,8 +6,10 @@
 #include "../process/childproc.hpp"
 #include "../config.hpp"
 #include "IBaseLang.hpp"
-#include "CPP_14.hpp"
+#include "C.hpp"
+#include "CPP.hpp"
 #include "PYTHON_3.hpp"
+#include "PYTHON_2.hpp"
 
 #include <fstream> 
 #include <iostream> 
@@ -21,17 +23,36 @@ private:
     ofstream file;      //result file
     ProblemInfo pinfo;  //problme info 
     IBaseLang* lang;    //ibaseLang 
-    //CPP_14 lang;  
 
 public:
     ExecuteBox(ProblemInfo _p)
     :pinfo(_p){
-        if(pinfo.getLang() == PYTHON3){
+        Lang l = pinfo.getLang(); 
+        if(l == PYTHON3){
             lang = new PYTHON_3; 
         }
-        else{ //default
-            lang = new CPP_14; 
+        else if(l == PYTHON2){
+            lang = new PYTHON_2; 
         }
+        else if(l == CPP11){
+            lang = new CPP(11); 
+        }
+        else if(l == CPP14){
+            lang = new CPP(14); 
+        }
+        else if(l == CPP17){
+            lang = new CPP(17); 
+        }
+        else if(l== C99){
+            lang = new C(99); 
+        }
+        else if(l== C11){
+            lang = new C(11); 
+        }
+        else{ //default
+            throw logic_error("invalid language selection in executeBox"); 
+        }
+
     }
     bool compile(char* compileMsg, int msgSize);
 };

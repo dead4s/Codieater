@@ -41,8 +41,11 @@ Lang str2Lang(char* str){
     else if (!strcmp(str, "PYTHON3")){
         res = PYTHON3; 
     }
-    else if (!strcmp(str, "JAVA")){
-        res = JAVA; 
+    else if (!strcmp(str, "C11")){
+        res = C11; 
+    }
+    else if(!strcmp(str, "C99")){
+        res = C99; 
     }
     else{
         throw invalid_argument("unsupported Language - invalid argument.");
@@ -60,7 +63,8 @@ const char* lang2Str(enum Lang l)
       case CPP17: return "CPP17"; 
       case PYTHON2: return "PYTHON2";
       case PYTHON3: return "PYTHON3"; 
-      case JAVA:    return "JAVA"; 
+      case C11:    return "C11";
+      case C99:     return "C99";  
       default :     return "INVALID_LANG";
    }
    return "INVALID_LANG";

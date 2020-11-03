@@ -10,14 +10,11 @@ main.o : main.cpp util/parse.hpp
 ProblemInfo.o : util/ProblemInfo.cpp util/ProblemInfo.hpp
 	$(CC) $(CFLAGS) -o $@ util/ProblemInfo.cpp 
 
-ExecuteBox.o : lang/ExecuteBox.cpp lang/ExecuteBox.hpp lang/CPP_14.hpp
+ExecuteBox.o : lang/ExecuteBox.cpp lang/*
 	$(CC) $(CFLAGS) -o $@ lang/ExecuteBox.cpp
 
 config.o : config.cpp config.hpp
 	$(CC) $(CFLAGS) -o $@ config.cpp
-
-#cpp14.o : lang/CPP_14.hpp lang/CPP_14.cpp
-#	$(CC) $(CFLAGS) -o $@ lang/CPP_14.cpp
 
 childproc.o : process/childproc.hpp process/childproc.cpp
 	$(CC) $(CFLAGS) -o $@ process/childproc.cpp
