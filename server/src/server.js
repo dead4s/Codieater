@@ -36,6 +36,10 @@ app.use(session({ secret: 'ccm', resave: true, saveUninitialized: true }));
 app.use(passport.initialize());
 app.use(passport.session());
 
+app.set('views', __dirname + '/views');
+app.set('view engine', 'ejs');
+app.engine('html', require('ejs').renderFile);
+
 app.use(express.static(path.join(__dirname, '..', '..', 'client', 'build')));
 
 app.use(routes);

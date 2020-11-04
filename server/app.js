@@ -11,7 +11,7 @@ process.on('uncaughtException', (err) => {
 const server = require('./src/server');
 
 db.sequelize
-  .sync({ force: false })
+  .sync({ force: false, logging: false })
   .then(() => {
     logger.info('database connected');
   })
