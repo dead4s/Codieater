@@ -1,13 +1,13 @@
 module.exports = {
   up: (queryInterface, Sequelize) =>
     queryInterface.createTable('problem', {
-      prob_no: {
+      probNo: {
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER,
         allowNull: false,
       },
-      user_id: {
+      userId: {
         type: Sequelize.INTEGER,
         references: {
               model: 'user',
@@ -18,16 +18,16 @@ module.exports = {
       description: {
         type: Sequelize.TEXT,
       },
-      time_lim: {
+      timeLim: {
         type: Sequelize.REAL,
       },
-      memory_lim: {
+      memoryLim: {
         type: Sequelize.SMALLINT,
       },
-      create_at: {
-        type: Sequelize.DATE,
-        allowNull: false,
-      },
+      // create_at: {
+      //   type: Sequelize.DATE,
+      //   allowNull: false,
+      // },
     }),
   down: (queryInterface, Sequelize) => queryInterface.dropTable('problem'),
 };

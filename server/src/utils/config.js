@@ -9,8 +9,9 @@ const common = {
   password: env.PASSWORD,
   dialect: 'postgres',
   define: {
-    timestamps: true,
-    underscored: true,
+    timestamps: false,
+    underscored: false,
+    freezeTableName: true
   },
 };
 

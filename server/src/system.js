@@ -1,25 +1,5 @@
-require('dotenv').config({ path: "../.env" });
-
 const { spawn } = require('child_process');
-const { Client } = require('pg');
-const { env } = require('process');
-
 const fs = require('fs');
-
-const client = new Client({
-    host: '127.0.0.1',
-    database: env.DATABASE,
-    user: env.USERNAME,
-    password: env.PASSWORD,
-    port: 5432,
-});
-
-// client
-//   .connect()
-//   .then(() => console.log('connected'))
-//   .catch(err => console.error('connection error', err.stack))
-
-client.connect();
 
 const LANG = "CPP14";   // read from db
 const CODEDIR = "1";    // mark_no
@@ -28,13 +8,12 @@ const MEM = "";         // read from db
 const TIME = "";        // read from db
 const SIZE = 1024;      // read from db
 
-const docker = spawn('docker',
-    [
+const docker = spawn('docker', [
         'run',
         '--rm',
         '-v', '/Users/redundant4u/Documents/project/Codieater/server/src/volumes:/home/judge/volumes',
         'judge:1.0', 'sh', '-c', `./main -l ${LANG} -c ${CODEDIR} -d ${DATADIR}`
-    ]);
+]);
 
 docker.stdout.on('data', (data) => {
     const file = fs.readFileSync(`./volumes/mark_no/${CODEDIR}/result.json`);

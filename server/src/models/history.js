@@ -2,14 +2,13 @@ const moment = require('moment');
 
 'use strict';
 module.exports = (sequelize, DataTypes) => {
-  const histories = sequelize.define('histories', {
-    mark_no: {
+  const history = sequelize.define('history', {
+    markNo: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
       allowNull: false,
     },
-    // code: DataTypes.TEXT,
     lang: DataTypes.STRING(10),
     time: DataTypes.REAL,
     memory: DataTypes.SMALLINT,
@@ -27,20 +26,20 @@ module.exports = (sequelize, DataTypes) => {
     //     return time;
     //   },
     // },
-  }, {});
-  // history.associate = function(models) {
-  //   // associations can be defined here
-  //   history.belongsTo(models.user, {
-  //     foreignKey: 'idx',
-  //     as: 'user_id',
-  //     onDelete: 'CASCADE',
-  //   });
+  }, { tableName: 'history', });
+  history.associate = function(models) {
+    // associations can be defined here
+    history.belongsTo(models.user, {
+      foreignKey: 'userId',
+      as: 'idx',
+      onDelete: 'CASCADE',
+    });
 
-  //   history.belongsTo(models.problem, {
-  //     foreignKey: 'prob_no',
-  //     as: 'prob_nos',
-  //     onDelete: 'CASCADE'
-  //   });
-  // };
-  return histories;
+    history.belongsTo(models.problem, {
+      foreignKey: 'probNo',
+      as: 'ProbNo',
+      onDelete: 'CASCADE'
+    });
+  };
+  return history;
 };
