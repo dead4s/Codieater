@@ -1,16 +1,16 @@
 #ifndef __EXEBOX_H__
 #define __EXEBOX_H__
 
-#include "../util/ProblemInfo.hpp"
-#include "../util/error.hpp"
-#include "../process/childproc.hpp"
-#include "../config.hpp"
+#include "../IO/ProblemInfo.hpp"
+#include "../system/error.hpp"
+#include "../system/config.hpp"
+#include "childproc.hpp"
 
 #include "IBaseLang.hpp"
-#include "C.hpp"
-#include "CPP.hpp"
-#include "PYTHON_3.hpp"
-#include "PYTHON_2.hpp"
+#include "../lang/C.hpp"
+#include "../lang/CPP.hpp"
+#include "../lang/PYTHON_2.hpp"
+#include "../lang/PYTHON_3.hpp"
 
 #include <fstream> 
 #include <iostream> 
@@ -22,7 +22,6 @@
 #include <sys/time.h> 
 #include <sys/resource.h>
 
-#include <sstream>
 
 class ExecuteBox{
 private: 

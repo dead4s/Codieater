@@ -4,12 +4,13 @@
 #include <stdexcept> 
 #include <cstdlib> 
 
-#include "util/ProblemInfo.hpp"
-#include "util/parse.hpp"
-#include "config.hpp"
-#include "lang/ExecuteBox.hpp"
-#include "JudgeResult.hpp"
-#include "grade.hpp"
+#include "IO/ProblemInfo.hpp"
+#include "IO/JudgeResult.hpp"
+#include "system/parse.hpp"
+#include "system/config.hpp"
+#include "core/grade.hpp"
+#include "core/ExecuteBox.hpp"
+
 
 using namespace std; 
 

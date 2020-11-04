@@ -1,26 +1,29 @@
 CC = g++
 CFLAGS =  -c -Iiclude
 
-judge : main.o ProblemInfo.o ExecuteBox.o config.o childproc.o JudgeResult.o
-	$(CC) -o judge main.o ProblemInfo.o ExecuteBox.o config.o childproc.o JudgeResult.o
+judge : main.o ProblemInfo.o ExecuteBox.o config.o childproc.o JudgeResult.o languageType.o 
+	$(CC) -o judge main.o ProblemInfo.o ExecuteBox.o config.o childproc.o JudgeResult.o languageType.o 
 
-main.o : main.cpp util/parse.hpp grade.hpp
-	$(CC) $(CFLAGS) -o $@ main.cpp 
+main.o : main.cpp system/parse.hpp core/grade.hpp
+	$(CC) $(CFLAGS) -o $@ main.cpp
 
-ProblemInfo.o : util/ProblemInfo.cpp util/ProblemInfo.hpp
-	$(CC) $(CFLAGS) -o $@ util/ProblemInfo.cpp 
+childproc.o : core/childproc.cpp core/childproc.hpp
+	$(CC) $(CFLAGS) -o $@ $< 
 
-ExecuteBox.o : lang/ExecuteBox.cpp lang/*
-	$(CC) $(CFLAGS) -o $@ lang/ExecuteBox.cpp
+ExecuteBox.o : core/ExecuteBox.hpp core/ExecuteBox.cpp lang/*
+	$(CC) $(CFLAGS) -o $@ core/ExecuteBox.cpp
 
-config.o : config.cpp config.hpp
-	$(CC) $(CFLAGS) -o $@ config.cpp
+JudgeResult.o : IO/JudgeResult.cpp IO/JudgeResult.hpp
+	$(CC) $(CFLAGS) -o $@ $<
 
-childproc.o : process/childproc.hpp process/childproc.cpp
-	$(CC) $(CFLAGS) -o $@ process/childproc.cpp
+ProblemInfo.o : IO/ProblemInfo.cpp IO/ProblemInfo.hpp
+	$(CC) $(CFLAGS) -o $@ $<
 
-JudgeResult.o : JudgeResult.hpp JudgeResult.cpp
-	$(CC) $(CFLAGS) -o $@ JudgeResult.cpp
+config.o : system/config.cpp system/config.hpp
+	$(CC) $(CFLAGS) -o $@ $<
 
-clean :
-	rm *.o judge 
+languageType.o : IO/languageType.cpp IO/languageType.hpp
+	$(CC) $(CFLAGS) -o $@ $<
+
+clean : 
+	rm *.o 

@@ -1,7 +1,7 @@
 #ifndef __PYTHON2__H_
 #define __PYTHON2__H_
 
-#include "IBaseLang.hpp"
+#include "../core/IBaseLang.hpp"
 
 class PYTHON_2 : public IBaseLang{
 private : 

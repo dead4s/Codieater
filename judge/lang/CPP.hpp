@@ -1,7 +1,7 @@
 #ifndef __CPP__H_
 #define __CPP__H_
 
-#include "IBaseLang.hpp"
+#include "../core/IBaseLang.hpp"
 
 class CPP : public IBaseLang{
 private:

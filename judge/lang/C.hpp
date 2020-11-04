@@ -1,7 +1,7 @@
 #ifndef __C__H_
 #define __C__H_
 
-#include "IBaseLang.hpp"
+#include "../core/IBaseLang.hpp"
 #include <stdexcept> 
 
 class C : public IBaseLang{
