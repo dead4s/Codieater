@@ -48,8 +48,8 @@ bool ExecuteBox::compile(char* compileMsg, int msgSize){
 
         string path = MARKPATH + pinfo.getMarkNo(); 
         string cmd = lang->getCompiler(); 
-        vector<string> arg = lang->getArgs(); 
-        vector<string> env; 
+        vector<string> arg = lang->getCompileArgs(); 
+        vector<string> env = lang->getCompileEnvs(); 
         startChildProc(path, cmd, arg, env); 
     }  
     return 0; 
@@ -84,19 +84,31 @@ int ExecuteBox::gradeTestCase(int testCaseNo){
         }
     }
     else{//child process
+        
         string inputFile = PROBPATH + pinfo.getProbNo() +"/in/" + to_string(testCaseNo) +".in"; 
-        string outputFile = MARKPATH + pinfo.getProbNo() + "/" +  to_string(testCaseNo) + ".out"; 
+        string outputFile = MARKPATH + pinfo.getMarkNo() + "/" +  to_string(testCaseNo) + ".out"; 
+        
         int inputFd = open(inputFile.c_str(), O_RDONLY); 
         int outputFd = open(outputFile.c_str(), O_CREAT| O_WRONLY | O_TRUNC, 0666); 
         dup2(inputFd, STDIN_FILENO); 
         dup2(outputFd, STDOUT_FILENO); 
         close(inputFd); 
         close(outputFd); 
+        
+        /*TODO
+            writing to file might bring overhead
+            i'd like to use BUFFER
+            ->  but dup2 need file descripter (C style)
+                and for buffer in memory i can't get file descripter 
+            ->  set sstream reidirect with ostream (C++ style)
+                i'm not sure about inner implementation of ostream
+                but this is not working8
 
-        string path = "."; 
-        string prog = MARKPATH + pinfo.getProbNo() + "/" + lang->getTarget();
-        vector<string> arg; 
-        vector<string> env;
+        */ 
+        string path = MARKPATH + pinfo.getMarkNo(); 
+        string prog = lang->getExecutor();
+        vector<string> arg = lang->getExecuteArgs(); 
+        vector<string> env = lang->getExecuteEnvs();
         startChildProc(path, prog, arg, env); 
     }
     return 0; 

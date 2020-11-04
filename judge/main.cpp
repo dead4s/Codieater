@@ -9,6 +9,7 @@
 #include "config.hpp"
 #include "lang/ExecuteBox.hpp"
 #include "JudgeResult.hpp"
+#include "grade.hpp"
 
 using namespace std; 
 
@@ -37,13 +38,26 @@ int main(int argc, char* argv[]){
     result.compileResult = compileResult; 
     result.compileMessage = string(compileMsg); 
 
-    //EXECUTE TEST
-    int count = getTestCasesCount(pinfo.getProbNo()); 
-    for(int i = 1; i < count; i++){
-        bool tcResult = xbox.gradeTestCase(i); 
-        result.tcResults.emplace_back(tcResult, "default msg"); 
+    if(compileResult){
+        int count = getTestCasesCount(pinfo.getProbNo()); 
+        for(int i = 1; i < count; i++){
+            bool runtimeCheck = xbox.gradeTestCase(i); 
+            bool correctCheck; 
+            if(runtimeCheck){
+                correctCheck = cmpFiles(pinfo.getProbNo(), pinfo.getMarkNo(), i); 
+                if(correctCheck == true){
+                    result.tcResults.emplace_back(true, "correct");
+                }
+                else{
+                    result.tcResults.emplace_back(false, "wrong answer");
+                }
+            }
+            else {
+                result.tcResults.emplace_back(false, "runtimeError");
+            }
+        }
     }
-
+    
     cout <<"== JudgeResult DUMP ==" << endl; 
     cout << result << endl; 
 

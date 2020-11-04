@@ -22,6 +22,8 @@
 #include <sys/time.h> 
 #include <sys/resource.h>
 
+#include <sstream>
+
 class ExecuteBox{
 private: 
     ProblemInfo pinfo;  //problme info 

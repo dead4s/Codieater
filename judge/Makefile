@@ -1,10 +1,10 @@
 CC = g++
 CFLAGS =  -c -Iiclude
 
-main : main.o ProblemInfo.o ExecuteBox.o config.o childproc.o JudgeResult.o
-	$(CC) -o $@ main.o ProblemInfo.o ExecuteBox.o config.o childproc.o JudgeResult.o
+judge : main.o ProblemInfo.o ExecuteBox.o config.o childproc.o JudgeResult.o
+	$(CC) -o judge main.o ProblemInfo.o ExecuteBox.o config.o childproc.o JudgeResult.o
 
-main.o : main.cpp util/parse.hpp
+main.o : main.cpp util/parse.hpp grade.hpp
 	$(CC) $(CFLAGS) -o $@ main.cpp 
 
 ProblemInfo.o : util/ProblemInfo.cpp util/ProblemInfo.hpp
@@ -23,4 +23,4 @@ JudgeResult.o : JudgeResult.hpp JudgeResult.cpp
 	$(CC) $(CFLAGS) -o $@ JudgeResult.cpp
 
 clean :
-	rm *.o main 
+	rm *.o judge 

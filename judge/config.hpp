@@ -1,9 +1,12 @@
 #ifndef __CONFIG__H_
 #define __CONFIG__H_
 
+#define DEBUG
+
 #include <iostream> 
 #include <cstdlib>
 using namespace std; 
+
 
 extern string MARKPATH; 
 extern string PROBPATH; 
