@@ -1,5 +1,36 @@
 #include "ExecuteBox.hpp"
 
+ExeResult ExecuteBox::getExecuteResult(int status){
+    if(WIFSIGNALED(status)){
+        if(errno == ENOMEM){ //memory limit fail 
+            cerr << strerror(errno) << endl; 
+            cerr << "ENOMEM  => memory limit exceeded " << endl; 
+            return MEM_LIM_EXCEED; 
+        }
+        if(errno == EAGAIN){
+            cerr << strerror(errno) <<  endl; 
+            cerr << "EAGAIN => fail to create child, it seems like memory time limit" << endl; 
+            return MEM_LIM_EXCEED; 
+        }
+        cerr << errno << endl; 
+        cerr << strerror(errno) <<  endl; 
+        cerr << "uncatched signal.." << endl; 
+        return RUNT_ERR; 
+    }
+    else if(WIFEXITED(status)){
+        int tcResult = WEXITSTATUS(status); 
+        if(tcResult == 0){
+                return GOOD; 
+        }
+        else{
+            return RUNT_ERR; 
+        }
+    }
+    else{
+        throw runtime_error(addTag(PROC_CHILD_RET_UNKOWN)); 
+    }
+}
+
 bool ExecuteBox::compile(char* compileMsg, int msgSize){
     string f =  "compile"; 
 
@@ -55,8 +86,8 @@ bool ExecuteBox::compile(char* compileMsg, int msgSize){
     return 0; 
 }
 
-int ExecuteBox::gradeTestCase(int testCaseNo){
-    string f = "gradeTestCase"; 
+ExeResult ExecuteBox::executeTC(int testCaseNo){
+    string f = "executeTC"; 
     pid_t pid; 
     int status; 
 
@@ -71,30 +102,26 @@ int ExecuteBox::gradeTestCase(int testCaseNo){
         if(waitPid == -1){
             throw runtime_error(addTag(PROC_CHILD_RET_ERROR, f)); 
         }
-        else if(WIFSIGNALED(status)){
-            cerr << strerror(errno) <<  endl; 
-            throw runtime_error(addTag(PROC_CHILD_KILLED, f)); 
-        }
-        else if(WIFEXITED(status)){
-            int tcResult = WEXITSTATUS(status); 
-            return !bool(tcResult); 
-        }
-        else{
-            throw runtime_error(addTag(PROC_CHILD_RET_UNKOWN, f)); 
-        }
+        return getExecuteResult(status); 
     }
     else{//child process
         
         string inputFile = PROBPATH + pinfo.getProbNo() +"/in/" + to_string(testCaseNo) +".in"; 
         string outputFile = MARKPATH + pinfo.getMarkNo() + "/" +  to_string(testCaseNo) + ".out"; 
-        
+
+        #ifndef DEBUG
         int inputFd = open(inputFile.c_str(), O_RDONLY); 
         int outputFd = open(outputFile.c_str(), O_CREAT| O_WRONLY | O_TRUNC, 0666); 
         dup2(inputFd, STDIN_FILENO); 
         dup2(outputFd, STDOUT_FILENO); 
         close(inputFd); 
         close(outputFd); 
-        
+        #endif 
+
+        setLimitFd(3); 
+        setLimitProcCount(1); 
+        setLimitMemory(pinfo.getMemory()); 
+
         /*TODO
             writing to file might bring overhead
             i'd like to use BUFFER
@@ -105,11 +132,12 @@ int ExecuteBox::gradeTestCase(int testCaseNo){
                 but this is not working8
 
         */ 
+       
         string path = MARKPATH + pinfo.getMarkNo(); 
         string prog = lang->getExecutor();
         vector<string> arg = lang->getExecuteArgs(); 
         vector<string> env = lang->getExecuteEnvs();
         startChildProc(path, prog, arg, env); 
     }
-    return 0; 
+    return JUDGE_ERR; 
 }

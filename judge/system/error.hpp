@@ -22,6 +22,8 @@ const string PROC_CHILD_KILLED = "child process is killed by signal";
 const string PROC_CHILD_RET_UNKOWN = "child process have some problem but not specified in the code"; 
 
 const string PROC_EXEC_ERROR = "Exec failed so cannot switch to child's new image"; 
+
+const string PROC_LIMIT_FAIL = "fail to limit process resource"; 
 #endif 
 
 /*

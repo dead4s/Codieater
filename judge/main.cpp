@@ -42,19 +42,29 @@ int main(int argc, char* argv[]){
     if(compileResult){
         int count = getTestCasesCount(pinfo.getProbNo()); 
         for(int i = 1; i < count; i++){
-            bool runtimeCheck = xbox.gradeTestCase(i); 
+            ExeResult runtimeCheck = xbox.executeTC(i); 
             bool correctCheck; 
-            if(runtimeCheck){
+
+            if(runtimeCheck == MEM_LIM_EXCEED){
+                result.tcResults.emplace_back(false, "MemoryLimitExceeded"); 
+            }
+            else if(runtimeCheck == TIME_LIM_EXCEED){
+                result.tcResults.emplace_back(false, "TimeLimitExceeded");
+            }
+            else if(runtimeCheck == RUNT_ERR){
+                result.tcResults.emplace_back(false, "RuntimeError"); 
+            }
+            else if(runtimeCheck == JUDGE_ERR){
+                result.tcResults.emplace_back(false, "JudgeSystemInternalError"); 
+            }
+            else if(runtimeCheck == GOOD){
                 correctCheck = cmpFiles(pinfo.getProbNo(), pinfo.getMarkNo(), i); 
                 if(correctCheck == true){
-                    result.tcResults.emplace_back(true, "correct");
+                    result.tcResults.emplace_back(true, "Correct");
                 }
                 else{
-                    result.tcResults.emplace_back(false, "wrong answer");
-                }
-            }
-            else {
-                result.tcResults.emplace_back(false, "runtimeError");
+                    result.tcResults.emplace_back(false, "WrongAnswer");
+                }               
             }
         }
     }

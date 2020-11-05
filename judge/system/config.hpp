@@ -1,7 +1,7 @@
 #ifndef __CONFIG__H_
 #define __CONFIG__H_
 
-#define DEBUG
+//#define DEBUG
 
 #include <iostream> 
 #include <cstdlib>

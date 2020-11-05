@@ -22,12 +22,13 @@
 #include <sys/time.h> 
 #include <sys/resource.h>
 
+enum ExeResult {MEM_LIM_EXCEED, TIME_LIM_EXCEED, RUNT_ERR, JUDGE_ERR, GOOD}; 
 
 class ExecuteBox{
 private: 
     ProblemInfo pinfo;  //problme info 
     IBaseLang* lang;    //ibaseLang 
-
+    ExeResult getExecuteResult(int status); 
 public:
     ExecuteBox(ProblemInfo _p)
     :pinfo(_p){
@@ -58,7 +59,7 @@ public:
         }
     }
     bool compile(char* compileMsg, int msgSize);
-    int gradeTestCase(int testCaseNo);
+    ExeResult executeTC(int testCaseNo);
 };
 
 #endif
