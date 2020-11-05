@@ -35,7 +35,7 @@ services:
         dockerfile: ./judge/judge.dockerfile
       volumes:
         - ../judge:/home/judge
-        - ../data:/home/data
+        - ../volume:/home/data
       environment:
         - MARKPATH=/home/data/mark_no/
         - PROBPATH=/home/data/prob_no/

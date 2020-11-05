@@ -1,1 +1,1 @@
-exports.index = function(req, res) { res.render( view + '../views/index.html' ); }
+exports.index = function(req, res) { res.render( '../views/index.html' ); }

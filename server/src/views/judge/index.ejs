@@ -7,13 +7,27 @@
 </head>
 <body>
 	<div>
-       <p>USERID <%= USERID %></p>
+       <p>USERID: <%= USERID %></p>
        <p>CODE</p>
        <textarea cols="20" rows="20"><%- CODE %></textarea>
-       <p>LANGUAGE KIND <%= LANG %></p>
+       <p>LANGUAGE: <%= LANG %></p>
     </div>
     <div>
-        <% JUDFERES['result'].check %>
+        <p>SCORE: <%= SCORE %></p>
+        <table>
+            <tbody>
+                <tr>
+                    <td>PROBLEM</td>
+                    <td>RESULT</td>
+                </tr>
+                <% for( let i = 0; i < JUDGERES['result'].length; i++ ) { %>
+                <tr>
+                    <td><%= i + 1 %></td>
+                    <td><%= JUDGERES['result'][i]['msg'] %></td>
+                </tr>
+                <% } %>
+            </tbody>
+        </table>
     </div>
 </body>
 </html>

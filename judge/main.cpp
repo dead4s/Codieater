@@ -41,7 +41,7 @@ int main(int argc, char* argv[]){
 
     if(compileResult){
         int count = getTestCasesCount(pinfo.getProbNo()); 
-        for(int i = 1; i < count; i++){
+        for(int i = 1; i <= count; i++){
             int memUsed; 
             ExeResult runtimeCheck = xbox.executeTC(i, memUsed); 
             bool correctCheck; 

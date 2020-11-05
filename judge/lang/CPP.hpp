@@ -8,10 +8,10 @@ private:
     const string compiler = "/usr/bin/g++"; 
     vector<string> compileArgs = {
         "-o", "main",
-        "-O2", 
+        // "-O2", 
         "-lm",
         "-Wall",
-        "-static",
+        // "-static",
         "Main.cpp"
     };
     vector<string> compileEnvs = {}; 

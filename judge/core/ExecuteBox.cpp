@@ -126,9 +126,9 @@ ExeResult ExecuteBox::executeTC(int testCaseNo, int& memUsed){
         close(outputFd); 
         #endif 
 
-        setLimitFd(3); 
-        setLimitProcCount(1); 
-        setLimitMemory(pinfo.getMemory()); 
+        // setLimitFd(100);
+        setLimitProcCount(1);
+        setLimitMemory(pinfo.getMemory());
 
         /*TODO
             writing to file might bring overhead
