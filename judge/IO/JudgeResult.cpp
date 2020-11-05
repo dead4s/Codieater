@@ -36,7 +36,7 @@ ostream& operator<< (ostream& os, const JudgeResult& res){
 
 bool JudgeResult::seq2json(ofstream& file, string space){
     file << "{" << endl;
-    file << space << "\"compile\" : " << "\"" << compileResult << "\" ," << endl; 
+    file << space << "\"compile\" : " << compileResult << "," << endl; 
     file << space << "\"compile_msg\" : " << "\"" << jsonEncoding(compileMessage) << "\" ," << endl; 
     file << space << "\"result\" : [" << endl; 
     for(int i = 0; i < tcResults.size(); i++){
@@ -53,7 +53,7 @@ bool JudgeResult::seq2json(ofstream& file, string space){
  
 bool TestCaseResult::seq2json(ofstream& file, string space){
     file << space << "{" << endl; 
-    file << space << "\"check\" : \"" << check <<"\" ," << endl; 
+    file << space << "\"check\" : " << check << "," << endl; 
     file << space << "\"msg\" : \"" << msg <<"\"" << endl; 
     file << space << "}"; 
     return true; 
