@@ -55,8 +55,8 @@ const system = function (ARG) {
     const docker = spawn('docker', [
         'run',
         '--rm',
-        '-e', 'MARKPATH=/home/data/mark_no/',
-        '-e', 'PROBPATH=/home/data/prob_no/',
+        '-e', 'MARKPATH=/home/mark/',
+        '-e', 'PROBPATH=/home//prob/',
         '-v', `${PWD}/judge:/home/judge`,
         '-v', `${PWD}/volume/mark_no/${ARG['MARKNO']}:/home/mark`,
         '-v', `${PWD}/volume/prob_no/${ARG['PROBNO']}:/home/prob`,
@@ -70,7 +70,7 @@ const system = function (ARG) {
     docker.stderr.on('data', (data) => { console.error(`stderr: ${data}`); });
     
     docker.on('close', (code) => {
-        const file = fs.readFileSync(`${PWD}volume/mark_no/${MARKNO}/result.json`);
+        const file = fs.readFileSync(`${PWD}/volume/mark_no/${ARG['MARKNO']}/result.json`);
         let JUDGERES = JSON.parse(file);
 
         let query = { 'result': 0, 'score': 0 };

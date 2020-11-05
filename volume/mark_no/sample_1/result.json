@@ -1,0 +1,6 @@
+{
+	"compile" : "0" ,
+	"compile_msg" : "Traceback (most recent call last):\u000a  File \u0022/usr/lib/python2.7/runpy.py\u0022, line 174, in _run_module_as_main\u000a    \u0022__main__\u0022, fname, loader, pkg_name)\u000a  File \u0022/usr/lib/python2.7/runpy.py\u0022, line 72, in _run_code\u000a    exec code in run_globals\u000a  File \u0022/usr/lib/python2.7/py_compile.py\u0022, line 181, in <module>\u000a    sys.exit(main())\u000a  File \u0022/usr/lib/python2.7/py_compile.py\u0022, line 173, in main\u000a    compile(filename, doraise=True)\u000a  File \u0022/usr/lib/python2.7/py_compile.py\u0022, line 106, in compile\u000a    with open(file, 'U') as f:\u000aIOError: [Errno 2] No such file or directory: 'Main.py'\u000a" ,
+	"result" : [
+	] 
+}
