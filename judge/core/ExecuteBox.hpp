@@ -59,7 +59,7 @@ public:
         }
     }
     bool compile(char* compileMsg, int msgSize);
-    ExeResult executeTC(int testCaseNo);
+    ExeResult executeTC(int testCaseNo, int& memUsed);
 };
 
 #endif

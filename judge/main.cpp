@@ -42,9 +42,11 @@ int main(int argc, char* argv[]){
     if(compileResult){
         int count = getTestCasesCount(pinfo.getProbNo()); 
         for(int i = 1; i < count; i++){
-            ExeResult runtimeCheck = xbox.executeTC(i); 
+            int memUsed; 
+            ExeResult runtimeCheck = xbox.executeTC(i, memUsed); 
             bool correctCheck; 
-
+            //get memory usage test
+            //cout << memUsed << "Kb" << endl; 
             if(runtimeCheck == MEM_LIM_EXCEED){
                 result.tcResults.emplace_back(false, "MemoryLimitExceeded"); 
             }

@@ -86,7 +86,7 @@ bool ExecuteBox::compile(char* compileMsg, int msgSize){
     return 0; 
 }
 
-ExeResult ExecuteBox::executeTC(int testCaseNo){
+ExeResult ExecuteBox::executeTC(int testCaseNo, int& memUsed){
     string f = "executeTC"; 
     pid_t pid; 
     int status; 
@@ -97,7 +97,15 @@ ExeResult ExecuteBox::executeTC(int testCaseNo){
     }
     if(pid> 0){ //parent process
         pid_t waitPid; 
-        while( ((waitPid = wait(&status)) == -1) && errno == EINTR); 
+        struct rusage usedResource; 
+        while(1){
+            waitPid = wait3(&status, 0, &usedResource); 
+            if(waitPid == -1 && errno == EINTR)
+                continue; 
+            break; 
+        }
+        memUsed =  usedResource.ru_maxrss; 
+        //while( ((waitPid = wait(&status)) == -1) && errno == EINTR); 
  
         if(waitPid == -1){
             throw runtime_error(addTag(PROC_CHILD_RET_ERROR, f)); 
