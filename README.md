@@ -7,24 +7,24 @@
 - Node.js >= 14.x
 - Yarn
 - docker
-- docker-compose
 
 ## Run
 ```
-$ cd docker
-$ docker-compose build
-$ docker-compose up -d
+$ cd docker/pg
+$ docker build -f pg.dockerfile .
+$ cd ../judge
+$ docker build -f judge.dockerfile .
 ```
-서버인 node는 node container에서 필요한 모듈을 다운 받고 종료
-
-DB인 postgres는 db container 실행 후 백그라운드 동작
+도커로 돌릴 postgres와 judge 이미지를 빌드해서 이미지로 만든다.
 
 
 ```
-$ cd ../server
-$ yarn dev
+$ cd ../../server
+$ ./run.sh
 ```
-서버는 docker container에서가 아닌 호스트에서 실행
+node를 돌릴 모듈들과 db migrate 및 seeding.
+
+이후 자동으로 5000번 포트로 웹 서버 구동.
 
 
 ```
@@ -39,9 +39,6 @@ http://localhost:5000
 
 
 ## Reference
-- DMOJ - <https://github.com/DMOJ/judge-server>
-- compilebox - <https://github.com/remoteinterview/compilebox>
-- QingdaoU - <https://github.com/QingdaoU/Judger>
 
 
 ## License
