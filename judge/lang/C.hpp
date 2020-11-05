@@ -12,7 +12,7 @@ private:
         "-O2", 
         "-lm",
         "-Wall",
-        "-static",
+    //    "-static",
         "Main.c"
     };
     vector<string> compileEnvs = {}; 

@@ -16,12 +16,9 @@ private:
     const int _time; 
     const int _memory; 
     const Lang _lang; 
-    const string _markNo; 
-    const string _probNo; 
-
 public: 
     ProblemInfo();
-    ProblemInfo(int t, int m, Lang l, string code, string data);
+    ProblemInfo(int t, int m, Lang l);
     ProblemInfo(const ProblemInfo& p); 
     int getTime(){
         return _time; 
@@ -31,12 +28,6 @@ public:
     }
     Lang getLang(){
         return _lang; 
-    }
-    string getMarkNo(){
-        return _markNo; 
-    }
-    string getProbNo(){
-        return _probNo; 
     }
 }; 
 

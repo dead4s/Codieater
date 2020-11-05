@@ -1,21 +1,21 @@
 {
-	"compile" : "1" ,
+	"compile" : 1,
 	"compile_msg" : "" ,
 	"result" : [
 		{
-		"check" : "0" ,
+		"check" : 0,
 		"msg" : "MemoryLimitExceeded"
 		}, 
 		{
-		"check" : "0" ,
+		"check" : 0,
 		"msg" : "MemoryLimitExceeded"
 		}, 
 		{
-		"check" : "0" ,
+		"check" : 0,
 		"msg" : "MemoryLimitExceeded"
 		}, 
 		{
-		"check" : "0" ,
+		"check" : 0,
 		"msg" : "MemoryLimitExceeded"
 		}
 	] 
