@@ -11,3 +11,9 @@ docker/pg/data
 ._.DS_Store
 **/.DS_Store
 **/._.DS_Store
+
+judge/*.o
+judge/main
+judge/.vscode
+judge/_test
+data/*

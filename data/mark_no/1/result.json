@@ -1,0 +1,266 @@
+{
+	"compile" : "1" ,
+	"compile_msg" : "Main.cpp: In function ‘int main()’:\u000aMain.cpp:13:15: warning: unused variable ‘a’ [-Wunused-variable]\u000a   13 |     short int a = b;\u000a      |               ^\u000a" ,
+	"result" : [
+		{
+		"check" : "1" ,
+		"msg" : "default msg"
+		}, 
+		{
+		"check" : "1" ,
+		"msg" : "default msg"
+		}, 
+		{
+		"check" : "1" ,
+		"msg" : "default msg"
+		}, 
+		{
+		"check" : "1" ,
+		"msg" : "default msg"
+		}, 
+		{
+		"check" : "1" ,
+		"msg" : "default msg"
+		}, 
+		{
+		"check" : "1" ,
+		"msg" : "default msg"
+		}, 
+		{
+		"check" : "1" ,
+		"msg" : "default msg"
+		}, 
+		{
+		"check" : "1" ,
+		"msg" : "default msg"
+		}, 
+		{
+		"check" : "1" ,
+		"msg" : "default msg"
+		}, 
+		{
+		"check" : "1" ,
+		"msg" : "default msg"
+		}, 
+		{
+		"check" : "1" ,
+		"msg" : "default msg"
+		}, 
+		{
+		"check" : "1" ,
+		"msg" : "default msg"
+		}, 
+		{
+		"check" : "1" ,
+		"msg" : "default msg"
+		}, 
+		{
+		"check" : "1" ,
+		"msg" : "default msg"
+		}, 
+		{
+		"check" : "1" ,
+		"msg" : "default msg"
+		}, 
+		{
+		"check" : "1" ,
+		"msg" : "default msg"
+		}, 
+		{
+		"check" : "1" ,
+		"msg" : "default msg"
+		}, 
+		{
+		"check" : "1" ,
+		"msg" : "default msg"
+		}, 
+		{
+		"check" : "1" ,
+		"msg" : "default msg"
+		}, 
+		{
+		"check" : "1" ,
+		"msg" : "default msg"
+		}, 
+		{
+		"check" : "1" ,
+		"msg" : "default msg"
+		}, 
+		{
+		"check" : "1" ,
+		"msg" : "default msg"
+		}, 
+		{
+		"check" : "1" ,
+		"msg" : "default msg"
+		}, 
+		{
+		"check" : "1" ,
+		"msg" : "default msg"
+		}, 
+		{
+		"check" : "1" ,
+		"msg" : "default msg"
+		}, 
+		{
+		"check" : "1" ,
+		"msg" : "default msg"
+		}, 
+		{
+		"check" : "1" ,
+		"msg" : "default msg"
+		}, 
+		{
+		"check" : "1" ,
+		"msg" : "default msg"
+		}, 
+		{
+		"check" : "1" ,
+		"msg" : "default msg"
+		}, 
+		{
+		"check" : "1" ,
+		"msg" : "default msg"
+		}, 
+		{
+		"check" : "1" ,
+		"msg" : "default msg"
+		}, 
+		{
+		"check" : "1" ,
+		"msg" : "default msg"
+		}, 
+		{
+		"check" : "1" ,
+		"msg" : "default msg"
+		}, 
+		{
+		"check" : "1" ,
+		"msg" : "default msg"
+		}, 
+		{
+		"check" : "1" ,
+		"msg" : "default msg"
+		}, 
+		{
+		"check" : "1" ,
+		"msg" : "default msg"
+		}, 
+		{
+		"check" : "1" ,
+		"msg" : "default msg"
+		}, 
+		{
+		"check" : "1" ,
+		"msg" : "default msg"
+		}, 
+		{
+		"check" : "1" ,
+		"msg" : "default msg"
+		}, 
+		{
+		"check" : "1" ,
+		"msg" : "default msg"
+		}, 
+		{
+		"check" : "1" ,
+		"msg" : "default msg"
+		}, 
+		{
+		"check" : "1" ,
+		"msg" : "default msg"
+		}, 
+		{
+		"check" : "1" ,
+		"msg" : "default msg"
+		}, 
+		{
+		"check" : "1" ,
+		"msg" : "default msg"
+		}, 
+		{
+		"check" : "1" ,
+		"msg" : "default msg"
+		}, 
+		{
+		"check" : "1" ,
+		"msg" : "default msg"
+		}, 
+		{
+		"check" : "1" ,
+		"msg" : "default msg"
+		}, 
+		{
+		"check" : "1" ,
+		"msg" : "default msg"
+		}, 
+		{
+		"check" : "1" ,
+		"msg" : "default msg"
+		}, 
+		{
+		"check" : "1" ,
+		"msg" : "default msg"
+		}, 
+		{
+		"check" : "1" ,
+		"msg" : "default msg"
+		}, 
+		{
+		"check" : "1" ,
+		"msg" : "default msg"
+		}, 
+		{
+		"check" : "1" ,
+		"msg" : "default msg"
+		}, 
+		{
+		"check" : "1" ,
+		"msg" : "default msg"
+		}, 
+		{
+		"check" : "1" ,
+		"msg" : "default msg"
+		}, 
+		{
+		"check" : "1" ,
+		"msg" : "default msg"
+		}, 
+		{
+		"check" : "1" ,
+		"msg" : "default msg"
+		}, 
+		{
+		"check" : "1" ,
+		"msg" : "default msg"
+		}, 
+		{
+		"check" : "1" ,
+		"msg" : "default msg"
+		}, 
+		{
+		"check" : "1" ,
+		"msg" : "default msg"
+		}, 
+		{
+		"check" : "1" ,
+		"msg" : "default msg"
+		}, 
+		{
+		"check" : "1" ,
+		"msg" : "default msg"
+		}, 
+		{
+		"check" : "1" ,
+		"msg" : "default msg"
+		}, 
+		{
+		"check" : "1" ,
+		"msg" : "default msg"
+		}, 
+		{
+		"check" : "1" ,
+		"msg" : "default msg"
+		}
+	] 
+}

@@ -27,5 +27,19 @@ services:
          - POSTGRES_PASSWORD=codicodi
          - LANG=ko_KR.utf8
 
+   judge:
+      container_name: judge
+      image: judge:1.0
+      build: 
+        context: ./
+        dockerfile: ./judge/judge.dockerfile
+      volumes:
+        - ../judge:/home/judge
+        - ../data:/home/data
+      environment:
+        - MARKPATH=/home/data/mark_no/
+        - PROBPATH=/home/data/prob_no/
+
 volumes:
    codi_pg_data:
+         - ./pg/data:/var/lib/postgresql/data
