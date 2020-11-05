@@ -47,10 +47,10 @@ bool checkEmptystream(string start, istream& in){
 }
 
 
-bool cmpFiles(string prob_no, string mark_no, int fileNo){
+bool cmpFiles(int fileNo){
     string sfileNo = to_string(fileNo); 
-    string proboutput = PROBPATH + prob_no + "/out/" + sfileNo + ".out"; 
-    string markoutput = MARKPATH + mark_no + "/" + sfileNo + ".out"; 
+    string proboutput = PROBPATH + "/out/" + sfileNo + ".out"; 
+    string markoutput = MARKPATH + "/" + sfileNo + ".out"; 
 
     ifstream in1(proboutput, ios::in); 
     ifstream in2(markoutput, ios::in);

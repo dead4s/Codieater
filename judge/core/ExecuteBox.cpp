@@ -77,7 +77,7 @@ bool ExecuteBox::compile(char* compileMsg, int msgSize){
         dup2(pipeFile[1], STDOUT_FILENO); //stdout -> pipeFile[1]
         dup2(pipeFile[1], STDERR_FILENO);  //stderr -> pipeFile[0]
 
-        string path = MARKPATH + pinfo.getMarkNo(); 
+        string path = MARKPATH; 
         string cmd = lang->getCompiler(); 
         vector<string> arg = lang->getCompileArgs(); 
         vector<string> env = lang->getCompileEnvs(); 
@@ -114,8 +114,8 @@ ExeResult ExecuteBox::executeTC(int testCaseNo, int& memUsed){
     }
     else{//child process
         
-        string inputFile = PROBPATH + pinfo.getProbNo() +"/in/" + to_string(testCaseNo) +".in"; 
-        string outputFile = MARKPATH + pinfo.getMarkNo() + "/" +  to_string(testCaseNo) + ".out"; 
+        string inputFile = PROBPATH +"/in/" + to_string(testCaseNo) +".in"; 
+        string outputFile = MARKPATH + "/" +  to_string(testCaseNo) + ".out"; 
 
         #ifndef DEBUG
         int inputFd = open(inputFile.c_str(), O_RDONLY); 
@@ -138,10 +138,9 @@ ExeResult ExecuteBox::executeTC(int testCaseNo, int& memUsed){
             ->  set sstream reidirect with ostream (C++ style)
                 i'm not sure about inner implementation of ostream
                 but this is not working8
-
         */ 
        
-        string path = MARKPATH + pinfo.getMarkNo(); 
+        string path = MARKPATH; 
         string prog = lang->getExecutor();
         vector<string> arg = lang->getExecuteArgs(); 
         vector<string> env = lang->getExecuteEnvs();

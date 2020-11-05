@@ -14,9 +14,9 @@
 
 using namespace std; 
 
-int getTestCasesCount(string probNo){
+int getTestCasesCount(){
     int count; 
-    string countCommand = "ls -l " + PROBPATH + probNo + "/in/" + "*[0-9].in | wc -l"; 
+    string countCommand = "ls -l " + PROBPATH + "/in/" + "*[0-9].in | wc -l"; 
     FILE* countFile = popen(countCommand.c_str(), "r"); 
     fscanf(countFile, "%d", &count); 
     fclose(countFile);     
@@ -40,7 +40,7 @@ int main(int argc, char* argv[]){
     result.compileMessage = string(compileMsg); 
 
     if(compileResult){
-        int count = getTestCasesCount(pinfo.getProbNo()); 
+        int count = getTestCasesCount(); 
         for(int i = 1; i <= count; i++){
             int memUsed; 
             ExeResult runtimeCheck = xbox.executeTC(i, memUsed); 
@@ -60,7 +60,7 @@ int main(int argc, char* argv[]){
                 result.tcResults.emplace_back(false, "JudgeSystemInternalError"); 
             }
             else if(runtimeCheck == GOOD){
-                correctCheck = cmpFiles(pinfo.getProbNo(), pinfo.getMarkNo(), i); 
+                correctCheck = cmpFiles(i); 
                 if(correctCheck == true){
                     result.tcResults.emplace_back(true, "Correct");
                 }
@@ -74,7 +74,7 @@ int main(int argc, char* argv[]){
     cout <<"== JudgeResult DUMP ==" << endl; 
     cout << result << endl; 
 
-    ofstream resultFile(MARKPATH + pinfo.getMarkNo() + "/result.json"); 
+    ofstream resultFile(MARKPATH + "/result.json"); 
     result.seq2json(resultFile); 
     resultFile.close(); 
 

@@ -18,17 +18,9 @@ static void showUsage(string programName){
 }
 
 
-static bool checkAllArg(Lang l, string code, string data){
+static bool checkAllArg(Lang l){
     if(l == INVALID){
         cerr <<"you must select language type with -l option" << endl; 
-        return false; 
-    }
-    if(code.empty()){
-        cerr <<"you must give code directory with -c option" << endl; 
-        return false; 
-    }
-    if(data.empty()){
-        cerr <<"you must give data directory with -d option" << endl; 
         return false; 
     }
     return true; 
@@ -39,8 +31,6 @@ ProblemInfo parseInput(int argc, char* argv[]){
     int time = 2000; //default value
     int memory = 512; //default value
     Lang lang = INVALID;
-    string codeDir; 
-    string dataDir;
 
     char option; 
     const char* optstring = "t:m:l:c:d:h"; 
@@ -59,21 +49,15 @@ ProblemInfo parseInput(int argc, char* argv[]){
             case 'l':
                 lang = str2Lang(optarg); 
                 break; 
-            case 'c':
-                codeDir = string(optarg); 
-                break; 
-            case 'd':
-                dataDir = string(optarg); 
-                break; 
             default: 
                 throw invalid_argument("unknown option" + string(argv[optind-1])); 
         }
     }
-    bool good = checkAllArg(lang, codeDir, dataDir); 
+    bool good = checkAllArg(lang); 
     if(!good){
-        throw invalid_argument("some option is missing : -l -d -c is needed"); 
+        throw invalid_argument("some option is missing : -l is needed"); 
     }
-    ProblemInfo pinfo(time, memory, lang, codeDir, dataDir);
+    ProblemInfo pinfo(time, memory, lang);
     return pinfo; 
 }
 
