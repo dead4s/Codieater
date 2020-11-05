@@ -59,7 +59,7 @@ const system = function (ARG) {
         '-e', 'PROBPATH=/home/data/prob_no/',
         '-v', `${PWD}/judge:/home/judge`,
         '-v', `${PWD}/volume/mark_no/${ARG['MARKNO']}:/home/mark`,
-        '-v', `${PWD}/volume/mark_no/${ARG['PROBNO']}:/home/prob`,
+        '-v', `${PWD}/volume/prob_no/${ARG['PROBNO']}:/home/prob`,
         'judge:1.0', 'sh', '-c', `./judge -l ${ARG['LANGKIND']}`
     ]);
 
