@@ -39,10 +39,10 @@ http://localhost:5000
 
 
 ## Reference
+- node -  MIT License 
+- postgres - PostgreSQL License - <https://www.postgresql.org/about/licence/>
+- docker - Apache License 2.0
 
 
 ## License
-- node -  MIT License
-- postgres - PostgreSQL License - <https://www.postgresql.org/about/licence/>
-- docker - Apache License 2.0
-- C++ STL
+- [MIT](http://opensource.org/licenses/MIT)
