@@ -1,6 +1,6 @@
 #include "languageType.hpp"
 
-Lang str2Lang(char* str){
+Lang str2Lang(const char* str){
     Lang res; 
     if(!strcmp(str, "CPP11")){
         res = CPP11;

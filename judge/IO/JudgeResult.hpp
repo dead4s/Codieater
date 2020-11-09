@@ -3,10 +3,10 @@
 
 #include <iostream> 
 #include <fstream> 
-#include <string>
 #include <vector> 
 #include <sstream>
 #include <iomanip>
+#include <string>
 
 using namespace std; 
 
@@ -14,9 +14,11 @@ class TestCaseResult{
 friend ostream& operator<< (ostream& os, const TestCaseResult& tcRes); 
 public:
     bool check; 
-    string msg;  
-    TestCaseResult(bool c, string m)
-    :check(c), msg(m){}
+    std::string msg;  
+    int time; 
+    int memory; 
+    TestCaseResult(bool c, string m, int _time, int _memory); 
+    TestCaseResult(bool c, string m); 
     bool seq2json(ofstream& file, string space = "\t"); 
 }; 
 

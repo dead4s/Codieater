@@ -12,10 +12,6 @@ using namespace std;
 class ProblemInfo{
 friend ostream& operator << (ostream& os, const ProblemInfo& info);
 
-private:
-    const int _time; 
-    const int _memory; 
-    const Lang _lang; 
 public: 
     ProblemInfo();
     ProblemInfo(int t, int m, Lang l);
@@ -29,8 +25,11 @@ public:
     Lang getLang(){
         return _lang; 
     }
+
+private:
+    const int _time; 
+    const int _memory; 
+    const Lang _lang; 
 }; 
-
-
 
 #endif

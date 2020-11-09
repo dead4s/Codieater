@@ -25,41 +25,14 @@
 enum ExeResult {MEM_LIM_EXCEED, TIME_LIM_EXCEED, RUNT_ERR, JUDGE_ERR, GOOD}; 
 
 class ExecuteBox{
-private: 
-    ProblemInfo pinfo;  //problme info 
-    IBaseLang* lang;    //ibaseLang 
-    ExeResult getExecuteResult(int status); 
 public:
-    ExecuteBox(ProblemInfo _p)
-    :pinfo(_p){
-        Lang l = pinfo.getLang(); 
-        if(l == PYTHON3){
-            lang = new PYTHON_3; 
-        }
-        else if(l == PYTHON2){
-            lang = new PYTHON_2; 
-        }
-        else if(l == CPP11){
-            lang = new CPP(11); 
-        }
-        else if(l == CPP14){
-            lang = new CPP(14); 
-        }
-        else if(l == CPP17){
-            lang = new CPP(17); 
-        }
-        else if(l== C99){
-            lang = new C(99); 
-        }
-        else if(l== C11){
-            lang = new C(11); 
-        }
-        else{ //default
-            throw logic_error("invalid language selection in executeBox"); 
-        }
-    }
+    ExecuteBox(ProblemInfo _p); 
     bool compile(char* compileMsg, int msgSize);
-    ExeResult executeTC(int testCaseNo, int& memUsed);
+    ExeResult executeTC(int testCaseNo, int& memUsed, int& timeUsed);
+private: 
+    ProblemInfo pinfo;
+    IBaseLang* lang;
+    ExeResult getExecuteResult(int status); 
 };
 
 #endif

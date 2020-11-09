@@ -8,12 +8,10 @@
 static void showUsage(string programName){
     cerr << "Usage: " << programName << "options sources" 
         << "Options : \n" 
-        << "\t-h --help\t\tShow this help message\n"
-        << "\t-t --time\t\t(Optional)Set execution time Limit in ms, default value = 2000ms\n"
-        << "\t-m --memory\t\t(Optional)Set max memory Limit in MB, default value = 512MB\n"
-        << "\t-l --lang\t\tSet judge Language\n"
-        << "\t-c --code\t\tSet mark number to be judged\n"
-        << "\t-d --data\t\tSet problem number to get input and ouput data\n";
+        << "\t-h \t\tShow this help message\n"
+        << "\t-t \t\t(Optional)Set execution time Limit in ms, default value = 2000ms\n"
+        << "\t-m \t\t(Optional)Set max memory Limit in MB, default value = 512MB\n"
+        << "\t-l \t\tSet judge Language\n";
     return;  
 }
 
@@ -55,7 +53,7 @@ ProblemInfo parseInput(int argc, char* argv[]){
     }
     bool good = checkAllArg(lang); 
     if(!good){
-        throw invalid_argument("some option is missing : -l is needed"); 
+        throw invalid_argument("option is missing : -l is needed"); 
     }
     ProblemInfo pinfo(time, memory, lang);
     return pinfo; 

@@ -2,6 +2,14 @@
 
 using namespace std; 
 
+TestCaseResult::TestCaseResult(bool c, string m, int _time, int _memory)
+:check(c), msg(m), time(_time), memory(_memory){}; 
+    
+
+TestCaseResult::TestCaseResult(bool c, string m)
+:check(c), msg(m), time(-1), memory(-1){}
+
+
 string jsonEncoding(const string &s) {
     ostringstream encoded;
     for (auto c = s.cbegin(); c != s.cend(); c++) {
@@ -55,6 +63,10 @@ bool TestCaseResult::seq2json(ofstream& file, string space){
     file << space << "{" << endl; 
     file << space << "\"check\" : " << check << "," << endl; 
     file << space << "\"msg\" : \"" << msg <<"\"" << endl; 
+    if(memory != -1)
+        file << space << "\"memory\" : \"" << memory <<"\"" << endl; 
+    if(time != -1)
+        file << space << "\"time\" : \"" << time <<"\"" << endl; 
     file << space << "}"; 
     return true; 
 }

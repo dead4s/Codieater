@@ -42,11 +42,11 @@ int main(int argc, char* argv[]){
     if(compileResult){
         int count = getTestCasesCount(); 
         for(int i = 1; i <= count; i++){
-            int memUsed; 
-            ExeResult runtimeCheck = xbox.executeTC(i, memUsed); 
+            int memUsed; //KB
+            int timeUsed; 
+            ExeResult runtimeCheck = xbox.executeTC(i, memUsed, timeUsed); 
             bool correctCheck; 
             //get memory usage test
-            //cout << memUsed << "Kb" << endl; 
             if(runtimeCheck == MEM_LIM_EXCEED){
                 result.tcResults.emplace_back(false, "MemoryLimitExceeded"); 
             }
@@ -62,7 +62,7 @@ int main(int argc, char* argv[]){
             else if(runtimeCheck == GOOD){
                 correctCheck = cmpFiles(i); 
                 if(correctCheck == true){
-                    result.tcResults.emplace_back(true, "Correct");
+                    result.tcResults.emplace_back(true, "Correct", timeUsed, memUsed);
                 }
                 else{
                     result.tcResults.emplace_back(false, "WrongAnswer");
@@ -75,6 +75,7 @@ int main(int argc, char* argv[]){
     cout << result << endl; 
 
     ofstream resultFile(MARKPATH + "/result.json"); 
+    //resultFile << result << endl; 
     result.seq2json(resultFile); 
     resultFile.close(); 
 

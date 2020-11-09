@@ -11,14 +11,17 @@
 
 using namespace std; 
 
-
-
 bool setLimitFd(int maxFd);
 
 bool setLimitProcCount(int maxProc); 
 
 bool setLimitMemory(int maxMemory); 
 
+bool redirectFd(int sourceFd, int destFd);
+
+int getUsedMemory(struct rusage& resource);
+
+int getUsedCPUTime(struct rusage& resource);
 /*  
     startChildProc  : Wrapper class of execv , start child process in specific paht and args
 

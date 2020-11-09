@@ -25,11 +25,3 @@ const string PROC_EXEC_ERROR = "Exec failed so cannot switch to child's new imag
 
 const string PROC_LIMIT_FAIL = "fail to limit process resource"; 
 #endif 
-
-/*
-#ifdef DEBUG
-const std:string SOME_ERROR = "More detailed error information for developers"
-#else
-const std:string SOME_ERROR = "Human friendly error message"
-#endif
-*/

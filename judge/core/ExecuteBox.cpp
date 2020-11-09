@@ -1,5 +1,37 @@
 #include "ExecuteBox.hpp"
 
+ExecuteBox::ExecuteBox(ProblemInfo _p)
+: pinfo(_p)
+{
+    Lang langSelect = pinfo.getLang();
+    switch (langSelect)
+    {
+    case PYTHON2:
+        lang = new PYTHON_2; 
+        break;
+    case PYTHON3: 
+        lang = new PYTHON_3; 
+        break; 
+    case CPP11:
+        lang = new CPP(11); 
+        break; 
+    case CPP14: 
+        lang = new CPP(14); 
+        break; 
+    case CPP17:
+        lang = new CPP(17); 
+        break; 
+    case C99:
+        lang = new C(99); 
+    case C11: 
+        lang = new C(11); 
+    default:
+        throw logic_error("invalid Language selection in execute box constructor"); 
+        break;
+    }
+}
+
+
 ExeResult ExecuteBox::getExecuteResult(int status){
     if(WIFSIGNALED(status)){
         if(errno == ENOMEM){ //memory limit fail 
@@ -19,17 +51,15 @@ ExeResult ExecuteBox::getExecuteResult(int status){
     }
     else if(WIFEXITED(status)){
         int tcResult = WEXITSTATUS(status); 
-        if(tcResult == 0){
+        if(tcResult == 0)
                 return GOOD; 
-        }
-        else{
+        else
             return RUNT_ERR; 
-        }
     }
-    else{
+    else
         throw runtime_error(addTag(PROC_CHILD_RET_UNKOWN)); 
-    }
 }
+
 
 bool ExecuteBox::compile(char* compileMsg, int msgSize){
     string f =  "compile"; 
@@ -74,8 +104,9 @@ bool ExecuteBox::compile(char* compileMsg, int msgSize){
         }
     }
     else{ //child process
-        dup2(pipeFile[1], STDOUT_FILENO); //stdout -> pipeFile[1]
-        dup2(pipeFile[1], STDERR_FILENO);  //stderr -> pipeFile[0]
+        redirectFd(pipeFile[1], STDOUT_FILENO); 
+        redirectFd(pipeFile[1], STDERR_FILENO); 
+        close(pipeFile[0]); 
 
         string path = MARKPATH; 
         string cmd = lang->getCompiler(); 
@@ -86,7 +117,8 @@ bool ExecuteBox::compile(char* compileMsg, int msgSize){
     return 0; 
 }
 
-ExeResult ExecuteBox::executeTC(int testCaseNo, int& memUsed){
+
+ExeResult ExecuteBox::executeTC(int testCaseNo, int& memUsed, int& timeUsed){
     string f = "executeTC"; 
     pid_t pid; 
     int status; 
@@ -104,29 +136,27 @@ ExeResult ExecuteBox::executeTC(int testCaseNo, int& memUsed){
                 continue; 
             break; 
         }
-        memUsed =  usedResource.ru_maxrss; 
-        //while( ((waitPid = wait(&status)) == -1) && errno == EINTR); 
- 
         if(waitPid == -1){
             throw runtime_error(addTag(PROC_CHILD_RET_ERROR, f)); 
         }
+        memUsed = getUsedMemory(usedResource); 
+        timeUsed = getUsedCPUTime(usedResource); 
         return getExecuteResult(status); 
     }
     else{//child process
-        
-        string inputFile = PROBPATH +"/in/" + to_string(testCaseNo) +".in"; 
-        string outputFile = MARKPATH + "/" +  to_string(testCaseNo) + ".out"; 
-
-        #ifndef DEBUG
+        string inputFile = PROBPATH +"/in/" + to_string(testCaseNo) +".in";
         int inputFd = open(inputFile.c_str(), O_RDONLY); 
+        if(inputFd < 0)
+            throw runtime_error("fail to open " + inputFile); 
+        redirectFd(inputFd, STDIN_FILENO);         
+        
+        string outputFile = MARKPATH + "/" +  to_string(testCaseNo) + ".out"; 
         int outputFd = open(outputFile.c_str(), O_CREAT| O_WRONLY | O_TRUNC, 0666); 
-        dup2(inputFd, STDIN_FILENO); 
-        dup2(outputFd, STDOUT_FILENO); 
-        close(inputFd); 
-        close(outputFd); 
-        #endif 
+        if(outputFd < 0)
+            throw runtime_error("fail to open " + outputFile); 
+        redirectFd(outputFd, STDOUT_FILENO); 
 
-        // setLimitFd(100);
+        setLimitFd(4);
         setLimitProcCount(1);
         setLimitMemory(pinfo.getMemory());
 

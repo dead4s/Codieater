@@ -14,6 +14,7 @@ void setEnv(){
         cerr << e.what() << endl; 
         cerr << "environment variable is not setted" << endl; 
         cerr << "you must set environment variable named 'MARKPATH' and 'PROBPATH'" << endl; 
+        throw logic_error("some environment varaible is missing, you have to set both of MARKPATH and PROBPATH"); 
     }
     return; 
 }

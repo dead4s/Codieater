@@ -16,3 +16,5 @@ judge/*.o
 judge/main
 judge/.vscode
 judge/_test
+volume/*
+data/*

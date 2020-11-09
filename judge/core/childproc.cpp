@@ -1,5 +1,23 @@
 #include "childproc.hpp"
 
+int getUsedMemory(struct rusage& resource){
+    int memory = static_cast<int>(resource.ru_maxrss);
+    return memory;  
+}
+
+int getUsedCPUTime(struct rusage& resource){
+    int userTime = static_cast<int>(resource.ru_utime.tv_sec * 1000 + resource.ru_utime.tv_usec / 1000);
+    int sysTime = static_cast<int>(resource.ru_stime.tv_sec * 1000  + resource.ru_stime.tv_usec / 1000); 
+    int time = userTime + sysTime; 
+    return time; 
+}
+
+bool redirectFd(int sourceFd, int destFd){
+    dup2(sourceFd, destFd); 
+    close(sourceFd);
+    return true;  
+}
+
 int startChildProc(string path, string cmd, vector<string> args, vector<string> env){
     const char* cpath = path.c_str(); 
     const char* ccmd = cmd.c_str(); 
