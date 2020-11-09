@@ -3,7 +3,11 @@
 
 #include <string> 
 #include <vector>
+#include <map>
+#include <algorithm> 
 using namespace std; 
+
+enum ExeResult {MEM_LIM_EXCEED, TIME_LIM_EXCEED, RUNT_ERR, JUDGE_ERR, GOOD}; 
 
 //language interface
 class IBaseLang{
@@ -18,6 +22,12 @@ public:
     virtual const void addDynamicExecuteArgs(int){}
     virtual const vector<string>& getExecuteArgs() = 0; 
     virtual const vector<string>& getExecuteEnvs() = 0; 
+
+    virtual const ExeResult checkExeResultValue(int exitCode){
+        if(exitCode == 0)
+            return GOOD; 
+        return RUNT_ERR; 
+    }
 }; 
 
 #endif

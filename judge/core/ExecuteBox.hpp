@@ -23,7 +23,7 @@
 #include <sys/time.h> 
 #include <sys/resource.h>
 
-enum ExeResult {MEM_LIM_EXCEED, TIME_LIM_EXCEED, RUNT_ERR, JUDGE_ERR, GOOD}; 
+//enum ExeResult {MEM_LIM_EXCEED, TIME_LIM_EXCEED, RUNT_ERR, JUDGE_ERR, GOOD}; 
 
 class ExecuteBox{
 public:
@@ -33,7 +33,8 @@ public:
 private: 
     ProblemInfo pinfo;
     IBaseLang* lang;
-    ExeResult getExecuteResult(int status); 
+    ExeResult parseStatusValue(int status); 
+    ExeResult parseExitValue(int exitCode); 
 };
 
 #endif

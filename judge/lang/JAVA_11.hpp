@@ -43,7 +43,8 @@ public:
     }
 
     virtual const void addDynamicExecuteArgs(int memory){
-        executeArgs.push_back("-Xmx"+to_string(memory) + "m"); 
+        executeArgs.insert(executeArgs.begin(), "-Xmx"+to_string(memory) + "m"); 
+        executeArgs.insert(executeArgs.begin(), "-Xss"+to_string(memory) + "m"); 
     } 
 
 
@@ -55,5 +56,13 @@ public:
         return executeEnvs; 
     }
 
+    virtual const ExeResult checkExeResultValue(int exitCode){
+        //https://docs.oracle.com/javase/8/docs/technotes/tools/windows/java.html
+        if(exitCode == 0)
+            return GOOD; 
+        if(exitCode == 1)
+            return TIME_LIM_EXCEED; 
+        return RUNT_ERR; 
+    }
 }; 
 #endif

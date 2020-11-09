@@ -37,32 +37,26 @@ ExecuteBox::ExecuteBox(ProblemInfo _p)
 }
 
 
-ExeResult ExecuteBox::getExecuteResult(int status){
-    if(WIFSIGNALED(status)){
-        if(errno == ENOMEM){ //memory limit fail 
-            cerr << strerror(errno) << endl; 
-            cerr << "ENOMEM  => memory limit exceeded " << endl; 
-            return MEM_LIM_EXCEED; 
-        }
-        if(errno == EAGAIN){
-            cerr << strerror(errno) <<  endl; 
-            cerr << "EAGAIN => fail to create child, it seems like memory time limit" << endl; 
-            return MEM_LIM_EXCEED; 
-        }
-        cerr << errno << endl; 
+ExeResult ExecuteBox::parseStatusValue(int status){
+    if(errno == ENOMEM){ //memory limit fail 
+        cerr << strerror(errno) << endl; 
+        cerr << "ENOMEM  => memory limit exceeded " << endl; 
+        return MEM_LIM_EXCEED; 
+    }
+    if(errno == EAGAIN){
         cerr << strerror(errno) <<  endl; 
-        cerr << "uncatched signal.." << endl; 
-        return RUNT_ERR; 
+        cerr << "EAGAIN => fail to create child, it seems like memory time limit" << endl; 
+        return MEM_LIM_EXCEED; 
     }
-    else if(WIFEXITED(status)){
-        int tcResult = WEXITSTATUS(status); 
-        if(tcResult == 0)
-                return GOOD; 
-        else
-            return RUNT_ERR; 
-    }
-    else
-        throw runtime_error(addTag(PROC_CHILD_RET_UNKOWN)); 
+    cerr << errno << endl; 
+    cerr << strerror(errno) <<  endl; 
+    cerr << "uncatched signal.." << endl; 
+    return RUNT_ERR; 
+}
+
+
+ExeResult ExecuteBox::parseExitValue(int exitCode){
+    return lang->checkExeResultValue(exitCode); 
 }
 
 
@@ -141,12 +135,18 @@ ExeResult ExecuteBox::executeTC(int testCaseNo, int& memUsed, int& timeUsed){
                 continue; 
             break; 
         }
-        if(waitPid == -1){
+        if(waitPid == -1)
             throw runtime_error(addTag(PROC_CHILD_RET_ERROR, f)); 
-        }
+
         memUsed = getUsedMemory(usedResource); 
         timeUsed = getUsedCPUTime(usedResource); 
-        return getExecuteResult(status); 
+
+        if(WIFSIGNALED(status))
+            return parseStatusValue(status);
+        if(WIFEXITED(status))
+            return parseExitValue(WEXITSTATUS(status)); 
+        throw runtime_error(addTag(PROC_CHILD_RET_UNKOWN)); 
+
     }
     else{//child process
         string inputFile = PROBPATH +"/in/" + to_string(testCaseNo) +".in";
@@ -167,10 +167,9 @@ ExeResult ExecuteBox::executeTC(int testCaseNo, int& memUsed, int& timeUsed){
             setLimitProcCount(1); 
             setLimitMemory(pinfo.getMemory());
         }
-        else{
+        else{//use language own control
             lang->addDynamicExecuteArgs(pinfo.getMemory()); 
         }
-
         /*TODO
             writing to file might bring overhead
             i'd like to use BUFFER
