@@ -33,6 +33,12 @@ services:
       build: 
         context: ./
         dockerfile: ./judge/judge.dockerfile
+      deploy:
+        resources: 
+          limits:
+            memory: 2G
+          reservations: 
+            memory: 2G
       volumes:
         - ../judge:/home/judge
         - ../data/mark_no/2:/home/mark

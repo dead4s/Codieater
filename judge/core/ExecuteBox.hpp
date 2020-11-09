@@ -11,6 +11,7 @@
 #include "../lang/CPP.hpp"
 #include "../lang/PYTHON_2.hpp"
 #include "../lang/PYTHON_3.hpp"
+#include "../lang/JAVA_11.hpp"
 
 #include <fstream> 
 #include <iostream> 

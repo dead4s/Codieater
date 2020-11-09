@@ -19,7 +19,7 @@ public:
     int memory; 
     TestCaseResult(bool c, string m, int _time, int _memory); 
     TestCaseResult(bool c, string m); 
-    bool seq2json(ofstream& file, string space = "\t"); 
+    bool seq2json(ostream& file, string space = "\t"); 
 }; 
 
 class JudgeResult{
@@ -29,7 +29,7 @@ public:
     string compileMessage; 
     vector<TestCaseResult> tcResults; 
     JudgeResult(){}
-    bool seq2json(ofstream& file, string space = "\t"); 
+    bool seq2json(ostream& file, string space = "\t"); 
 }; 
 
 #endif

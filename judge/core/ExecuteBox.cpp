@@ -23,8 +23,13 @@ ExecuteBox::ExecuteBox(ProblemInfo _p)
         break; 
     case C99:
         lang = new C(99); 
+        break; 
     case C11: 
         lang = new C(11); 
+        break; 
+    case JAVA11: 
+        lang = new JAVA_11; 
+        break; 
     default:
         throw logic_error("invalid Language selection in execute box constructor"); 
         break;
@@ -104,8 +109,8 @@ bool ExecuteBox::compile(char* compileMsg, int msgSize){
         }
     }
     else{ //child process
-        redirectFd(pipeFile[1], STDOUT_FILENO); 
-        redirectFd(pipeFile[1], STDERR_FILENO); 
+        redirectFd(pipeFile[1], STDOUT_FILENO, false); 
+        redirectFd(pipeFile[1], STDERR_FILENO, true); 
         close(pipeFile[0]); 
 
         string path = MARKPATH; 
@@ -148,17 +153,23 @@ ExeResult ExecuteBox::executeTC(int testCaseNo, int& memUsed, int& timeUsed){
         int inputFd = open(inputFile.c_str(), O_RDONLY); 
         if(inputFd < 0)
             throw runtime_error("fail to open " + inputFile); 
-        redirectFd(inputFd, STDIN_FILENO);         
+        redirectFd(inputFd, STDIN_FILENO, true);         
         
         string outputFile = MARKPATH + "/" +  to_string(testCaseNo) + ".out"; 
         int outputFd = open(outputFile.c_str(), O_CREAT| O_WRONLY | O_TRUNC, 0666); 
         if(outputFd < 0)
             throw runtime_error("fail to open " + outputFile); 
-        redirectFd(outputFd, STDOUT_FILENO); 
+        redirectFd(outputFd, STDOUT_FILENO, true); 
 
-        setLimitFd(4);
-        setLimitProcCount(1);
-        setLimitMemory(pinfo.getMemory());
+        //use process control 
+        if(lang->getProcCtrlFlag() == true){
+            //setLimitFd(4);
+            setLimitProcCount(1); 
+            setLimitMemory(pinfo.getMemory());
+        }
+        else{
+            lang->addDynamicExecuteArgs(pinfo.getMemory()); 
+        }
 
         /*TODO
             writing to file might bring overhead

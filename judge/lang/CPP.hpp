@@ -5,6 +5,7 @@
 
 class CPP : public IBaseLang{
 private:
+    bool processCtrl = true; 
     const string compiler = "/usr/bin/g++"; 
     vector<string> compileArgs = {
         "-o", "main",
@@ -36,6 +37,10 @@ public:
             throw logic_error("invalid version for g++ , only 11, 14, 17 is possible");
         }
     }
+    virtual const bool getProcCtrlFlag(){
+        return processCtrl; 
+    }
+
     virtual const string& getCompiler(){
         return compiler; 
     }

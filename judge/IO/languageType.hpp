@@ -5,7 +5,7 @@
 
 using namespace std; 
 
-enum Lang {CPP11, CPP14, CPP17, PYTHON2, PYTHON3, C11, C99, INVALID}; 
+enum Lang {CPP11, CPP14, CPP17, PYTHON2, PYTHON3, C11, C99, JAVA11, INVALID}; 
 
 Lang str2Lang(const char* str);
 

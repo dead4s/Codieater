@@ -17,6 +17,13 @@ string trim(const string s){
     return s.substr(0, endindex); 
 }
 
+void print(string str){
+    for(int i = 0; i < str.length(); i++){
+        cout << "_(" << str[i] << ")_";
+    }
+    cout << endl; 
+}
+
 void checkIstream(istream& in, string name){
     if(in.good()){
         cout << name <<" is good" << endl; 
@@ -32,14 +39,17 @@ void checkIstream(istream& in, string name){
 
 bool checkEmptystream(string start, istream& in){
     start = trim(start); 
-    if(start.compare("") != 0){
+    /*if(start.compare("") != 0){
+        cout << "not empty string" << start << endl; 
         return false; 
-    }
+    }*/
     string line; 
     while(getline(in, line)){
         line = trim(line); 
-        if(line.compare("") != 0)
+        if(line.compare("") != 0){
+            //cout << "not empty string" << start << endl; 
             return false; 
+        }
     }
     if(!in.eof())
         throw runtime_error("error in checkEmptyString"); 
@@ -77,7 +87,12 @@ bool cmpFiles(int fileNo){
 
         line1 = trim(line1); 
         line2 = trim(line2); 
-        //cout << line1 << ", " << line2 << endl; 
+        #ifdef DEBUG
+        print(line1); 
+        print(line2);
+        cout << line1 << ", " << line2 << endl; 
+        #endif 
+
         if ( line1.compare(line2) == 0){ 
             continue; 
         }
@@ -90,7 +105,9 @@ bool cmpFiles(int fileNo){
     if(success == false)
         return false; 
     if(in1.eof() && in2.eof()){
-        //cout <<"both file end successfully" << endl; 
+        #ifdef DBUG
+        cout <<"both file end successfully" << endl; 
+        #endif
         return true; 
     }
     else if(in1.bad() || in2.bad()){
@@ -98,10 +115,17 @@ bool cmpFiles(int fileNo){
     }
 
     if(!in1.eof()){ //in1 is not fininshed..
+        #ifdef DEBUG
+        cout << "in1 is not finished.." << endl; 
+        #endif
         return checkEmptystream(line1, in1); 
     }
-    if(!in2.eof())
+    if(!in2.eof()){
+        #ifdef DEBUG
+        cout << "in2 is not finsihed.." << endl; 
+        #endif
         return checkEmptystream(line2, in2); 
+    }
     return false; 
 }
 #endif 

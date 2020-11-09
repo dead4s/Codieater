@@ -1,38 +1,27 @@
-#ifndef __C__H_
-#define __C__H_
+#ifndef __JAVA__H_
+#define __JAVA__H_
 
 #include "../core/IBaseLang.hpp"
-#include <stdexcept> 
 
-class C : public IBaseLang{
+class JAVA_11 : public IBaseLang{
 private:
-    bool processCtrl = true; 
-    const string compiler = "/usr/bin/gcc"; 
+    bool processCtrl = false; 
+    const string compiler = "/usr/bin/javac"; 
     vector<string> compileArgs = {
-        "-o", "main",
-        "-O2", 
-        "-lm",
-        "-Wall",
-    //    "-static",
-        "Main.c"
+        "Main.java"
     };
     vector<string> compileEnvs = {}; 
 
-    const string executor = "./main"; 
-    vector<string> executeArgs = {}; 
+
+    const string executor = "/usr/bin/java"; 
+    vector<string> executeArgs = {
+        "Main"
+    }; 
     vector<string> executeEnvs = {}; 
+
 public: 
-    C(int version){
-        if(version == 11){
-            compileArgs.push_back("-std=gnu11"); 
-        }
-        else if(version == 99){
-            compileArgs.push_back("-std=gnu99"); 
-        }
-        else{
-            throw logic_error("invalid version for gcc, only 11, 99 is possible"); 
-        }
-    }
+    JAVA_11(){}
+
     virtual const bool getProcCtrlFlag(){
         return processCtrl; 
     }
@@ -53,6 +42,11 @@ public:
         return executor; 
     }
 
+    virtual const void addDynamicExecuteArgs(int memory){
+        executeArgs.push_back("-Xmx"+to_string(memory) + "m"); 
+    } 
+
+
     virtual const vector<string>& getExecuteArgs(){
         return executeArgs;  
     }
@@ -60,5 +54,6 @@ public:
     virtual const vector<string>& getExecuteEnvs(){
         return executeEnvs; 
     }
+
 }; 
 #endif

@@ -5,6 +5,8 @@
 
 class PYTHON_2 : public IBaseLang{
 private : 
+    bool processCtrl = true; 
+
     const string compiler = "/usr/bin/python2"; 
     vector<string> compileArgs = {
         "-m", "py_compile", 
@@ -17,6 +19,10 @@ private :
     vector<string> executeEnvs = {}; 
 
 public: 
+    virtual const bool getProcCtrlFlag(){
+        return processCtrl; 
+    }
+
     virtual const string& getCompiler(){
         return compiler; 
     }

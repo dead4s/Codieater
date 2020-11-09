@@ -17,7 +17,7 @@ bool setLimitProcCount(int maxProc);
 
 bool setLimitMemory(int maxMemory); 
 
-bool redirectFd(int sourceFd, int destFd);
+bool redirectFd(int sourceFd, int destFd, bool closeSrcFd);
 
 int getUsedMemory(struct rusage& resource);
 

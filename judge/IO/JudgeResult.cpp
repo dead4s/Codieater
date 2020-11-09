@@ -23,6 +23,7 @@ string jsonEncoding(const string &s) {
     return encoded.str();
 }
 
+
 ostream& operator<< (ostream& os, const TestCaseResult& tcRes){
     os << "check \t\t" << tcRes.check << endl; 
     os << "message \t\t" << tcRes.msg << endl; 
@@ -42,7 +43,7 @@ ostream& operator<< (ostream& os, const JudgeResult& res){
     return os; 
 }
 
-bool JudgeResult::seq2json(ofstream& file, string space){
+bool JudgeResult::seq2json(ostream& file, string space){
     file << "{" << endl;
     file << space << "\"compile\" : " << compileResult << "," << endl; 
     file << space << "\"compile_msg\" : " << "\"" << jsonEncoding(compileMessage) << "\" ," << endl; 
@@ -59,7 +60,7 @@ bool JudgeResult::seq2json(ofstream& file, string space){
     return true; 
 }
  
-bool TestCaseResult::seq2json(ofstream& file, string space){
+bool TestCaseResult::seq2json(ostream& file, string space){
     file << space << "{" << endl; 
     file << space << "\"check\" : " << check << "," << endl; 
     file << space << "\"msg\" : \"" << msg <<"\"" << endl; 

@@ -12,9 +12,10 @@ int getUsedCPUTime(struct rusage& resource){
     return time; 
 }
 
-bool redirectFd(int sourceFd, int destFd){
+bool redirectFd(int sourceFd, int destFd, bool closeSrcFd){
     dup2(sourceFd, destFd); 
-    close(sourceFd);
+    if(closeSrcFd)
+        close(sourceFd);
     return true;  
 }
 
@@ -22,14 +23,14 @@ int startChildProc(string path, string cmd, vector<string> args, vector<string> 
     const char* cpath = path.c_str(); 
     const char* ccmd = cmd.c_str(); 
     
-    /*
+    #ifdef DBUG
     cout << endl; 
     cout << path << endl; 
     cout << cmd << endl; 
     for(int i = 0; i < args.size(); i++){
         cout << args[i] << " "; 
     }
-    */
+    #endif
 
     chdir(cpath); 
     vector<char*> cargs;

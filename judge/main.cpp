@@ -26,7 +26,6 @@ int getTestCasesCount(){
 int main(int argc, char* argv[]){
 
     setEnv(); 
-
     ProblemInfo pinfo = parseInput(argc, argv); 
     cout <<"== PromblemInfo DUMP ==" << endl; 
     cout << pinfo << endl; 
@@ -38,44 +37,48 @@ int main(int argc, char* argv[]){
     bool compileResult = xbox.compile(compileMsg, COMPILE_MSG_LENGTH); 
     result.compileResult = compileResult; 
     result.compileMessage = string(compileMsg); 
+    cout <<"compile : " << result.compileResult << endl;
+    cout <<"compile Message : " << result.compileMessage << endl; 
 
     if(compileResult){
         int count = getTestCasesCount(); 
         for(int i = 1; i <= count; i++){
             int memUsed; //KB
-            int timeUsed; 
+            int timeUsed; //milliSec
             ExeResult runtimeCheck = xbox.executeTC(i, memUsed, timeUsed); 
+
+            TestCaseResult* tcResult; 
             bool correctCheck; 
-            //get memory usage test
-            if(runtimeCheck == MEM_LIM_EXCEED){
-                result.tcResults.emplace_back(false, "MemoryLimitExceeded"); 
-            }
-            else if(runtimeCheck == TIME_LIM_EXCEED){
-                result.tcResults.emplace_back(false, "TimeLimitExceeded");
-            }
-            else if(runtimeCheck == RUNT_ERR){
-                result.tcResults.emplace_back(false, "RuntimeError"); 
-            }
-            else if(runtimeCheck == JUDGE_ERR){
-                result.tcResults.emplace_back(false, "JudgeSystemInternalError"); 
-            }
-            else if(runtimeCheck == GOOD){
+            switch (runtimeCheck)
+            {
+            case MEM_LIM_EXCEED:
+                tcResult = new TestCaseResult(false, "Memory Limit Exceeded"); 
+                break;
+            case TIME_LIM_EXCEED: 
+                tcResult = new TestCaseResult(false, "Time Limit Exceeded"); 
+                break; 
+            case RUNT_ERR:
+                tcResult = new TestCaseResult(false, "Runtime Error");
+                break; 
+            case GOOD : 
                 correctCheck = cmpFiles(i); 
-                if(correctCheck == true){
-                    result.tcResults.emplace_back(true, "Correct", timeUsed, memUsed);
-                }
-                else{
-                    result.tcResults.emplace_back(false, "WrongAnswer");
-                }               
+                if(correctCheck)
+                    tcResult = new TestCaseResult(true, "Correct", timeUsed, memUsed); 
+                else 
+                    tcResult = new TestCaseResult(false, "Wrong Answer");        
+                break; 
+            default:
+                tcResult = new TestCaseResult(false, "JudgeSystem Internal Error");   
+                break;
             }
+            tcResult->seq2json(cout, ""); 
+            cout << endl; 
+            result.tcResults.push_back(*tcResult); 
+            delete tcResult; 
         }
     }
-    
-    cout <<"== JudgeResult DUMP ==" << endl; 
-    cout << result << endl; 
-
+   
     ofstream resultFile(MARKPATH + "/result.json"); 
-    //resultFile << result << endl; 
     result.seq2json(resultFile); 
     resultFile.close(); 
 
