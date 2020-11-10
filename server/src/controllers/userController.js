@@ -1,5 +1,10 @@
 const { validationResult } = require('express-validator');
 const db = require('../models');
+const passport = require('passport');
+
+exports.index = function (req, res) {
+  res.render('../views/auth/signup.ejs');
+}
 
 exports.signup = (req, res, next) => {
   try {
@@ -36,11 +41,15 @@ exports.signup = (req, res, next) => {
 
 exports.logout = (req, res) => {
   req.logout();
-  res.status(200).json({ code: 0, data: { msg: 'Logout Successful' } });
+  res.redirect('/');
 };
 
 exports.check = (req, res) => {
-  res.status(200).json({ code: 0, data: { msg: 'Authenticated' } });
+  passport.authenticate("local", {
+    successRedirect: '/',
+    failureRedirect: '/signup',
+    failureFlash: true
+  })(req, res);
 };
 
 exports.passwordFind = (req, res, next) => {

@@ -4,7 +4,7 @@ module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.bulkInsert('history', [{
       probNo: 1,
-      userId: 2,
+      userId: 1,
       // code: '#include <stdio.h> int main(void) { printf("1\n"); } )',
       lang: 'CPP',
       time: 0.5,

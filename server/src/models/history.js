@@ -27,8 +27,8 @@ module.exports = (sequelize, DataTypes) => {
     //   },
     // },
   }, { tableName: 'history', });
+
   history.associate = function(models) {
-    // associations can be defined here
     history.belongsTo(models.user, {
       foreignKey: 'userId',
       as: 'idx',
@@ -41,5 +41,6 @@ module.exports = (sequelize, DataTypes) => {
       onDelete: 'CASCADE'
     });
   };
+
   return history;
 };
