@@ -1,6 +1,8 @@
 #include "childproc.hpp"
 
 int alarmTargetPid = -1; 
+int onTimeMeasuring = 0; 
+struct timeval tbegin, tend; 
 
 int getUsedMemory(struct rusage& resource){
     int memory = static_cast<int>(resource.ru_maxrss);
@@ -23,6 +25,31 @@ bool redirectFd(int sourceFd, int destFd, bool closeSrcFd){
     return true;  
 }
 
+bool startMeasureTime(){
+    if(onTimeMeasuring != 0){
+        cerr << "before Time Measuring is not finished" << endl; 
+        cerr << "you have to call endMeasureTime, first" << endl; 
+        return false; 
+    }
+    onTimeMeasuring = 1; 
+    gettimeofday(&tbegin, NULL); 
+    return true; 
+}
+
+
+bool endMeasureTime(int& timeUsed){
+    if(onTimeMeasuring != 1){
+        cerr << "you didn't call startMeasureTIme" << endl; 
+        cerr << "you have to call startMeasureTIme, first" << endl; 
+        return false; 
+    }
+    onTimeMeasuring = 0; 
+    gettimeofday(&tend, NULL); 
+    int sec = tend.tv_sec - tbegin.tv_sec; 
+    int usec = tend.tv_usec - tbegin.tv_usec; 
+    timeUsed = sec * 1000 + usec / 1000; 
+    return true; 
+}
 
 int startChildProc(string path, string cmd, vector<string> args, vector<string> env){
     const char* cpath = path.c_str(); 
@@ -160,6 +187,11 @@ bool removeLimitTime(){
 
 bool setLimitTime(int maxTime, int targetPid){
     errno = 0; //clear errno 
+    if(targetPid != -1 && alarmTargetPid != -1){
+        cerr << "alarmTarget is not finished.." << endl;
+        cerr << "you have to call removeLimitTime(), First" << endl; 
+        return false; 
+    }
     alarmTargetPid = targetPid; 
     
     signal(SIGALRM, alarmHandler); 

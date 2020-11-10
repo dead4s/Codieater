@@ -13,6 +13,14 @@
 
 using namespace std; 
 
+
+/* == for wrapper to system function of C ==  
+    here are 2 types of system functions 
+    (1) for resource limit, and monitering 
+    (2) control child process like execve and kill  
+*/
+
+
 bool setLimitFd(int maxFd);
 
 bool setLimitProcCount(int maxProc); 
@@ -22,6 +30,10 @@ bool setLimitMemory(int maxMemory);
 bool setLimitTime(int maxTime, int targetPid); 
 
 bool removeLimitTime(); 
+
+bool startMeasureTime(); 
+
+bool endMeasureTime(int& timeUsed); 
 
 bool redirectFd(int sourceFd, int destFd, bool closeSrcFd);
 

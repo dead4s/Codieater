@@ -139,6 +139,8 @@ ExeResult ExecuteBox::executeTC(int testCaseNo, int& memUsed, int& timeUsed){
     if(pid> 0){ //parent process
         pid_t waitPid; 
         struct rusage usedResource; 
+        
+        startMeasureTime(); 
         setLimitTime(pinfo.getTime(), pid); 
         while(1){
             waitPid = wait3(&status, 0, &usedResource); 
@@ -147,11 +149,13 @@ ExeResult ExecuteBox::executeTC(int testCaseNo, int& memUsed, int& timeUsed){
             break; 
         }
         removeLimitTime(); 
+        endMeasureTime(timeUsed); 
         if(waitPid == -1)
             throw runtime_error(addTag(PROC_CHILD_RET_ERROR, f)); 
 
         memUsed = getUsedMemory(usedResource); 
-        timeUsed = getUsedCPUTime(usedResource); 
+        //cpu time is not properly working for java(jvm consumes more clock)
+        //timeUsed = getUsedCPUTime(usedResource); 
 
         if(WIFSIGNALED(status))
             return parseSignalValue(status);
