@@ -203,7 +203,7 @@ ExeResult ExecuteBox::executeTC(int testCaseNo, int& memUsed, int& timeUsed){
         vector<string> arg = lang->getExecuteArgs(); 
         vector<string> env = lang->getExecuteEnvs();
         Seccomp sec; 
-        sec.addAdditionalSeccomp(lang->getWhiteListSyscall()); 
+        sec.addAdditionalSeccomp(lang->getMoreSysList()); 
         startChildProc(path, prog, arg, env, &sec); 
     }
     return JUDGE_ERR; 

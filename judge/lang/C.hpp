@@ -22,7 +22,7 @@ private:
     vector<string> executeArgs = {}; 
     vector<string> executeEnvs = {}; 
 
-    vector<int> whiteSyscalls = {}; 
+    vector<int> syscallList = {}; 
 
 public: 
     C(int version){
@@ -64,8 +64,8 @@ public:
         return executeEnvs; 
     }
 
-    virtual vector<int> getWhiteListSyscall(){
-        return whiteSyscalls; 
+    virtual vector<int> getMoreSysList(){
+        return syscallList; 
     }
 }; 
 #endif

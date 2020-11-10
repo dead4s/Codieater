@@ -18,7 +18,7 @@ private:
         "Main"
     }; 
     vector<string> executeEnvs = {}; 
-    vector<int> whiteSyscalls = {}; 
+    vector<int> syscallList = {}; 
 public: 
     JAVA_11(){}
 
@@ -65,8 +65,8 @@ public:
         return RUNT_ERR; 
     }
 
-    virtual vector<int> getWhiteListSyscall(){
-        return whiteSyscalls; 
+    virtual vector<int> getMoreSysList(){
+        return syscallList; 
     }
 }; 
 #endif

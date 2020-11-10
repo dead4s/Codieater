@@ -30,7 +30,7 @@ public:
         return RUNT_ERR; 
     }
 
-    virtual vector<int> getWhiteListSyscall() = 0; 
+    virtual vector<int> getMoreSysList() = 0; 
 }; 
 
 #endif
