@@ -1,0 +1,53 @@
+<!DOCTYPE HTML>
+<html lang="ko">
+<head>
+    <%- include('../layout/head') %>
+    <link rel="stylesheet" type="text/css" href="/public/css/login.css">
+    <title>Signup Page</title>
+</head>
+<body>
+    <div class="papyrus">
+        <%- include('../layout/nav') %>
+        <div class="body col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+            <form id="signup" action="signup" method="POST" class="signup">
+                <div class="signup-header">Welcome to Codieater Signup Page!</div><hr>
+                <div class="signup-body">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <label>ID</label>
+                            <input type="text" class="form-control" name="id" autocomplete="off" required>
+                        </div>
+                        <div class="col-sm-6">
+                            <label>Name</label>
+                            <input type="text" class="form-control" name="name" autocomplete="off" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <label>Password</label>
+                            <input type="password" class="form-control" name="pwd" autocomplete="off" required>
+                        </div>
+                        <div class="col-sm-6">
+                            <label>Password Check</label>
+                            <input type="password" class="form-control" name="pwd2" autocomplete="off" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <label>email</label>
+                            <input type="password" class="form-control" name="email" autocomplete="off" required>
+                        </div>
+                    </div>
+                    <div class="row" style="text-align: right; margin-top: 2rem;">
+                        <div class="col-md-6"></div>
+                        <div class="col-md-6">
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <%- include('../layout/footer') %>
+    </div>
+</body>
+</html>

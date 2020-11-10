@@ -1,0 +1,11 @@
+.row {
+    padding-bottom: 4rem;
+    font-size: 1.7rem;
+}
+
+.register-header {
+    margin-bottom: 3rem;
+    font-size: 2.5rem;
+    font-weight: bold;
+    text-align: center;
+}

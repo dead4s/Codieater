@@ -36,9 +36,16 @@ app.use(session({ secret: 'ccm', resave: true, saveUninitialized: true }));
 app.use(passport.initialize());
 app.use(passport.session());
 
+app.use(function (req, res, next) {
+  res.locals.isAuthenticated = req.isAuthenticated();
+  next();
+});
+
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
 app.engine('html', require('ejs').renderFile);
+
+app.use('/public', express.static(path.join(__dirname, 'public')));
 
 app.use(express.static(path.join(__dirname, '..', '..', 'client', 'build')));
 

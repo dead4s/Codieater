@@ -1,9 +1,13 @@
 const { spawn } = require('child_process');
 const fs = require('fs');
-const models = require('../models');
+const db = require('../models');
 const PWD = '/Users/redundant4u/Documents/project/Codieater';
 
-exports.judge = function(req, res) {
+exports.judgeGet = function(req, res) {
+    res.render('../views/index.ejs');
+}
+
+exports.judgePost = function(req, res) {
     const USERID = req.body.userid;
     const PROBNO = 1; // read from db
     const CODE = decodeEntities(req.body.code);
@@ -11,7 +15,7 @@ exports.judge = function(req, res) {
     const LANGKIND = LANG.substring(1, LANG.length);
     const TIME = 1; // read from db
 
-    models.history.create({
+    db.history.create({
         probNo: PROBNO,
         userId: USERID,
         lang: LANG,
@@ -87,7 +91,7 @@ const system = function (ARG) {
             query = { 'result': 1, 'score': score };
         }
 
-        models.history.update(query, { where: {userId: ARG['USERID']} })
+        db.history.update(query, { where: {userId: ARG['USERID']} })
         .then(res => {
             console.log('history result is updated');
             console.log(res);
@@ -105,7 +109,7 @@ const system = function (ARG) {
             CODE: ARG['CODE'],
             LANG: ARG['LANGKIND'],
             SCORE: score,
-            JUDGERES: JUDGERES
+            JUDGERES: JUDGERES,
         });
     });
 }

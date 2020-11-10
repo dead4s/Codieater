@@ -7,27 +7,22 @@
 </head>
 <body>
 	<div>
-       <p>USERID: <%= USERID %></p>
-       <p>CODE</p>
-       <textarea cols="20" rows="20"><%- CODE %></textarea>
-       <p>LANGUAGE: <%= LANG %></p>
-    </div>
-    <div>
-        <p>SCORE: <%= SCORE %></p>
-        <table>
-            <tbody>
-                <tr>
-                    <td>PROBLEM</td>
-                    <td>RESULT</td>
-                </tr>
-                <% for( let i = 0; i < JUDGERES['result'].length; i++ ) { %>
-                <tr>
-                    <td><%= i + 1 %></td>
-                    <td><%= JUDGERES['result'][i]['msg'] %></td>
-                </tr>
-                <% } %>
-            </tbody>
-        </table>
+        <form action="judge" method="POST">
+            <label>user_id</label>
+            <input type="text" name="userid"><br>
+
+            <label>code</label>
+            <textarea name="code" cols="20" rows="20"></textarea><br>
+
+            <label>language</label>
+            <select name="lang">
+                <option value="0CPP14">CPP14</option>
+                <option value="1PYTHON3">PYTHON3</option>
+                <option value="2PYTHON2">PYTHON2</option>
+            </select><br>
+
+            <input type="submit" value="submit">
+        </form>
     </div>
 </body>
 </html>
