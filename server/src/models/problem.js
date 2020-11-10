@@ -9,16 +9,24 @@ module.exports = (sequelize, DataTypes) => {
     },
     description: DataTypes.TEXT,
     timeLim: DataTypes.REAL,
-    memeoryLim: DataTypes.SMALLINT,
+    memoryLim: DataTypes.SMALLINT,
     // create_at: DataTypes.DATE
   }, { tableName: 'problem' });
+
   problem.associate = function(models) {
-    // associations can be defined here
     problem.belongsTo(models.user, {
+      as: 'user',
       foreignKey: 'userId',
-      as: 'idx',
+      onDelete: 'CASCADE',
+    });
+
+    problem.belongsToMany(models.tag, {
+      through: 'problem_tag',
+      as: 'tags',
+      foreignKey: 'probNo',
       onDelete: 'CASCADE',
     });
   };
+
   return problem;
 };

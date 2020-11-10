@@ -50,9 +50,11 @@ docker rm asd
 
 
 ## Reference
-- node -  MIT License 
-- postgres - PostgreSQL License - <https://www.postgresql.org/about/licence/>
-- docker - Apache License 2.0
+- node >  MIT License 
+- postgres - PostgreSQL License > <https://www.postgresql.org/about/licence/>
+- docker > Apache License 2.0
+- jQuery > MIT License
+- Bootstrap > MIT License
 
 
 ## License

@@ -15,15 +15,30 @@ module.exports = {
         },
         allowNull: false,
       },
+      title: {
+        type: Sequelize.STRING(30)
+      },
       description: {
         type: Sequelize.TEXT,
-      },
-      timeLim: {
-        type: Sequelize.REAL,
       },
       memoryLim: {
         type: Sequelize.SMALLINT,
       },
+      timeLim: {
+        type: Sequelize.REAL,
+      },
+      input: {
+        type: Sequelize.TEXT,
+      },
+      output: {
+        type: Sequelize.TEXT,
+      },
+      sampleInput: {
+        type: Sequelize.TEXT,
+      },
+      sampleOutput: {
+        type: Sequelize.TEXT,
+      }
       // create_at: {
       //   type: Sequelize.DATE,
       //   allowNull: false,
