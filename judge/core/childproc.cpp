@@ -1,9 +1,12 @@
 #include "childproc.hpp"
 
+int alarmTargetPid = -1; 
+
 int getUsedMemory(struct rusage& resource){
     int memory = static_cast<int>(resource.ru_maxrss);
     return memory;  
 }
+
 
 int getUsedCPUTime(struct rusage& resource){
     int userTime = static_cast<int>(resource.ru_utime.tv_sec * 1000 + resource.ru_utime.tv_usec / 1000);
@@ -12,12 +15,14 @@ int getUsedCPUTime(struct rusage& resource){
     return time; 
 }
 
+
 bool redirectFd(int sourceFd, int destFd, bool closeSrcFd){
     dup2(sourceFd, destFd); 
     if(closeSrcFd)
         close(sourceFd);
     return true;  
 }
+
 
 int startChildProc(string path, string cmd, vector<string> args, vector<string> env){
     const char* cpath = path.c_str(); 
@@ -50,10 +55,10 @@ int startChildProc(string path, string cmd, vector<string> args, vector<string> 
 bool setLimitFd(int maxFd){
     #ifdef DEBUG
     struct rlimit old_lim; 
-    if( getrlimit(RLIMIT_NOFILE, &old_lim) == 0) 
-        printf("Old limits -> soft limit= %ld \t"
-            " hard limit= %ld \n", old_lim.rlim_cur, old_lim.rlim_max); 
-
+    if( getrlimit(RLIMIT_AS, &old_lim) == 0) {
+        cerr << "old limits [soft limit] = " << old_lim.rlim_cur << endl; 
+        cerr << "old limits [hard limit] = " << old_lim.rlim_max << endl; 
+    }
     #endif 
 
     struct rlimit limit; 
@@ -65,24 +70,24 @@ bool setLimitFd(int maxFd){
 
     #ifdef DEBUG
     struct rlimit new_lim; 
-    if( getrlimit(RLIMIT_NOFILE, &new_lim) == 0) 
-        printf("New limits -> soft limit= %ld "
-         "\t hard limit= %ld \n", new_lim.rlim_cur,  
-                                  new_lim.rlim_max);
+    if( getrlimit(RLIMIT_AS, &old_lim) == 0) {
+        cerr << "new limits [soft limit] = " << new_lim.rlim_cur << endl; 
+        cerr << "new limits [hard limit] = " << new_lim.rlim_max << endl; 
+    }
     #endif 
-
-
     return true; 
 }
+
 
 bool setLimitProcCount(int maxProc){
 
     #ifdef DEBUG
     struct rlimit old_lim; 
-    if( getrlimit(RLIMIT_NPROC, &old_lim) == 0) 
-        printf("Old limits -> soft limit= %ld \t"
-            " hard limit= %ld \n", old_lim.rlim_cur, old_lim.rlim_max); 
-
+    struct rlimit old_lim; 
+    if( getrlimit(RLIMIT_AS, &old_lim) == 0) {
+        cerr << "old limits [soft limit] = " << old_lim.rlim_cur << endl; 
+        cerr << "old limits [hard limit] = " << old_lim.rlim_max << endl; 
+    }
     #endif
 
     struct rlimit limit; 
@@ -94,10 +99,10 @@ bool setLimitProcCount(int maxProc){
 
     #ifdef DEBUG
     struct rlimit new_lim; 
-    if( getrlimit(RLIMIT_NPROC, &new_lim) == 0) 
-        printf("New limits -> soft limit= %ld "
-         "\t hard limit= %ld \n", new_lim.rlim_cur,  
-                                  new_lim.rlim_max);
+    if( getrlimit(RLIMIT_AS, &old_lim) == 0) {
+        cerr << "new limits [soft limit] = " << new_lim.rlim_cur << endl; 
+        cerr << "new limits [hard limit] = " << new_lim.rlim_max << endl; 
+    }
     #endif 
 
 
@@ -109,10 +114,10 @@ bool setLimitMemory(int maxMemory){
     unsigned int byteMemory = static_cast<unsigned int>(maxMemory) * 1000'000; 
     #ifdef DEBUG
     struct rlimit old_lim; 
-    if( getrlimit(RLIMIT_AS, &old_lim) == 0) 
-        printf("Old limits -> soft limit= %ld \t"
-            " hard limit= %ld \n", old_lim.rlim_cur, old_lim.rlim_max); 
-
+    if( getrlimit(RLIMIT_AS, &old_lim) == 0) {
+        cerr << "old limits [soft limit] = " << old_lim.rlim_cur << endl; 
+        cerr << "old limits [hard limit] = " << old_lim.rlim_max << endl; 
+    }
     #endif
 
     struct rlimit limit; 
@@ -125,11 +130,55 @@ bool setLimitMemory(int maxMemory){
 
     #ifdef DEBUG
     struct rlimit new_lim; 
-    if( getrlimit(RLIMIT_AS, &new_lim) == 0) 
-        printf("New limits -> soft limit= %ld "
-         "\t hard limit= %ld \n", new_lim.rlim_cur,  
-                                  new_lim.rlim_max);
+    if( getrlimit(RLIMIT_AS, &old_lim) == 0) {
+        cerr << "new limits [soft limit] = " << new_lim.rlim_cur << endl; 
+        cerr << "new limits [hard limit] = " << new_lim.rlim_max << endl; 
+    }
     #endif 
-
     return true; 
 }
+
+
+int killProcess(pid_t pid) {
+    return kill(pid, SIGKILL);
+}
+
+
+void alarmHandler(int sig) 
+{ 
+    cerr << "time limit end kill process" << endl; 
+    cerr << "kill pid : " << alarmTargetPid << endl; 
+    killProcess(alarmTargetPid); 
+    alarmTargetPid = -1; 
+} 
+
+
+bool removeLimitTime(){
+    return setLimitTime(0, -1); 
+}
+
+
+bool setLimitTime(int maxTime, int targetPid){
+    errno = 0; //clear errno 
+    alarmTargetPid = targetPid; 
+    
+    signal(SIGALRM, alarmHandler); 
+    //cerr << strerror(errno) << endl; 
+    if(errno != 0){
+        cerr << strerror(errno) << endl; 
+        cerr << "fail to set sinal SIGALRM - alarmHandler" << endl; 
+        return false; 
+    }
+
+    struct itimerval new_lim; 
+    new_lim.it_interval.tv_usec = 0; 
+    new_lim.it_interval.tv_sec = 0; 
+    new_lim.it_value.tv_usec = (maxTime % 1000) * 1000; 
+    new_lim.it_value.tv_sec = maxTime / 1000; 
+    if(setitimer(ITIMER_REAL, &new_lim, NULL)  == -1) {
+        cerr << strerror(errno) << endl; 
+        cerr << "fail to setitmer to start timer" << endl; 
+        return false; 
+    }
+    return true; 
+}  

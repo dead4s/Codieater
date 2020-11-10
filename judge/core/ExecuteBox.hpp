@@ -33,7 +33,7 @@ public:
 private: 
     ProblemInfo pinfo;
     IBaseLang* lang;
-    ExeResult parseStatusValue(int status); 
+    ExeResult parseSignalValue(int status); 
     ExeResult parseExitValue(int exitCode); 
 };
 

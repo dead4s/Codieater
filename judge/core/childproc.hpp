@@ -5,7 +5,9 @@
 #include <string> 
 #include <vector> 
 #include <cstring> 
+#include <signal.h> 
 #include <sys/resource.h>
+#include <sys/time.h>
 #include "../system/config.hpp"
 #include "../system/error.hpp"
 
@@ -16,6 +18,10 @@ bool setLimitFd(int maxFd);
 bool setLimitProcCount(int maxProc); 
 
 bool setLimitMemory(int maxMemory); 
+
+bool setLimitTime(int maxTime, int targetPid); 
+
+bool removeLimitTime(); 
 
 bool redirectFd(int sourceFd, int destFd, bool closeSrcFd);
 

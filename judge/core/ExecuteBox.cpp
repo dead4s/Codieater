@@ -37,7 +37,11 @@ ExecuteBox::ExecuteBox(ProblemInfo _p)
 }
 
 
-ExeResult ExecuteBox::parseStatusValue(int status){
+ExeResult ExecuteBox::parseSignalValue(int status){
+    cerr << "signal number is " <<  WTERMSIG(status) << endl; 
+    if(WTERMSIG(status) == SIGKILL){
+        return TIME_LIM_EXCEED; 
+    }
     if(errno == ENOMEM){ //memory limit fail 
         cerr << strerror(errno) << endl; 
         cerr << "ENOMEM  => memory limit exceeded " << endl; 
@@ -82,15 +86,15 @@ bool ExecuteBox::compile(char* compileMsg, int msgSize){
     if(pid > 0){ //parent process 
         pid_t waitPid; 
         while( ((waitPid = wait(&status)) == -1) && errno == EINTR); 
- 
         if(waitPid == -1){
             throw runtime_error(addTag(PROC_CHILD_RET_ERROR, f)); 
         }
-        else if(WIFSIGNALED(status)){
+        if(WIFSIGNALED(status)){
             cerr << strerror(errno) <<  endl; 
-            throw runtime_error(addTag(PROC_CHILD_KILLED, f)); 
+            cerr << "compile Routine Failed - stopped by signals" << endl; 
+            return false; 
         }
-        else if(WIFEXITED(status)){
+        if(WIFEXITED(status)){
             int compileResult = WEXITSTATUS(status); 
             memset(compileMsg, '\0', msgSize); 
             read(pipeFile[0], compileMsg, msgSize); 
@@ -98,9 +102,7 @@ bool ExecuteBox::compile(char* compileMsg, int msgSize){
             close(pipeFile[1]); 
             return !bool(compileResult); 
         }
-        else{
-            throw runtime_error(addTag(PROC_CHILD_RET_UNKOWN, f)); 
-        }
+        throw runtime_error(addTag(PROC_CHILD_RET_UNKOWN, f)); 
     }
     else{ //child process
         redirectFd(pipeFile[1], STDOUT_FILENO, false); 
@@ -117,6 +119,14 @@ bool ExecuteBox::compile(char* compileMsg, int msgSize){
 }
 
 
+int openFile(string fileName, int flag, int perm){
+    int fd = open(fileName.c_str(), flag, perm); 
+    if(fd < 0)
+        throw runtime_error("fail to open " + fileName);
+    return fd;   
+}
+
+
 ExeResult ExecuteBox::executeTC(int testCaseNo, int& memUsed, int& timeUsed){
     string f = "executeTC"; 
     pid_t pid; 
@@ -129,12 +139,14 @@ ExeResult ExecuteBox::executeTC(int testCaseNo, int& memUsed, int& timeUsed){
     if(pid> 0){ //parent process
         pid_t waitPid; 
         struct rusage usedResource; 
+        setLimitTime(pinfo.getTime(), pid); 
         while(1){
             waitPid = wait3(&status, 0, &usedResource); 
             if(waitPid == -1 && errno == EINTR)
                 continue; 
             break; 
         }
+        removeLimitTime(); 
         if(waitPid == -1)
             throw runtime_error(addTag(PROC_CHILD_RET_ERROR, f)); 
 
@@ -142,28 +154,20 @@ ExeResult ExecuteBox::executeTC(int testCaseNo, int& memUsed, int& timeUsed){
         timeUsed = getUsedCPUTime(usedResource); 
 
         if(WIFSIGNALED(status))
-            return parseStatusValue(status);
+            return parseSignalValue(status);
         if(WIFEXITED(status))
             return parseExitValue(WEXITSTATUS(status)); 
         throw runtime_error(addTag(PROC_CHILD_RET_UNKOWN)); 
 
     }
     else{//child process
-        string inputFile = PROBPATH +"/in/" + to_string(testCaseNo) +".in";
-        int inputFd = open(inputFile.c_str(), O_RDONLY); 
-        if(inputFd < 0)
-            throw runtime_error("fail to open " + inputFile); 
+        int inputFd = openFile(PROBPATH +"/in/" + to_string(testCaseNo) +".in", O_RDONLY, 0666); 
         redirectFd(inputFd, STDIN_FILENO, true);         
-        
-        string outputFile = MARKPATH + "/" +  to_string(testCaseNo) + ".out"; 
-        int outputFd = open(outputFile.c_str(), O_CREAT| O_WRONLY | O_TRUNC, 0666); 
-        if(outputFd < 0)
-            throw runtime_error("fail to open " + outputFile); 
+        int outputFd = openFile(MARKPATH + "/" +  to_string(testCaseNo) + ".out", O_CREAT| O_WRONLY | O_TRUNC, 0666); 
         redirectFd(outputFd, STDOUT_FILENO, true); 
 
         //use process control 
         if(lang->getProcCtrlFlag() == true){
-            //setLimitFd(4);
             setLimitProcCount(1); 
             setLimitMemory(pinfo.getMemory());
         }
@@ -171,13 +175,12 @@ ExeResult ExecuteBox::executeTC(int testCaseNo, int& memUsed, int& timeUsed){
             lang->addDynamicExecuteArgs(pinfo.getMemory()); 
         }
         /*TODO
-            writing to file might bring overhead
-            i'd like to use BUFFER
+            writing to file might bring overhead :: i'd like to use BUFFER
             ->  but dup2 need file descripter (C style)
                 and for buffer in memory i can't get file descripter 
-            ->  set sstream reidirect with ostream (C++ style)
+            ->  set sstream redirect with ostream (C++ style)
                 i'm not sure about inner implementation of ostream
-                but this is not working8
+                but i tried but it is not working:(
         */ 
        
         string path = MARKPATH; 
