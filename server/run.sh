@@ -1,5 +1,17 @@
 #!/bin/sh
 
+echo "NODE_ENV=development\n\
+DATABASE=ccm\n\
+HOST=127.0.0.1\n\
+USERNAME=codi\n\
+PASSWORD=codicodi\n\
+PORT=5000\n\
+PWD=$(pwd)" > .env
+
+docker stop asd
+sleep 1
+docker rm asd
+
 docker run \
 	-d \
 	--name asd \
@@ -15,7 +27,7 @@ yarn db:create
 
 if [ $? -eq 0 ];then
 	yarn db:migrate
-	yarn db:seed
+	yarn db:seed --seed 20201105164101-user.js
 fi
 
 yarn dev

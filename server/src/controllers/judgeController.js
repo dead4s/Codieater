@@ -1,7 +1,6 @@
 const { spawn } = require('child_process');
 const fs = require('fs');
 const db = require('../models');
-const PWD = '/Users/redundant4u/Documents/project/Codieater';
 
 exports.judgeGet = function(req, res) {
     res.render('../views/index.ejs');
@@ -22,7 +21,7 @@ exports.judgePost = function(req, res) {
         time: TIME
     })
     .then(q => {
-        console.log('history insert complete');
+        console.log('history insertion success');
 
         const MARKNO = q['markNo'];
         let EXTENSION;
@@ -36,8 +35,8 @@ exports.judgePost = function(req, res) {
         fs.mkdirSync(`${PWD}/volume/mark_no/${MARKNO}`);
         fs.writeFileSync(`${PWD}/volume/mark_no/${MARKNO}/Main.` + EXTENSION, CODE, function (e) {
             if(e) {
-                console.log('file write fail');
-                console.log(e);
+                console.log('file writing failed');
+                // console.log(e);
             }
         });
 
@@ -46,8 +45,8 @@ exports.judgePost = function(req, res) {
         system(ARG);
     })
     .catch(e => {
-        console.log('history insert fail');
-        console.log(e);
+        console.log('history insertion failed');
+        // console.log(e);
 
         res.status(500).json({ error: 'something go wrong' });
     });
@@ -94,11 +93,11 @@ const system = function (ARG) {
         db.history.update(query, { where: {userId: ARG['USERID']} })
         .then(res => {
             console.log('history result is updated');
-            console.log(res);
+            // console.log(res);
         })
         .catch(e => {
-            console.log('history result update fail');
-            console.log(e);
+            console.log('history result updating is failed');
+            // console.log(e);
         })
 
         console.log(`child process exited with code ${code}`);
