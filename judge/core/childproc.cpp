@@ -1,6 +1,8 @@
 #include "childproc.hpp"
 
+int killedByAlarm = 0; 
 int alarmTargetPid = -1; 
+
 int onTimeMeasuring = 0; 
 struct timeval tbegin, tend; 
 
@@ -51,7 +53,7 @@ bool endMeasureTime(int& timeUsed){
     return true; 
 }
 
-int startChildProc(string path, string cmd, vector<string> args, vector<string> env){
+int startChildProc(string path, string cmd, vector<string> args, vector<string> env, Seccomp* sec) {
     const char* cpath = path.c_str(); 
     const char* ccmd = cmd.c_str(); 
     
@@ -73,6 +75,8 @@ int startChildProc(string path, string cmd, vector<string> args, vector<string> 
     cargs.push_back(nullptr); 
     char** readyArgs = cargs.data(); 
     //TODO - need to add for env setting 
+    if(sec != nullptr )
+        sec->startFilitering(); 
     execvp(ccmd, &(readyArgs[0])); 
     cerr << strerror(errno) << endl; 
     return -1; 
@@ -166,16 +170,17 @@ bool setLimitMemory(int maxMemory){
 }
 
 
-int killProcess(pid_t pid) {
+int _killProcess(pid_t pid) {
     return kill(pid, SIGKILL);
 }
 
 
-void alarmHandler(int sig) 
+void _alarmHandler(int sig) 
 { 
     cerr << "time limit end kill process" << endl; 
     cerr << "kill pid : " << alarmTargetPid << endl; 
-    killProcess(alarmTargetPid); 
+    _killProcess(alarmTargetPid); 
+    killedByAlarm = 1; 
     alarmTargetPid = -1; 
 } 
 
@@ -193,8 +198,9 @@ bool setLimitTime(int maxTime, int targetPid){
         return false; 
     }
     alarmTargetPid = targetPid; 
+    killedByAlarm = 0; 
     
-    signal(SIGALRM, alarmHandler); 
+    signal(SIGALRM, _alarmHandler); 
     //cerr << strerror(errno) << endl; 
     if(errno != 0){
         cerr << strerror(errno) << endl; 

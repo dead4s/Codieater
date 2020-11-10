@@ -2,7 +2,7 @@ CC = g++
 CFLAGS =  -c -Iiclude
 
 judge : main.o ProblemInfo.o ExecuteBox.o config.o childproc.o JudgeResult.o languageType.o 
-	$(CC) -o judge main.o ProblemInfo.o ExecuteBox.o config.o childproc.o JudgeResult.o languageType.o 
+	$(CC) -o judge main.o ProblemInfo.o ExecuteBox.o config.o childproc.o JudgeResult.o languageType.o -lseccomp
 
 main.o : main.cpp system/parse.hpp core/grade.hpp
 	$(CC) $(CFLAGS) -o $@ main.cpp
@@ -10,7 +10,7 @@ main.o : main.cpp system/parse.hpp core/grade.hpp
 childproc.o : core/childproc.cpp core/childproc.hpp
 	$(CC) $(CFLAGS) -o $@ $< 
 
-ExecuteBox.o : core/ExecuteBox.hpp core/ExecuteBox.cpp lang/*
+ExecuteBox.o : core/ExecuteBox.hpp core/ExecuteBox.cpp lang/* core/Seccomp.hpp
 	$(CC) $(CFLAGS) -o $@ core/ExecuteBox.cpp
 
 JudgeResult.o : IO/JudgeResult.cpp IO/JudgeResult.hpp

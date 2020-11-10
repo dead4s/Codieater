@@ -40,7 +40,13 @@ ExecuteBox::ExecuteBox(ProblemInfo _p)
 ExeResult ExecuteBox::parseSignalValue(int status){
     cerr << "signal number is " <<  WTERMSIG(status) << endl; 
     if(WTERMSIG(status) == SIGKILL){
-        return TIME_LIM_EXCEED; 
+        cerr << "siganl received!!" << endl; 
+        return RUNT_ERR; 
+    }
+    if(WTERMSIG(status) == SIGSYS){
+        cerr << "siganl received!!" << endl; 
+        cerr << "killed by seccomp" << endl; 
+        return RUNT_ERR; 
     }
     if(errno == ENOMEM){ //memory limit fail 
         cerr << strerror(errno) << endl; 
@@ -112,14 +118,15 @@ bool ExecuteBox::compile(char* compileMsg, int msgSize){
         string path = MARKPATH; 
         string cmd = lang->getCompiler(); 
         vector<string> arg = lang->getCompileArgs(); 
-        vector<string> env = lang->getCompileEnvs(); 
+        vector<string> env = lang->getCompileEnvs();
+        Seccomp sec; 
         startChildProc(path, cmd, arg, env); 
     }  
     return 0; 
 }
 
 
-int openFile(string fileName, int flag, int perm){
+int _openFile(string fileName, int flag, int perm){
     int fd = open(fileName.c_str(), flag, perm); 
     if(fd < 0)
         throw runtime_error("fail to open " + fileName);
@@ -148,6 +155,9 @@ ExeResult ExecuteBox::executeTC(int testCaseNo, int& memUsed, int& timeUsed){
                 continue; 
             break; 
         }
+        //get the siganl before resetTimeLimitation
+        extern int killedByAlarm; 
+        int TLE = killedByAlarm; 
         removeLimitTime(); 
         endMeasureTime(timeUsed); 
         if(waitPid == -1)
@@ -156,7 +166,8 @@ ExeResult ExecuteBox::executeTC(int testCaseNo, int& memUsed, int& timeUsed){
         memUsed = getUsedMemory(usedResource); 
         //cpu time is not properly working for java(jvm consumes more clock)
         //timeUsed = getUsedCPUTime(usedResource); 
-
+        if(TLE == 1)
+            return TIME_LIM_EXCEED; 
         if(WIFSIGNALED(status))
             return parseSignalValue(status);
         if(WIFEXITED(status))
@@ -165,9 +176,9 @@ ExeResult ExecuteBox::executeTC(int testCaseNo, int& memUsed, int& timeUsed){
 
     }
     else{//child process
-        int inputFd = openFile(PROBPATH +"/in/" + to_string(testCaseNo) +".in", O_RDONLY, 0666); 
+        int inputFd = _openFile(PROBPATH +"/in/" + to_string(testCaseNo) +".in", O_RDONLY, 0666); 
         redirectFd(inputFd, STDIN_FILENO, true);         
-        int outputFd = openFile(MARKPATH + "/" +  to_string(testCaseNo) + ".out", O_CREAT| O_WRONLY | O_TRUNC, 0666); 
+        int outputFd = _openFile(MARKPATH + "/" +  to_string(testCaseNo) + ".out", O_CREAT| O_WRONLY | O_TRUNC, 0666); 
         redirectFd(outputFd, STDOUT_FILENO, true); 
 
         //use process control 
@@ -191,7 +202,9 @@ ExeResult ExecuteBox::executeTC(int testCaseNo, int& memUsed, int& timeUsed){
         string prog = lang->getExecutor();
         vector<string> arg = lang->getExecuteArgs(); 
         vector<string> env = lang->getExecuteEnvs();
-        startChildProc(path, prog, arg, env); 
+        Seccomp sec; 
+        sec.addAdditionalSeccomp(lang->getWhiteListSyscall()); 
+        startChildProc(path, prog, arg, env, &sec); 
     }
     return JUDGE_ERR; 
 }

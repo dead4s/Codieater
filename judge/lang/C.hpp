@@ -21,6 +21,9 @@ private:
     const string executor = "./main"; 
     vector<string> executeArgs = {}; 
     vector<string> executeEnvs = {}; 
+
+    vector<int> whiteSyscalls = {}; 
+
 public: 
     C(int version){
         if(version == 11){
@@ -59,6 +62,10 @@ public:
 
     virtual const vector<string>& getExecuteEnvs(){
         return executeEnvs; 
+    }
+
+    virtual vector<int> getWhiteListSyscall(){
+        return whiteSyscalls; 
     }
 }; 
 #endif

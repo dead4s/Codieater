@@ -16,7 +16,11 @@ private :
 
     const string executor = "/usr/bin/python2"; 
     vector<string> executeArgs = {"Main.py"}; 
-    vector<string> executeEnvs = {}; 
+    vector<string> executeEnvs = {
+        
+    }; 
+
+    vector<int> whiteSyscalls = {};  
 
 public: 
     virtual const bool getProcCtrlFlag(){
@@ -45,6 +49,10 @@ public:
 
     virtual const vector<string>& getExecuteEnvs(){
         return executeEnvs; 
+    }
+
+    virtual vector<int> getWhiteListSyscall(){
+        return whiteSyscalls; 
     }
 }; 
 

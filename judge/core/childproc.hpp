@@ -8,6 +8,7 @@
 #include <signal.h> 
 #include <sys/resource.h>
 #include <sys/time.h>
+#include "Seccomp.hpp"
 #include "../system/config.hpp"
 #include "../system/error.hpp"
 
@@ -48,6 +49,6 @@ int getUsedCPUTime(struct rusage& resource);
     args : argument to pass in string array 
     env  : envirnoment varible to set in child process
 */
-int startChildProc(string path, string cmd, vector<string> args, vector<string> env); 
+int startChildProc(string path, string cmd, vector<string> args, vector<string> env, Seccomp* sec = nullptr); 
 
 #endif

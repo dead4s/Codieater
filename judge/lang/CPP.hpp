@@ -21,6 +21,7 @@ private:
     const string executor = "./main"; 
     vector<string> executeArgs = {}; 
     vector<string> executeEnvs = {}; 
+    vector<int> whiteSyscalls = {}; 
 
 public: 
     CPP(int version){
@@ -63,6 +64,10 @@ public:
 
     virtual const vector<string>& getExecuteEnvs(){
         return executeEnvs; 
+    }
+
+    virtual vector<int> getWhiteListSyscall(){
+        return whiteSyscalls; 
     }
 }; 
 #endif

@@ -18,7 +18,7 @@ private:
         "Main"
     }; 
     vector<string> executeEnvs = {}; 
-
+    vector<int> whiteSyscalls = {}; 
 public: 
     JAVA_11(){}
 
@@ -63,6 +63,10 @@ public:
         if(exitCode == 1)
             return MEM_LIM_EXCEED; 
         return RUNT_ERR; 
+    }
+
+    virtual vector<int> getWhiteListSyscall(){
+        return whiteSyscalls; 
     }
 }; 
 #endif

@@ -5,6 +5,7 @@
 #include <vector>
 #include <map>
 #include <algorithm> 
+#include "Seccomp.hpp"
 using namespace std; 
 
 enum ExeResult {MEM_LIM_EXCEED, TIME_LIM_EXCEED, RUNT_ERR, JUDGE_ERR, GOOD}; 
@@ -28,6 +29,8 @@ public:
             return GOOD; 
         return RUNT_ERR; 
     }
+
+    virtual vector<int> getWhiteListSyscall() = 0; 
 }; 
 
 #endif

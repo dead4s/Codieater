@@ -17,6 +17,30 @@ private :
     vector<string> executeArgs = {"Main.py"}; 
     vector<string> executeEnvs = {}; 
 
+    vector<int> whiteSyscalls = {
+        SCMP_SYS(),
+        SCMP_SYS(brk),
+        SCMP_SYS(munmap),
+        SCMP_SYS(mmap),
+        //file
+        SCMP_SYS(openat),
+        SCMP_SYS(fstat),
+        SCMP_SYS(read),
+        SCMP_SYS(write),
+        SCMP_SYS(writev),
+        SCMP_SYS(lseek),
+        SCMP_SYS(close),
+        SCMP_SYS(pread64),
+        //execvp 
+        SCMP_SYS(open),
+        SCMP_SYS(access),
+        SCMP_SYS(execve),
+        //other
+        SCMP_SYS(arch_prctl),
+        SCMP_SYS(exit_group),
+        SCMP_SYS(execve),
+    }; 
+
 public: 
     virtual const bool getProcCtrlFlag(){
         return processCtrl; 
@@ -44,6 +68,10 @@ public:
 
     virtual const vector<string>& getExecuteEnvs(){
         return executeEnvs; 
+    }
+    
+    virtual vector<int> getWhiteListSyscall(){
+        return whiteSyscalls; 
     }
 }; 
 
