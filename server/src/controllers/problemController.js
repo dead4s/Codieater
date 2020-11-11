@@ -4,9 +4,59 @@ const db = require('../models');
 const fs = require('fs');
 const PWD = process.env.WORKDIR;
 
-exports.index = function (req, res) {
-    res.render('../views/problem/index.ejs');
+exports.index = async function (req, res) {
+    await db.problem.findAll({
+        raw: true,
+        attributes: ['probNo', 'title'],
+        /* TODO - Help !!! 
+        include : [
+            {
+                model: problem_tag, 
+                as : 'tags',    
+                attributes: ['tagId', 'tagName'], 
+                through : {
+                    attributes: [], 
+                }
+            },
+        ]
+        */
+    })
+    .then (q => {
+        console.log(q); 
+        console.log('success'); 
+        res.render('../views/problem/index.ejs', {PLIST : q});
+    })
+    .catch(e => {
+        console.log(q); 
+        console.log('error while loading problemlist'); 
+    });
 }
+
+exports.problemGet = async function(req, res){    
+    await db.problem.findOne({
+        raw: true,
+        where : {probNo: req.params.no}
+        //attributes: ['probNo', 'title', 'userId', 'description', 'memoryLim', 'timeLim', 'sampleInput', 'sampleOutput'],
+        /* TODO - Help !!! 
+            출제자 id, 
+            태그 정보 
+        */
+    })
+    .then (q => {
+        console.log(q); 
+        console.log('success'); 
+        if(!q){
+            console.log("wrong problem number back to problem list"); 
+            res.redirect('/problem')
+        }
+        res.render('../views/problem/info.ejs', {PINFO : q}); 
+    })
+    .catch(e => {
+        console.log(q); 
+        console.log('error while loading problemlist'); 
+    });
+}
+
 
 exports.registerGet = function (req, res) {
     db.tag.findAll({

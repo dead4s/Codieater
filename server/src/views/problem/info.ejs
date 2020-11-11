@@ -1,0 +1,62 @@
+<!DOCTYPE HTML>
+<html lang="ko">
+<head>
+    <%- include('../layout/head') %>
+    <link rel="stylesheet" type="text/css" href="/public/css/problemInfo.css">
+<!-- code mirror -->
+<script type="text/javascript" src='https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.39.0/codemirror.min.js'></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.39.0/mode/xml/xml.min.js"></script>
+<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.39.0/codemirror.min.css'>
+    <title>Problem List</title>
+</head>
+<body>
+	<div class="papyrus">
+        <%- include('../layout/nav') %>
+        <div class="body container">
+            <div class="problem-title"><%=PINFO.title%></div>
+            <div class="problem-box">
+                <div class = "problem-info">
+                    <div class = "moreInfobtn">+
+                    </div>
+                    <div class = "moreInfo">
+                        <span class="label label-default">Default</span>
+                        <span class="label label-primary">Success</span>
+                        <span class="label label-success">Success</span>
+                        <span class="label label-info">Info</span>
+                        <span class="label label-warning">Warning</span>
+                        <span class="label label-danger">Inverse</span>
+
+                        <p>made by <%=PINFO.title%></p>
+                        <br>
+                    </div>
+                    <div class = "problem-element">
+                        <span class="label label-default">문제설명</span>
+                         <br>
+                        <%=PINFO.description%>
+                    </div>
+                    <div class = "problem-element">
+                        <span class="label label-default">메모리시간 제한</span>
+                         <br>
+                        메모리 제한 : <%=PINFO.memoryLim%> MB 
+                        시간 제한 : <%=PINFO.memoryLim%> millisec 
+                    </div>
+                    <div class = "problem-element">
+                        <span class="label label-default">입력 예제</span>
+                         <br>
+                        <%=PINFO.sampleInput%>
+                    </div>
+                    <div class = "problem-element">
+                        <span class="label label-default">출력 예제</span>
+                         <br>
+                        <%=PINFO.sampleOutput%>
+                    </div>
+                </div>
+                <div class = "editor">
+                    <p> space for editor / codemirror</p>
+                </div>
+            </div>
+        </div>
+        <%- include('../layout/footer') %>
+    </div>
+</body>
+</html>

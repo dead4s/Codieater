@@ -1,0 +1,70 @@
+<!DOCTYPE HTML>
+<html lang="ko">
+<head>
+    <%- include('../layout/head') %>
+    <link rel="stylesheet" type="text/css" href="/public/css/problem.css">
+    <title>Problem List</title>
+</head>
+<body>
+	<div class="papyrus">
+        <%- include('../layout/nav') %>
+        <div class="body container">
+            <div class="container">
+                <div class="problem-header">문제리스트</div>
+                <hr>
+                <div class="problem-subheader">A life is one long effort to escape from the commonplace of existence<br>
+                    These little problems help me to do so.
+                </div>
+                <div class = "searchbox">
+                    <form class="form-inline md-form mr-auto">
+                        <input class="form-control" type="text" placeholder="Search" aria-label="Search">
+                        <button class="btn btn-unique btn-rounded" type="submit">Search</button>
+                    </form>
+                </div>
+                <table class="problemlist-table table table-hover">
+                    <thead>
+                        <tr class = problemlist-row>
+                            <th>번호</th>
+                            <th>제목</th>
+                            <th>태그</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class = problemlist-row>
+                            <td>0</td>
+                            <td><a href="/problem/0">sampleData</a></td>
+                            <td><span class="label label-default">Default</span>
+                                <span class="label label-primary">Success</span>
+                                <span class="label label-success">Success</span>
+                                <span class="label label-info">Info</span>
+                                <span class="label label-warning">Warning</span>
+                                <span class="label label-danger">Inverse</span>
+                            </td>
+                        </tr>
+                        <%
+                        for(var i = 0; i < PLIST.length; i++){
+                            var problemData = PLIST[i];
+                        %> 
+                        <tr class = problemlist-row>
+                            <td><%=problemData.probNo%></td>
+                            <td><a href="/problem/<%=problemData.probNo%>"><%=problemData.title%></a></td>
+                            <td>
+                                <%
+                                    /* TO shot tag with coloring
+                                    for(var j = 0; j < problemData.tag.length; j++){
+                                        let tagName = tag[j];  
+                                        let color = tag
+                                    }*/ 
+                                %>
+                            </td>
+                        </tr>
+                        <%}%>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <%- include('../layout/footer') %>
+    </div>
+</body>
+</html>
