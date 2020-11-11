@@ -9,7 +9,7 @@
     "db:drop": "sequelize db:drop",
     "db:create": "sequelize db:create",
     "db:migrate": "sequelize db:migrate",
-    "db:seed": "sequelize db:seed:all",
+    "db:seed": "sequelize db:seed",
     "db:seed:del": "sequelize db:seed:undo:all"
   },
   "dependencies": {

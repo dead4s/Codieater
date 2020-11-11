@@ -3,6 +3,8 @@ module.exports = (sequelize, DataTypes) => {
   const tag = sequelize.define('tag', {
     tagId: {
       type: DataTypes.INTEGER,
+      allowNull: false,
+      autoIncrement: true,
       primaryKey: true,
     },
     tagName: DataTypes.STRING(30),

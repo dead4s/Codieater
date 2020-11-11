@@ -1,28 +1,46 @@
 <!DOCTYPE HTML>
 <html lang="ko">
 <head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <%- include('../layout/head') %>
+    <link rel="stylesheet" type="text/css" href="/public/css/judge.css">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
 	<title>judge</title>
 </head>
 <body>
-	<div>
-        <form action="judge" method="POST">
-            <label>user_id</label>
-            <input type="text" name="userid"><br>
+	<div class="papyrus">
+        <%- include('../layout/nav') %>
+        <div class="body col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+            <form id="judge" action="/judge" method="POST">
+                <input type="hidden" name="userid" value="<%= USERID %>">
 
-            <label>code</label>
-            <textarea name="code" cols="20" rows="20"></textarea><br>
-
-            <label>language</label>
-            <select name="lang">
-                <option value="0CPP14">CPP14</option>
-                <option value="1PYTHON3">PYTHON3</option>
-                <option value="2PYTHON2">PYTHON2</option>
-            </select><br>
-
-            <input type="submit" value="submit">
-        </form>
+                <div class="row">
+                    <label>코드</label>
+                    <textarea class="form-control" name="code" rows="20" form="judge"></textarea>
+                </div>
+                <div class="row">
+                    <label>언어</label>
+                    <select class="language form-control" name="lang">
+                        <option value="0C">C</option>
+                        <option value="1CPP17">Cpp17</option>
+                        <option value="2CPP14">Cpp14</option>
+                        <option value="3PYTHON3">Python3</option>
+                        <option value="4PYTHON2">Python2</option>
+                        <option value="5JAVA">Java</option>
+                    </select>
+                </div>
+                <div class="row" style="text-align: right; margin-top: 2rem;">
+                    <div class="col-md-6"></div>
+                    <div class="col-md-6">
+                        <button type="submit" class="btn btn-primary">제출</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <%- include('../layout/footer') %>
     </div>
+    <script>
+        $(".language").select2({});
+    </script>
 </body>
 </html>

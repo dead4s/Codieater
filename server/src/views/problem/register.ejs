@@ -11,7 +11,7 @@
 	<div class="papyrus">
         <%- include('../layout/nav') %>
         <div class="body col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
-            <form id="register" action="register" method="POST" class="register">
+            <form id="register" action="register" method="POST" enctype="multipart/form-data" class="register">
                 <div class="register-header">문제 등록 페이지 입니다.</div><hr>
                 <div class="register-body">
                     <div class="row">
@@ -37,12 +37,16 @@
                         <label class="radio-inline"><input type="radio" name="time" value="3">3</label>
                     </div>
                     <div class="row">
-                        <label>5. 입력</label>
-                        <textarea rows="5" name="input" form="register" class="form-control"></textarea>
+                        <label>5. 입력 설명</label>
+                        <textarea rows="5" name="input" form="register" class="form-control"></textarea><br>
+                        <label>입력 파일</label>
+                        <input type="file" name="inputfile" multiple>
                     </div>
                     <div class="row">
-                        <label>6. 출력</label>
-                        <textarea rows="5" name="output" form="register" class="form-control"></textarea>
+                        <label>6. 출력 설명</label>
+                        <textarea rows="5" name="output" form="register" class="form-control"></textarea><br>
+                        <label>출력 파일</label>
+                        <input type="file" name="outputfile" multiple>
                     </div>
                     <div class="row">
                         <div class="col-sm-6" style="padding-left: 0;">

@@ -7,9 +7,14 @@ module.exports = (sequelize, DataTypes) => {
       primaryKey: true,
       allowNull: false,
     },
+    title: DataTypes.STRING(30),
     description: DataTypes.TEXT,
-    timeLim: DataTypes.REAL,
     memoryLim: DataTypes.SMALLINT,
+    timeLim: DataTypes.REAL,
+    input: DataTypes.TEXT,
+    output: DataTypes.TEXT,
+    sampleInput: DataTypes.TEXT,
+    sampleOutput: DataTypes.TEXT
     // create_at: DataTypes.DATE
   }, { tableName: 'problem' });
 
