@@ -1,7 +1,7 @@
 const { spawn } = require('child_process');
 const fs = require('fs');
 const db = require('../models');
-const PWD = '/Users/redundant4u/Documents/project/Codieater';
+const PWD = '~/Codieater/Codieater';
 
 exports.judgeGet = function(req, res) {
     res.render('../views/index.ejs');
