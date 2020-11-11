@@ -5,7 +5,5 @@ RUN apt-get update
 RUN apt-get install -y gcc g++ python3 python2 build-essential 
 
 WORKDIR /home/judge
-#ENTRYPOINT [ "/home/judge/run.sh" ]
 
-CMD ["sh", "-c", "tail -f /dev/null"]
-
+# CMD ["sh", "-c", "tail -f /dev/null"]
