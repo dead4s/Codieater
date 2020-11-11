@@ -6,15 +6,14 @@ HOST=127.0.0.1\n\
 USERNAME=codi\n\
 PASSWORD=codicodi\n\
 PORT=5000\n\
-PWD=$(pwd)" > .env
+WORKDIR=$(cd ..;pwd)" > .env
 
-docker stop asd
-sleep 1
-docker rm asd
+docker volume create --name pg_data
 
 docker run \
 	-d \
-	--name asd \
+	--name pg \
+	-v pg_data:/var/lib/postgresql/data \
 	-e POSTGRES_USER=codi \
 	-e POSTGRES_PASSWORD=codicodi \
 	-e LANG=ko_KR.utf8 \

@@ -1,4 +1,6 @@
 const router = require('express').Router();
+const multer = require('multer');
+const upload = multer();
 
 const user = require('./api/user');
 router.use('/user', user);
@@ -17,11 +19,14 @@ router.get('/logout', userController.logout);
 
 router.get('/problem', problemController.index);
 router.get('/problem/register', problemController.registerGet);
-router.post('/problem/register', problemController.registerPost);
+router.post('/problem/register', 
+    upload.fields([
+        { name: 'inputfile', maxCount: 50 },
+        { name: 'outputfile', maxCount: 50 }
+    ]),
+    problemController.registerPost);
 
 router.get('/judge', judgeController.judgeGet);
 router.post('/judge', judgeController.judgePost);
-
-router.get('/test', problemController.test);
 
 module.exports = router;

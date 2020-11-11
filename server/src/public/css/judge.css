@@ -1,0 +1,9 @@
+.row {
+    padding-bottom: 3rem;
+    font-size: 1.6rem;
+}
+
+.result-table {
+    height: 25rem;
+    overflow: auto;
+}

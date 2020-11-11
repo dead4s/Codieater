@@ -8,7 +8,3 @@ RUN apt-get install -y libseccomp-dev
 #COPY ../../judge /home/judge
 
 WORKDIR /home/judge
-
-#RUN cd /home/judge && make
-
-CMD ["sh", "-c", "tail -f /dev/null"]

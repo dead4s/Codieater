@@ -1,32 +1,46 @@
 <!DOCTYPE HTML>
 <html lang="ko">
 <head>
-    <% include ('../layout/head') %>
+    <%- include ('../layout/head') %>
+    <link rel="stylesheet" type="text/css" href="/public/css/judge.css">
 	<title>judge</title>
 </head>
 <body>
-	<div>
-       <p>USERID: <%= USERID %></p>
-       <p>CODE</p>
-       <textarea cols="20" rows="20"><%- CODE %></textarea>
-       <p>LANGUAGE: <%= LANG %></p>
-    </div>
-    <div>
-        <p>SCORE: <%= SCORE %></p>
-        <table>
-            <tbody>
-                <tr>
-                    <td>PROBLEM</td>
-                    <td>RESULT</td>
-                </tr>
-                <% for( let i = 0; i < JUDGERES['result'].length; i++ ) { %>
-                <tr>
-                    <td><%= i + 1 %></td>
-                    <td><%= JUDGERES['result'][i]['msg'] %></td>
-                </tr>
-                <% } %>
-            </tbody>
-        </table>
+	<div class="papyrus">
+        <%- include('../layout/nav') %>
+        <div class="body col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+            <div class="row">
+                <label>코드</label>
+                <textarea rows="10" readonly><%- CODE %></textarea>
+            </div>
+            <div class="row">
+                <label>점수: <%= SCORE %></label>
+            </div>
+            <div class="row">
+                <label>결과: </label>
+                <div class="result-table">
+                    <table class="table table-striped">
+                        <tbody>
+                            <tr>
+                                <td>No</td>
+                                <td>msg</td>
+                            </tr>
+                            <% for( let i = 0; i < JUDGERES['result'].length; i++ ) { %>
+                            <tr>
+                                <td><%= i + 1 %></td>
+                                <td><%= JUDGERES['result'][i]['msg'] %></td>
+                            </tr>
+                            <% } %>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="row">
+                <label>컴파일 메시지:</label>
+                <textarea rows="20" readonly class="form-control">COMPILE</textarea>
+            </div>
+        </div>
+        <%- include('../layout/footer') %>
     </div>
 </body>
 </html>

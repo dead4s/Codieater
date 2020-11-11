@@ -1,23 +1,47 @@
+require('dotenv').config();
+
 const { spawn } = require('child_process');
 const fs = require('fs');
 const db = require('../models');
+const PWD = process.env.WORKDIR;
 
 exports.judgeGet = function(req, res) {
-    res.render('../views/index.ejs');
+    try {
+        const USERID = req.user.idx;
+        res.render('../views/judge/index.ejs', { USERID: USERID });
+    }
+    catch(e) {
+        res.redirect('/');
+        // console.log(e);
+    }
 }
 
-exports.judgePost = function(req, res) {
-    const USERID = req.body.userid;
+exports.judgePost = async function(req, res) {
+    const USERID = req.user.idx;
     const PROBNO = 1; // read from db
     const CODE = decodeEntities(req.body.code);
     const LANG = req.body.lang;
     const LANGKIND = LANG.substring(1, LANG.length);
-    const TIME = 1; // read from db
+    let MEM;
+    let TIME;
+
+    await db.problem.findOne({
+        raw: true,
+        where: { probNo: PROBNO }
+    })
+    .then(q => {
+        MEM = q['memoryLim'];
+        TIME = q['timeLim']
+    })
+    .catch(e => {
+        console.log(e);
+    })
 
     db.history.create({
         probNo: PROBNO,
         userId: USERID,
         lang: LANG,
+        memory: MEM,
         time: TIME
     })
     .then(q => {
@@ -63,7 +87,7 @@ const system = function (ARG) {
         '-v', `${PWD}/judge:/home/judge`,
         '-v', `${PWD}/volume/mark_no/${ARG['MARKNO']}:/home/mark`,
         '-v', `${PWD}/volume/prob_no/${ARG['PROBNO']}:/home/prob`,
-        'judge:1.0', 'sh', '-c', `./judge -l ${ARG['LANGKIND']}`
+        'codi_judge:1.0', 'sh', '-c', `./judge -l ${ARG['LANGKIND']}`
     ]);
 
     docker.stdout.on('data', (data) => {
