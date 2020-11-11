@@ -1,4 +1,8 @@
+require('dotenv').config();
+
 const db = require('../models');
+const fs = require('fs');
+const PWD = process.env.WORKDIR;
 
 exports.index = function (req, res) {
     res.render('../views/problem/index.ejs');
@@ -21,34 +25,42 @@ exports.registerGet = function (req, res) {
     });
 }
 
-exports.registerPost = function (req, res) {
-    const TITLE = req.body['title'];
-    const DESCRIPTION = req.body['description'];
-    const MEM = req.body['memory'];
-    const TIME = req.body['time'];
-    const INPUT = req.body['input'];
-    const OUTPUT = req.body['output'];
-    const SAMPLEINPUT = req.body['sampleinput'];
-    const SAMPLEOUTPUT = req.body['sampleoutput'];
-    const TAGS = req.body['tag'];
+exports.registerPost = async function (req, res) {
+    const TITLE         =   req.body['title'];
+    const DESCRIPTION   =   req.body['description'];
+    const MEM           =   req.body['memory'];
+    const TIME          =   req.body['time'];
+    const INPUT         =   req.body['input'];
+    const OUTPUT        =   req.body['output'];
+    const INPUTFILE     =   req.files['inputfile'];
+    const OUTPUTFILE    =   req.files['outputfile'];
+    const SAMPLEINPUT   =   req.body['sampleinput'];
+    const SAMPLEOUTPUT  =   req.body['sampleoutput'];
+    let TAGS;
+
+    // tag가 하나 일 때는 array가 아닌 string으로 인식해서 변환
+    if( typeof(req.body['tag']) == 'string' )
+        TAGS = req.body['tag'].split();
+    else 
+        TAGS = req.body['tag'];
 
     let tagsId = [];
 
     // if tag is new, create
-    TAGS.forEach(elem => {
-        db.tag.findAll({
+    for( let i = 0; i < TAGS.length; i++ ) {
+        await db.tag.findAll({
             raw: true,
             attributes: [ 'tagId', 'tagName' ],
-            where: { tagName: elem }
+            where: { tagName: TAGS[i] }
         })
         .then(q => {
             // if tag is new
             if(!q[0]) {
-                console.log(q[0]);
                 db.tag.create({
-                    tagName: elem
+                    tagName: TAGS[i]
                 })
                 .then(q => {
+                    tagsId.push(q['tagId']);
                     console.log('tag insertion success');
                 })
                 .catch(e => {
@@ -56,13 +68,14 @@ exports.registerPost = function (req, res) {
                 })
             }
 
-            tagsId.push(q[0]['tagId']);
+            else tagsId.push(q[0]['tagId']);
         })
         .catch(e => {
             // console.log(e);
         })
-    });
+    }
 
+    // create problem
     db.problem.create({
         userId: 1,
         title: TITLE,
@@ -75,6 +88,32 @@ exports.registerPost = function (req, res) {
         sampleOutput: SAMPLEOUTPUT,
     })
     .then(q => {
+        // insert input, output data
+        const PATH = `${PWD}/volume/prob_no/` + q['probNo'];
+        const INPATH = `${PWD}/volume/prob_no/` + q['probNo'] + '/in';
+        const OUTPATH = `${PWD}/volume/prob_no/` + q['probNo'] + '/out';
+
+        fs.mkdirSync(PATH);
+        fs.mkdirSync(INPATH);
+        fs.mkdirSync(OUTPATH);
+
+        for( let i = 1; i < INPUTFILE.length + 1; i++ ) {
+            fs.writeFileSync( INPATH + '/' + i + '.in', INPUTFILE[i-1].buffer, function(e) {
+                if(e) {
+                    console.log('input file insertion failed');
+                    console.log(e);
+                }
+            });
+
+            fs.writeFileSync( OUTPATH + '/' + i + '.out', OUTPUTFILE[i-1].buffer, function(e) {
+                if(e) {
+                    console.log('output file insertion failed');
+                    console.log(e);
+                }
+            });
+        }
+
+        // tag connect
         tagsId.forEach(elem => {
             db.problem_tag.create({
                 probNo: q['probNo'],
@@ -95,35 +134,9 @@ exports.registerPost = function (req, res) {
     })
     .catch(e => {
         console.log('problem insertion failed');
-        // console.log(e);
+        console.log(e);
 
     });
 
     res.redirect('/');
-}
-
-exports.test = function (req, res) {
-    try{
-    db.problem.findAll({
-        raw: true,
-        include: [{
-            model: db.tag,
-            as: 'tags',
-            attributes: [ 'tagId', 'tagName' ],
-            where:  { tagId: 2 }
-        }]
-    })
-    .then(q => {
-        console.log(q);
-        console.log(q[0]["tags.tagName"]);
-        // console.log(q);
-    })
-    .catch(e => {
-        console.log(e);
-        console.log('error');
-    });
-    }
-    catch(e) { console.log(e); }
-
-    res.send('hi');
 }

@@ -25,7 +25,8 @@ exports.signup = (req, res, next) => {
           error_count: 0,
         })
         .then(() => {
-          res.status(201).json({ code: 0, data: { msg: 'Signup Successful' } });
+          // res.status(201).json({ code: 0, data: { msg: 'Signup Successful' } });
+          res.redirect('/');
         })
         .catch((err) => {
           res.status(500).json({
