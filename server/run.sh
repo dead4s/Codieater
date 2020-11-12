@@ -20,6 +20,9 @@ docker run \
 	-p 5432:5432 \
 	codi_db:1.0
 
+if [ $? -eq 125 ];then
+	docker start pg_data
+
 yarn
 sleep 1
 yarn db:create
@@ -27,10 +30,6 @@ yarn db:create
 if [ $? -eq 0 ];then
 	yarn db:migrate
 	yarn db:seed --seed 20201105164101-user.js
-	yarn db:seed --seed 20201105164110-problem.js
-	yarn db:seed --seed 20201105164124-history.js
-	yarn db:seed --seed 20201109062721-tag.js
-	yarn db:seed --seed 20201109063318-problem_tag.js
 fi
 
 yarn dev

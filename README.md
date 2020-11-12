@@ -10,9 +10,10 @@
 
 ## Run
 ```
-$ cd docker
-$ docker build -t codi_db:1.0 -f pg.dockerfile .
-$ docker build -t codi_judge:1.0 -f judge.dockerfile .
+$ git clone https://github.com/Codieater/Codieater.git
+$ cd Codieater
+$ docker build -t codi_db:1.0 -f docker/pg.dockerfile .
+$ docker build -t codi_judge:2.0 -f docker/judge.dockerfile .
 ```
 도커로 돌릴 postgres와 judge 도커파일을 빌드해서 이미지로 만든다.
 
@@ -41,10 +42,8 @@ http://localhost:5000
 
 ## Reference
 - node >  MIT License 
-- postgres - PostgreSQL License > <https://www.postgresql.org/about/licence/>
+- postgres - PostgreSQL License(<https://www.postgresql.org/about/licence/)
 - docker > Apache License 2.0
-- jQuery > MIT License
-- Bootstrap > MIT License
 
 
 ## License
