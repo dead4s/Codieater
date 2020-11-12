@@ -5,37 +5,57 @@ const fs = require('fs');
 const PWD = process.env.WORKDIR;
 
 exports.index = async function (req, res) {
-    try{
-    let PROBDATA = new Array();
+    const listCount = 15; 
+    
+    //get total problem number
+    const totalProblem = await db.problem.findAndCountAll();
+    const totalCount = totalProblem["count"]; 
+    let pageCount = Math.ceil(totalCount / listCount); 
+    
+    //current page and page range
+    let reqPage = req.query.page; 
+    let currentPage = parseInt(reqPage); 
+    if(!currentPage)
+        currentPage = 1;  
+    if( currentPage > pageCount)
+        currentPage = pageCount; 
+    if (currentPage <= 0)
+        currentPage = 1;     
 
-    db.problem.findAll({
+    let pageNavStart = currentPage - 2;  
+    if(pageNavStart <= 0)
+        pageNavStart = 1;
+    let pageNavEnd = currentPage + 2; 
+    if(pageNavEnd > pageCount)
+        pageNavEnd = pageCount; 
+    
+
+    await db.problem.findAll({
         raw: true,
+        offset: (currentPage - 1) * listCount, 
+        limit: listCount, 
         attributes: ['probNo', 'title'],
-        include: [
-            {
-                model: db.tag,
-                attributes: ['tagName'],
-                // as: 'tag'
-                through: {
-                    attributes: []
-                }
-            }
-        ]
+        // include: [
+        //     {
+        //         model: db.tag,
+        //         attributes: ['tagName'],
+        //         // as: 'tag'
+        //         through: {
+        //             attributes: []
+        //         }
+        //     }
+        // ]
     })
     .then(q => {
         console.log(q);
 
         console.log('success'); 
-        // res.render('../views/problem/index.ejs', {PLIST : q});
+        res.render('../views/problem/index.ejs', {PLIST : q, PGSTART : pageNavStart, PGEND : pageNavEnd, PGCURRENT : currentPage});
     })
     .catch(e => {
         console.log(e); 
         console.log('error while loading problemlist'); 
     });
-}
-catch(e) { console.log(e); }
-
-    res.send('1');
 }
 
 exports.problemGet = async function(req, res){    
@@ -136,7 +156,7 @@ exports.registerPost = async function (req, res) {
 
     // create problem
     await db.problem.create({
-        userId: 1,
+        userId: req.user.idx,
         title: TITLE,
         description: DESCRIPTION,
         memoryLim: MEM,
@@ -157,7 +177,7 @@ exports.registerPost = async function (req, res) {
         fs.mkdirSync(OUTPATH);
 
         for( let i = 1; i < INPUTFILE.length + 1; i++ ) {
-            fs.writeFileSync( INPATH + '/' + i + '.in', INPUTFILE[i-1].buffer, function(e) {
+            fs.writeFileSync( INPATH + '/' + INPUTFILE[i-1].originalname, INPUTFILE[i-1].buffer, function(e) {
                 if(e) {
                     console.log('input file insertion failed');
                     console.log(e);
@@ -197,6 +217,5 @@ exports.registerPost = async function (req, res) {
 
     });
 
-    // res.redirect('/');
-    res.send('1');
+    res.redirect('/');
 }

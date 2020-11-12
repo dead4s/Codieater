@@ -5,20 +5,9 @@ const fs = require('fs');
 const db = require('../models');
 const PWD = process.env.WORKDIR;
 
-exports.judgeGet = function(req, res) {
-    try {
-        const USERID = req.user.idx;
-        res.render('../views/judge/index.ejs', { USERID: USERID });
-    }
-    catch(e) {
-        res.redirect('/');
-        // console.log(e);
-    }
-}
-
 exports.judgePost = async function(req, res) {
     const USERID = req.user.idx;
-    const PROBNO = 1; // read from db
+    const PROBNO = req.body.userid; // read from db
     const CODE = decodeEntities(req.body.code);
     const LANG = req.body.lang;
     const LANGKIND = LANG.substring(1, LANG.length);

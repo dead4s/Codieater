@@ -3,10 +3,10 @@
 <head>
     <%- include('../layout/head') %>
     <link rel="stylesheet" type="text/css" href="/public/css/problemInfo.css">
-<!-- code mirror -->
-<script type="text/javascript" src='https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.39.0/codemirror.min.js'></script>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.39.0/mode/xml/xml.min.js"></script>
-<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.39.0/codemirror.min.css'>
+    <!-- code mirror -->
+    <script src="/public/codemirror/lib/codemirror.js"></script>
+    <link rel="stylesheet" href="/public/codemirror/lib/codemirror.css">
+    <script src ="/public/codemirror/mode/clike/clike.js"></script>
     <title>Problem List</title>
 </head>
 <body>
@@ -15,48 +15,124 @@
         <div class="body container">
             <div class="problem-title"><%=PINFO.title%></div>
             <div class="problem-box">
+                
+                <!--problem content -->
                 <div class = "problem-info">
-                    <div class = "moreInfobtn">+
+                    <div class = "moreInfobtn" onmouseover="showInfo()" onmouseout="hideInfo()">
+                        +
                     </div>
-                    <div class = "moreInfo">
-                        <span class="label label-default">Default</span>
-                        <span class="label label-primary">Success</span>
-                        <span class="label label-success">Success</span>
-                        <span class="label label-info">Info</span>
-                        <span class="label label-warning">Warning</span>
-                        <span class="label label-danger">Inverse</span>
-
-                        <p>made by <%=PINFO.title%></p>
-                        <br>
-                    </div>
-                    <div class = "problem-element">
-                        <span class="label label-default">문제설명</span>
+                    <div class ="problem-element moreInfo" id ="moreInfo">
+                        <label> 추가 정보</label>
+                        <!--<span class="label label-default">문제설명</span>-->
                          <br>
-                        <%=PINFO.description%>
+                         <p>made by <%=PINFO.title%></p>
+                         <br>
                     </div>
                     <div class = "problem-element">
-                        <span class="label label-default">메모리시간 제한</span>
+                        <label> 문제 설명</label>
+
+                        <!--<span class="label label-default">문제설명</span>-->
+                         <br>
+                        <%-PINFO.description%>
+                    </div>
+                    <div class = "problem-element">
+                        <label> 제한 사항</label>
+                        <!--<span class="label label-default">제한사항</span>-->
                          <br>
                         메모리 제한 : <%=PINFO.memoryLim%> MB 
-                        시간 제한 : <%=PINFO.memoryLim%> millisec 
+                        시간 제한 : <%=PINFO.timeLim%> sec 
                     </div>
                     <div class = "problem-element">
-                        <span class="label label-default">입력 예제</span>
+                        <label> 입력 예제</label>
+                        <!--<span class="label label-default">입력 예제</span>--> 
                          <br>
-                        <%=PINFO.sampleInput%>
+                        <%-PINFO.sampleInput%>
                     </div>
                     <div class = "problem-element">
-                        <span class="label label-default">출력 예제</span>
+                        <label> 출력 예제</label>
+                        <!--<span class="label label-default">출력 예제</span>-->
                          <br>
-                        <%=PINFO.sampleOutput%>
+                        <%-PINFO.sampleOutput%>
                     </div>
                 </div>
+
+                <!--editor content -->
                 <div class = "editor">
-                    <p> space for editor / codemirror</p>
+                    <form id="judge" action="/judge" method="POST">
+                        <input type="hidden" name="userid" value="<%= PINFO.probNo %>">
+                        <div class="language">
+                            <label>언어</label>
+                            <br>
+                            <div class = "language-select" onchange="select(this)">
+                            <select class="form-control" name="lang">
+                                <option value="0CPP11">Cpp11</option>
+                                <option value="1CPP14">Cpp14</option>
+                                <option value="2CPP17">Cpp17</option>
+                                <option value="3PYTHON2">Python2</option>
+                                <option value="4PYTHON3">Python3</option>
+                                <option value="5C11">C11</option>
+                                <option value="6C99">C99</option>
+                                <option value="7JAVA11">Java11</option>
+                            </select>
+                            <button type="submit" class="btn btn-primary">제출</button>
+                            </div>
+                        </div>
+
+                        <div class="code">
+                            <label>코드</label>
+                            <div class="codeEditor" id="codeEidtor">
+                            <!--<textarea class="form-control" name="code" rows="20" form="judge"></textarea>--> 
+                            <textarea id="code" name="code"></textarea>
+                            </div>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
         <%- include('../layout/footer') %>
     </div>
+    <script>
+        var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
+            lineNumbers: true,
+            matchBrackets: true,
+            smartIndent : true, 
+            mode: "text/x-csrc"
+        });
+
+        function showInfo(){
+            console.log("here");
+            let moreInfoBox = document.getElementById("moreInfo"); 
+            moreInfoBox.style.display = 'block'; 
+        }
+
+        function hideInfo(){
+            console.log("here");
+            let moreInfoBox = document.getElementById("moreInfo"); 
+            moreInfoBox.style.display = 'none'; 
+        }
+        /*
+        window.addEventListener('resize', reportWindowSize);
+
+        function reportWindowSize() {
+            let width = document.getElementById("codeEditor").offsetWidth; 
+            let height = document.getElementById("codeEitor").offsetHeight; 
+            editor.setSize(width, height); 
+            editor.refresh(); 
+        }
+        */
+
+        editor.setSize("100%", "100%"); 
+        function select(x) {
+            var optionText = x.options[x.selectedIndex].innerText;
+            var modes = {   'Cpp11': 'text/x-csrc', 
+                            'Cpp14': 'text/x-csrc', 
+                            'Cpp17': 'text/x-csrc', 
+                            'Python2' : 'python',
+                            'Python3' : 'python',
+                            'java' : 'text/x-csrc',
+                        };
+            editor.setOption('mode', modes[optionText]);
+        }
+    </script>
 </body>
 </html>

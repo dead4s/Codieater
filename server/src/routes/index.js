@@ -27,8 +27,6 @@ router.post('/problem/register',
     ]),
     problemController.registerPost);
 
-
-router.get('/judge', judgeController.judgeGet);
 router.post('/judge', judgeController.judgePost);
 
 router.get('/info', userController.infoGet);
