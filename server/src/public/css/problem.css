@@ -38,6 +38,7 @@
 /*    width : 80%; */ 
 }
 
+
 .problemlist-row{
     display : flex; 
     flex-direction: row;
@@ -76,6 +77,16 @@
     flex: 2;
 }
 
+.pagination{
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    padding : 0 0 0 0; 
+    margin : 10px 0 10px 0; 
+    align-content: center;
+    align-items: center;
+}
+
 
 .label-default {
     background-color: var(--pale-gray); 
@@ -94,4 +105,9 @@
 }
 .label-danger {
     background-color: var(--pale-red);
+}
+
+.pagination .active a {
+    background-color: var(--pale-blue);
+    border-color : var(--pale-blue);
 }

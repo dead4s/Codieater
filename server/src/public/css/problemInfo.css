@@ -22,6 +22,7 @@
 
 
 .problem-title {
+    margin-left : 1rem; 
     margin-bottom: 1rem;
     font-size: 2.5rem;
     font-weight: bold;
@@ -51,8 +52,11 @@
 
 .problem-box .editor {
     flex : 1;
-    border: 1px solid blue;
-
+    padding : 10 10 10 10;
+    /*border: 1px solid blue;*/
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
 }
 
 .problem-element {
@@ -80,13 +84,7 @@
 }
 
 .moreInfo{
-    display : none;
-    float : left; 
-    margin : 10px 10px 10px 10px; 
-    padding : 10px 10px 10px 10px; 
-    border : 1px dashed lightslategray; 
-    border-radius: 2px;
-    word-break:break-all; 
+    display : none; 
 }
 
 .moreInfobtn:hover .moreInfo>span {
@@ -96,4 +94,41 @@
 
 .moreInfobtn:hover{
     background-color : purple;
+}
+
+.language{
+    margin : 10px 10px 10px 10px; 
+    padding : 10px 10px 10px 10px; 
+}
+
+.language-select{
+    display : inline-block; 
+    width : 100%; 
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.btn-primary{
+    border-color: var(--pale-gray);
+    color: var(--supporting-color);
+    background-color: var(--pale-purple);
+}
+
+.btn-primary:hover{
+    background-color : purple;
+}
+
+.code{
+    margin : 10px 10px 10px 10px; 
+    padding : 10px 10px 10px 10px; 
+    height: 100%;
+    flex : 10;
+    overflow: auto;
+}
+
+.codeEditor{
+    border: solid 1px gray;
+    height: 100%;
+    display: flex;
 }

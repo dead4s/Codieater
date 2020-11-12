@@ -5,8 +5,35 @@ const fs = require('fs');
 const PWD = process.env.WORKDIR;
 
 exports.index = async function (req, res) {
+    const listCount = 15; 
+    
+    //get total problem number
+    const totalProblem = await db.problem.findAndCountAll();
+    const totalCount = totalProblem["count"]; 
+    let pageCount = Math.ceil(totalCount / listCount); 
+    
+    //current page and page range
+    let reqPage = req.query.page; 
+    let currentPage = parseInt(reqPage); 
+    if(!currentPage)
+        currentPage = 1;  
+    if( currentPage > pageCount)
+        currentPage = pageCount; 
+    if (currentPage <= 0)
+        currentPage = 1;     
+
+    let pageNavStart = currentPage - 2;  
+    if(pageNavStart <= 0)
+        pageNavStart = 1;
+    let pageNavEnd = currentPage + 2; 
+    if(pageNavEnd > pageCount)
+        pageNavEnd = pageCount; 
+    
+
     await db.problem.findAll({
         raw: true,
+        offset: (currentPage - 1) * listCount, 
+        limit: listCount, 
         attributes: ['probNo', 'title'],
         /* TODO - Help !!! 
         include : [
@@ -24,7 +51,7 @@ exports.index = async function (req, res) {
     .then (q => {
         console.log(q); 
         console.log('success'); 
-        res.render('../views/problem/index.ejs', {PLIST : q});
+        res.render('../views/problem/index.ejs', {PLIST : q, PGSTART : pageNavStart, PGEND : pageNavEnd, PGCURRENT : currentPage});
     })
     .catch(e => {
         console.log(q); 
