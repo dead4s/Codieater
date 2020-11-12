@@ -99,10 +99,10 @@ exports.passwordFind = (req, res, next) => {
   }
 };
 
-exports.info = function (req, res) {
+exports.infoGet = function (req, res) {
   res.render('../views/info/index.ejs');
 }
 
-exports.infoData = function (req, res) {
+exports.infoPost = function (req, res) {
   
 }

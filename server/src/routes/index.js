@@ -29,4 +29,7 @@ router.post('/problem/register',
 router.get('/judge', judgeController.judgeGet);
 router.post('/judge', judgeController.judgePost);
 
+router.get('/info', userController.infoGet);
+router.post('/info', userController.infoPost);
+
 module.exports = router;
