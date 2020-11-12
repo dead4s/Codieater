@@ -19,10 +19,10 @@ $ docker build -t codi_judge:2.0 -f docker/judge.dockerfile .
 
 
 ```
-$ cd ../server
+$ cd server
 $ ./run.sh
 ```
-node를 돌릴 모듈들과 db migrate 및 seeding.
+node를 돌릴 모듈 다운과 db migrate 및 seeding.
 
 이후 자동으로 5000번 포트로 웹 서버 구동.
 
