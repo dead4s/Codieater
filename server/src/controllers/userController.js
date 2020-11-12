@@ -1,6 +1,7 @@
 const { validationResult } = require('express-validator');
 const db = require('../models');
 const passport = require('passport');
+const moment = require('moment');
 
 exports.index = function (req, res) {
   res.render('../views/auth/signup.ejs');
@@ -100,7 +101,13 @@ exports.passwordFind = (req, res, next) => {
 };
 
 exports.infoGet = function (req, res) {
-  res.render('../views/info/index.ejs');
+  const STARTDATE = '2020/11/01';
+  const NOWDATE = moment(new Date()).format('YYYY/MM/DD');
+
+  res.render('../views/info/index.ejs', {
+    STARTDATE: STARTDATE,
+    NOWDATE: NOWDATE
+  });
 }
 
 exports.infoPost = function (req, res) {

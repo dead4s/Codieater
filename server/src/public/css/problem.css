@@ -1,0 +1,97 @@
+:root{
+    --pale-red : #F5B7B1; 
+    --pale-orange :  #FAD7A0; 
+    --pale-green :  #A2D9CE; 
+    --pale-blue :  #AED6F1; 
+    --pale-purple :  #D7BDE2; 
+    --pale-gray :  #CCD1D1; 
+
+    --supporting-color : #283747; 
+}
+
+.problem-header {
+    font-size: 2.5rem;
+    font-weight: bold;
+    text-align: center;
+}
+
+.problem-subheader {
+    font-size : 1.5rem; 
+    padding-bottom: 2rem;
+    text-align : center; 
+    color : var(--supporting-color); 
+    opacity : 0.7; 
+}
+
+.searchbox{
+    float: right; 
+    padding-bottom: 2rem;
+}
+
+
+.searchbox .btn {
+    background-color: var(--supporting-color);
+    color : lightgray;
+}
+
+.problemlist-table{
+/*    width : 80%; */ 
+}
+
+.problemlist-row{
+    display : flex; 
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.problemlist-row th{
+    font-size : 1.7rem; 
+}
+
+.problemlist-row td {
+    font-size : 1.5rem; 
+}
+
+.problemlist-row th:nth-child(1){
+    flex: 1;
+}
+
+.problemlist-row th:nth-child(2){
+    flex: 2;
+}
+
+.problemlist-row th:nth-child(3){
+    flex: 2;
+}
+
+.problemlist-row td:nth-child(1){
+    flex: 1;
+}
+
+.problemlist-row td:nth-child(2){
+    flex: 2;
+}
+
+.problemlist-row td:nth-child(3){
+    flex: 2;
+}
+
+
+.label-default {
+    background-color: var(--pale-gray); 
+}
+.label-primary {
+    background-color: var(--pale-purple); 
+}
+.label-success {
+    background-color: var(--pale-green);
+}
+.label-info {
+    background-color: var(--pale-blue); 
+}
+.label-warning {
+    background-color: var(--pale-orange);
+}
+.label-danger {
+    background-color: var(--pale-red);
+}

@@ -12,10 +12,183 @@
 	<div class="papyrus">
         <%- include('../layout/nav') %>
         <div class="body">
-            <div id="chart-area"></div>
+            <div id="line-chart"></div>
+            <div id="heatmap-chart"></div>
+            <div id="treemap-chart"></div>
         </div>
         <%- include('../layout/footer') %>
     </div>
-    <script type="text/javascript" src="/public/js/info.js"></script>
+    <% const DATE = STARTDATE; %>
+    <script>
+        const w = $('#line-chart').parent('div').width() - 2;
+        const h = $('#line-chart').parent('div').height() -  $('#grid1').parent('div').find('div.grid_top_wrap').outerHeight(true);
+
+        let container = document.getElementById('line-chart');
+        let data = {
+            categories: [ '<%= DATE %>' ],
+            series: [{
+                name: 'Seoul',
+                data: [-3.5, -1.1, 4.0, 11.3, 17.5, 21.5, 24.9, 25.2, 20.4, 13.9, 6.6, -0.6]
+            }],
+        };
+
+        let options = {
+            chart: {
+                width: w,
+                height: h,
+                title: '푼 문제들'
+            },
+            yAxis: {
+                title: 'number of solved problems'
+            },
+            xAxis: {
+                title: 'Month',
+                pointOnColumn: true,
+                dateFormat: 'MMM',
+                tickInterval: 'auto'
+            },
+            series: {
+                showDot: false,
+                zoomable: true
+            },
+            tooltip: {
+                suffix: '°C'
+            },
+            plot: {
+                // bands: [
+                //     {
+                //         range: ['11/01/2020', '12/01/2020'],
+                //         color: 'gray',
+                //         opacity: 0.2
+                //     }
+                // ],
+                // lines: [
+                //     {
+                //         value: '03/01/2016',
+                //         color: '#fa2828'
+                //     }
+                // ]
+            }
+        };
+
+        let chart = tui.chart.lineChart(container, data, options);
+
+        $(window).bind('resize', function(e) {
+            chart.resize({
+               width: $('#line-chart').parent('div').width() - 2,
+            })
+        });
+    </script>
+    <script>
+        container = document.getElementById('heatmap-chart');
+        data = {
+            categories: {
+                x: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                y: ['Seoul', 'Seattle', 'Sydney', 'Moskva', 'Jungfrau']
+            },
+            series: [
+                [-3.5, -1.1, 4.0, 11.3, 17.5, 21.5, 24.9, 25.2, 20.4, 13.9, 6.6, -0.6],
+                [3.8, 5.6, 7.0, 9.1, 12.4, 15.3, 17.5, 17.8, 15.0, 10.6, 6.4, 3.7],
+                [22.1, 22.0, 20.9, 18.3, 15.2, 12.8, 11.8, 13.0, 15.2, 17.6, 19.4, 21.2],
+                [-10.3, -9.1, -4.1, 4.4, 12.2, 16.3, 18.5, 16.7, 10.9, 4.2, -2.0, -7.5],
+                [-13.2, -13.7, -13.1, -10.3, -6.1, -3.2, 0.0, -0.1, -1.8, -4.5, -9.0, -10.9]
+            ]
+        };
+        options = {
+            chart: {
+                width: w,
+                height: h,
+                title: '24-hr Average Temperature'
+            },
+            yAxis: {
+                title: 'City'
+            },
+            xAxis: {
+                title: 'Month'
+            },
+            series: {
+                showLabel: true
+            },
+            tooltip: {
+                suffix: '°C'
+            }
+        };
+
+        tui.chart.heatmapChart(container, data, options);
+    </script>
+    <script>
+        container = document.getElementById('treemap-chart');
+        data = {
+            series: [
+                {
+                    label: 'Documents',
+                    children: [
+                        {
+                            label: 'docs',
+                            children: [
+                                {
+                                    label: 'pages',
+                                    value: 1.3
+                                },
+                                {
+                                    label: 'keynote',
+                                    value: 2.5
+                                },
+                                {
+                                    label: 'numbers',
+                                    value: 1.2
+                                }
+                            ]
+                        },
+                        {
+                            label: 'photos',
+                            value: 5.5
+                        },
+                        {
+                            label: 'videos',
+                            value: 20.7
+                        }
+                    ]
+                }, {
+                    label: 'Downloads',
+                    children: [
+                        {
+                            label: 'recents',
+                            value: 5.3
+                        }, {
+                            label: '2015',
+                            value: 10.1
+                        }, {
+                            label: '2014',
+                            value: 8.2
+                        }
+                    ]
+                }, {
+                    label: 'Application',
+                    value: 16.4
+                }, {
+                    label: 'Desktop',
+                    value: 4.5
+                }
+            ]
+        };
+        options = {
+            chart: {
+                width: w,
+                height: h,
+                title: 'Used disk space'
+            },
+            series: {
+                showLabel: true,
+                zoomable: false,
+                useLeafLabel: true
+            },
+            tooltip: {
+                suffix: 'GB'
+            }
+        };
+
+        tui.chart.treemapChart(container, data, options);
+    </script>
 </body>
 </html>

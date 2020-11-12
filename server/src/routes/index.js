@@ -19,12 +19,14 @@ router.get('/logout', userController.logout);
 
 router.get('/problem', problemController.index);
 router.get('/problem/register', problemController.registerGet);
+router.get('/problem/:no', problemController.problemGet); 
 router.post('/problem/register', 
     upload.fields([
         { name: 'inputfile', maxCount: 50 },
         { name: 'outputfile', maxCount: 50 }
     ]),
     problemController.registerPost);
+
 
 router.get('/judge', judgeController.judgeGet);
 router.post('/judge', judgeController.judgePost);
