@@ -21,7 +21,8 @@ docker run \
 	codi_db:1.0
 
 if [ $? -eq 125 ];then
-	docker start pg_data
+	docker start pg
+fi
 
 yarn
 sleep 1
