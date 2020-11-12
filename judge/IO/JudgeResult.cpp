@@ -61,13 +61,13 @@ bool JudgeResult::seq2json(ostream& file, string space){
 }
  
 bool TestCaseResult::seq2json(ostream& file, string space){
-    file << space << "{" << endl; 
-    file << space << "\"check\" : " << check << "," << endl; 
-    file << space << "\"msg\" : \"" << msg <<"\"" << endl; 
+    file << space << "{" << endl;
     if(memory != -1)
-        file << space << "\"memory\" : \"" << memory <<"\"" << endl; 
+        file << space << "\"memory\" : "  << memory << "," << endl; 
     if(time != -1)
-        file << space << "\"time\" : \"" << time <<"\"" << endl; 
+        file << space << "\"time\" : " << time << "," << endl; 
+    file << space << "\"check\" : " << check << "," << endl; 
+    file << space << "\"msg\" : \"" << msg << "\"" << endl; 
     file << space << "}"; 
     return true; 
 }

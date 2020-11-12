@@ -12,6 +12,7 @@ module.exports = (sequelize, DataTypes) => {
     lang: DataTypes.STRING(10),
     time: DataTypes.REAL,
     memory: DataTypes.SMALLINT,
+    result: DataTypes.SMALLINT,
     // create_at: {
     //   type: DataTypes.DATE,
     //   allowNull: false,

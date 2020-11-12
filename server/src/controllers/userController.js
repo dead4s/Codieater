@@ -98,3 +98,11 @@ exports.passwordFind = (req, res, next) => {
     return next(err, req, res, next);
   }
 };
+
+exports.info = function (req, res) {
+  res.render('../views/info/index.ejs');
+}
+
+exports.infoData = function (req, res) {
+  
+}

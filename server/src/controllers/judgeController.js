@@ -52,8 +52,13 @@ exports.judgePost = async function(req, res) {
 
         switch(LANG[0]) {
             case '0': EXTENSION = 'cpp'; break;
-            case '1': EXTENSION = 'py'; break;
-            case '2': EXTENSION = 'py'; break;
+            case '1': EXTENSION = 'cpp'; break;
+            case '2': EXTENSION = 'cpp'; break;
+            case '3': EXTENSION = 'py'; break;
+            case '4': EXTENSION = 'py'; break;
+            case '5': EXTENSION = 'c'; break;
+            case '6': EXTENSION = 'c'; break;
+            case '7': EXTENSION = 'java'; break;
         }
 
         fs.mkdirSync(`${PWD}/volume/mark_no/${MARKNO}`);
@@ -84,10 +89,9 @@ const system = function (ARG) {
         '--rm',
         '-e', 'MARKPATH=/home/mark/',
         '-e', 'PROBPATH=/home//prob/',
-        '-v', `${PWD}/judge:/home/judge`,
         '-v', `${PWD}/volume/mark_no/${ARG['MARKNO']}:/home/mark`,
         '-v', `${PWD}/volume/prob_no/${ARG['PROBNO']}:/home/prob`,
-        'codi_judge:1.0', 'sh', '-c', `./judge -l ${ARG['LANGKIND']}`
+        'codi_judge:2.0', 'sh', '-c', `./judge -l ${ARG['LANGKIND']}`
     ]);
 
     docker.stdout.on('data', (data) => {
@@ -100,6 +104,8 @@ const system = function (ARG) {
         const file = fs.readFileSync(`${PWD}/volume/mark_no/${ARG['MARKNO']}/result.json`);
         let JUDGERES = JSON.parse(file);
 
+        const COMPILEMSG = JUDGERES['compile_msg']
+
         let query = { 'result': 0, 'score': 0 };
         let score = 0;
 
@@ -110,11 +116,12 @@ const system = function (ARG) {
             // 채점 결과의 msg들을 순서대로 보여주고 점수 계산
             JUDGERES['result'].forEach(elem => score += elem['check']);
             score = Math.floor( score / length * 100 );
-    
-            query = { 'result': 1, 'score': score };
         }
 
-        db.history.update(query, { where: {userId: ARG['USERID']} })
+        if( score == 100 ) query = { 'result': 1 };
+        else query = { 'result': 0 };
+
+        db.history.update(query, { where: {markNo: ARG['MARKNO']} })
         .then(res => {
             console.log('history result is updated');
             // console.log(res);
@@ -126,11 +133,12 @@ const system = function (ARG) {
 
         console.log(`child process exited with code ${code}`);
 
-        ARG['res'].render('../views/judge/index.ejs', {
+        ARG['res'].render('../views/judge/judge.ejs', {
             USERID: ARG['USERID'],
             PROBNO: ARG['PROBNO'],
             CODE: ARG['CODE'],
             LANG: ARG['LANGKIND'],
+            COMPILEMSG: COMPILEMSG,
             SCORE: score,
             JUDGERES: JUDGERES,
         });

@@ -11,7 +11,7 @@
         <div class="body col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
             <div class="row">
                 <label>코드</label>
-                <textarea rows="10" readonly><%- CODE %></textarea>
+                <textarea rows="15" readonly class="form-control"><%- CODE %></textarea>
             </div>
             <div class="row">
                 <label>점수: <%= SCORE %></label>
@@ -37,7 +37,7 @@
             </div>
             <div class="row">
                 <label>컴파일 메시지:</label>
-                <textarea rows="20" readonly class="form-control">COMPILE</textarea>
+                <textarea rows="15" readonly class="form-control"><%= COMPILEMSG %>></textarea>
             </div>
         </div>
         <%- include('../layout/footer') %>
