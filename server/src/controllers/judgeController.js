@@ -91,7 +91,10 @@ const system = function (ARG) {
     
     docker.on('close', (code) => {
         const file = fs.readFileSync(`${PWD}/volume/mark_no/${ARG['MARKNO']}/result.json`);
+
         let JUDGERES = JSON.parse(file);
+        let memory = new Array();
+        let time = new Array();
 
         const COMPILEMSG = JUDGERES['compile_msg']
 
@@ -103,7 +106,11 @@ const system = function (ARG) {
             const length = Object.keys(JUDGERES.result).length
 
             // 채점 결과의 msg들을 순서대로 보여주고 점수 계산
-            JUDGERES['result'].forEach(elem => score += elem['check']);
+            JUDGERES['result'].forEach(elem => {
+                memory.push(elem['memory']);
+                time.push(elem['time']);
+                score += elem['check'];
+            });
             score = Math.floor( score / length * 100 );
         }
 
@@ -122,6 +129,9 @@ const system = function (ARG) {
 
         console.log(`child process exited with code ${code}`);
 
+        console.log(memory);
+        console.log(time);
+
         ARG['res'].render('../views/judge/judge.ejs', {
             USERID: ARG['USERID'],
             PROBNO: ARG['PROBNO'],
@@ -130,6 +140,8 @@ const system = function (ARG) {
             COMPILEMSG: COMPILEMSG,
             SCORE: score,
             JUDGERES: JUDGERES,
+            MEMORY: memory,
+            TIME: time
         });
     });
 }

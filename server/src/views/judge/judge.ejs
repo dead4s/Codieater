@@ -24,11 +24,15 @@
                             <tr>
                                 <td>No</td>
                                 <td>msg</td>
+                                <td>memory(KB)</td>
+                                <td>time(ms)</td>
                             </tr>
                             <% for( let i = 0; i < JUDGERES['result'].length; i++ ) { %>
                             <tr>
                                 <td><%= i + 1 %></td>
                                 <td><%= JUDGERES['result'][i]['msg'] %></td>
+                                <td><%= MEMORY[i] %></td>
+                                <td><%= TIME[i] %></td>
                             </tr>
                             <% } %>
                         </tbody>
