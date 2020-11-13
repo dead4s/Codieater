@@ -42,7 +42,7 @@ http://localhost:5000
 
 ## Reference
 - node >  MIT License 
-- postgres - PostgreSQL License(<https://www.postgresql.org/about/licence/)
+- postgres > PostgreSQL License(https://www.postgresql.org/about/licence/)
 - docker > Apache License 2.0
 
 
