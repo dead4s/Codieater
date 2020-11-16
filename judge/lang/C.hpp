@@ -36,7 +36,7 @@ public:
             throw logic_error("invalid version for gcc, only 11, 99 is possible"); 
         }
     }
-    virtual const bool getProcCtrlFlag(){
+    virtual const bool getProcCtrl(){
         return processCtrl; 
     }
 

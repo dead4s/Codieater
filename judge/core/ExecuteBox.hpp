@@ -2,8 +2,10 @@
 #define __EXEBOX_H__
 
 #include "../IO/ProblemInfo.hpp"
+#include "../IO/TestCaseResult.hpp"
 #include "../system/error.hpp"
 #include "../system/config.hpp"
+#include "ExeResult.hpp"
 #include "childproc.hpp"
 
 #include "IBaseLang.hpp"
@@ -24,13 +26,11 @@
 #include <sys/resource.h>
 
 
-//enum ExeResult {MEM_LIM_EXCEED, TIME_LIM_EXCEED, RUNT_ERR, JUDGE_ERR, GOOD}; 
-
 class ExecuteBox{
 public:
     ExecuteBox(ProblemInfo _p); 
     bool compile(char* compileMsg, int msgSize);
-    ExeResult executeTC(int testCaseNo, int& memUsed, int& timeUsed);
+    TestCaseResult executeTC(int testCaseNo);
 private: 
     ProblemInfo pinfo;
     IBaseLang* lang;

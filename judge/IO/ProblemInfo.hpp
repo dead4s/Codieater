@@ -16,13 +16,13 @@ public:
     ProblemInfo();
     ProblemInfo(int t, int m, Lang l);
     ProblemInfo(const ProblemInfo& p); 
-    int getTime(){
+    const int getTime() const {
         return _time; 
     }
-    int getMemory(){
+    const int getMemory() const {
         return _memory; 
     }
-    Lang getLang(){
+    const Lang getLang() const {
         return _lang; 
     }
 

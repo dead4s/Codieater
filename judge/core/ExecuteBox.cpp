@@ -46,7 +46,7 @@ ExeResult ExecuteBox::parseSignalValue(int status){
     if(WTERMSIG(status) == SIGSYS){
         cerr << "siganl received!!" << endl; 
         cerr << "killed by seccomp" << endl; 
-        return RUNT_ERR; 
+        return JUDGE_ERR; 
     }
     if(errno == ENOMEM){ //memory limit fail 
         cerr << strerror(errno) << endl; 
@@ -66,6 +66,7 @@ ExeResult ExecuteBox::parseSignalValue(int status){
 
 
 ExeResult ExecuteBox::parseExitValue(int exitCode){
+    cerr << "exit code is " << exitCode << endl; 
     return lang->checkExeResultValue(exitCode); 
 }
 
@@ -79,6 +80,7 @@ bool ExecuteBox::compile(char* compileMsg, int msgSize){
     if(pipe(pipeFile) == - 1){
         throw runtime_error(addTag(PROC_PIPE_CREATE_FAIL, f)); 
     }
+
     //make sure that pipe is non blocking
     //if not, read function can stuck 
     if (fcntl(pipeFile[0], F_SETFL, O_NONBLOCK) < 0) 
@@ -117,6 +119,7 @@ bool ExecuteBox::compile(char* compileMsg, int msgSize){
 
         string path = MARKPATH; 
         string cmd = lang->getCompiler(); 
+        lang->addDynamicCompileArgs(pinfo); 
         vector<string> arg = lang->getCompileArgs(); 
         vector<string> env = lang->getCompileEnvs();
         Seccomp sec; 
@@ -134,10 +137,18 @@ int _openFile(string fileName, int flag, int perm){
 }
 
 
-ExeResult ExecuteBox::executeTC(int testCaseNo, int& memUsed, int& timeUsed){
+TestCaseResult ExecuteBox::executeTC(int testCaseNo){
     string f = "executeTC"; 
-    pid_t pid; 
+    pid_t pid;
+
+    int pipeFile[2]; 
     int status; 
+
+    if(pipe(pipeFile) == - 1){
+        throw runtime_error(addTag(PROC_PIPE_CREATE_FAIL, f)); 
+    }
+    if (fcntl(pipeFile[0], F_SETFL, O_NONBLOCK) < 0) 
+        exit(2); 
 
     pid = fork(); 
     if(pid < 0){
@@ -159,35 +170,45 @@ ExeResult ExecuteBox::executeTC(int testCaseNo, int& memUsed, int& timeUsed){
         extern int killedByAlarm; 
         int TLE = killedByAlarm; 
         removeLimitTime(); 
-        endMeasureTime(timeUsed); 
         if(waitPid == -1)
             throw runtime_error(addTag(PROC_CHILD_RET_ERROR, f)); 
 
-        memUsed = getUsedMemory(usedResource); 
-        //cpu time is not properly working for java(jvm consumes more clock)
-        //timeUsed = getUsedCPUTime(usedResource); 
-        if(TLE == 1)
-            return TIME_LIM_EXCEED; 
-        if(WIFSIGNALED(status))
-            return parseSignalValue(status);
-        if(WIFEXITED(status))
-            return parseExitValue(WEXITSTATUS(status)); 
-        throw runtime_error(addTag(PROC_CHILD_RET_UNKOWN)); 
+        TestCaseResult tcResult; 
+        tcResult.time = endMeasureTime(); 
+        tcResult.CPUtime = getUsedCPUTime(usedResource); 
+        tcResult.memory = getUsedMemory(usedResource); 
+        
+        const int errorSz= 1000; 
+        char errorMsg[errorSz];
+        read(pipeFile[0], errorMsg, errorSz - 1);
+        cout << errorMsg << endl; 
+        ExeResult msgResult = lang->checkErrorMsg(errorMsg); 
 
+        if(TLE)
+            tcResult.setResult(TIME_LIM_EXCEED);
+        else if(WIFSIGNALED(status))
+            tcResult.setResult(parseSignalValue(status));
+        else if(msgResult != UNDEFINED)
+            tcResult.setResult(msgResult); 
+        else if(WIFEXITED(status))
+            tcResult.setResult(parseExitValue(WEXITSTATUS(status))); 
+        return tcResult; 
+
+        throw runtime_error(addTag(PROC_CHILD_RET_UNKOWN)); 
     }
     else{//child process
         int inputFd = _openFile(PROBPATH +"/in/" + to_string(testCaseNo) +".in", O_RDONLY, 0666); 
         redirectFd(inputFd, STDIN_FILENO, true);         
         int outputFd = _openFile(MARKPATH + "/" +  to_string(testCaseNo) + ".out", O_CREAT| O_WRONLY | O_TRUNC, 0666); 
         redirectFd(outputFd, STDOUT_FILENO, true); 
+        
+        redirectFd(pipeFile[1], STDERR_FILENO, true); 
+        close(pipeFile[0]); 
 
         //use process control 
-        if(lang->getProcCtrlFlag() == true){
+        if(lang->getProcCtrl() == true){
             setLimitProcCount(1); 
             setLimitMemory(pinfo.getMemory());
-        }
-        else{//use language own control
-            lang->addDynamicExecuteArgs(pinfo.getMemory()); 
         }
         /*TODO
             writing to file might bring overhead :: i'd like to use BUFFER
@@ -200,11 +221,15 @@ ExeResult ExecuteBox::executeTC(int testCaseNo, int& memUsed, int& timeUsed){
        
         string path = MARKPATH; 
         string prog = lang->getExecutor();
+        lang->addDynamicExecuteArgs(pinfo); 
         vector<string> arg = lang->getExecuteArgs(); 
         vector<string> env = lang->getExecuteEnvs();
         Seccomp sec; 
         sec.addAdditionalSeccomp(lang->getMoreSysList()); 
         startChildProc(path, prog, arg, env, &sec); 
     }
-    return JUDGE_ERR; 
+    //todo
+    TestCaseResult tcResult; 
+    tcResult.setResult(JUDGE_ERR); 
+    return tcResult; 
 }

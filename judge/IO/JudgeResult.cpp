@@ -2,14 +2,6 @@
 
 using namespace std; 
 
-TestCaseResult::TestCaseResult(bool c, string m, int _time, int _memory)
-:check(c), msg(m), time(_time), memory(_memory){}; 
-    
-
-TestCaseResult::TestCaseResult(bool c, string m)
-:check(c), msg(m), time(-1), memory(-1){}
-
-
 string jsonEncoding(const string &s) {
     ostringstream encoded;
     for (auto c = s.cbegin(); c != s.cend(); c++) {
@@ -23,14 +15,6 @@ string jsonEncoding(const string &s) {
     return encoded.str();
 }
 
-
-ostream& operator<< (ostream& os, const TestCaseResult& tcRes){
-    os << "check \t\t" << tcRes.check << endl; 
-    os << "message \t\t" << tcRes.msg << endl; 
-    return os; 
-}
-
-
 ostream& operator<< (ostream& os, const JudgeResult& res){ 
     os << "===== JudgeReulst =====\n" 
     << "compile Reulst \t\t" << res.compileResult << endl
@@ -43,31 +27,20 @@ ostream& operator<< (ostream& os, const JudgeResult& res){
     return os; 
 }
 
-bool JudgeResult::seq2json(ostream& file, string space){
-    file << "{" << endl;
-    file << space << "\"compile\" : " << compileResult << "," << endl; 
-    file << space << "\"compile_msg\" : " << "\"" << jsonEncoding(compileMessage) << "\" ," << endl; 
-    file << space << "\"result\" : [" << endl; 
+stringstream JudgeResult::seq2json(string space){
+    stringstream jsonForm; 
+    jsonForm << "{" << endl;
+    jsonForm << space << "\"compile\" : " << compileResult << "," << endl; 
+    jsonForm << space << "\"compile_msg\" : " << "\"" << jsonEncoding(compileMessage) << "\" ," << endl; 
+    jsonForm << space << "\"result\" : [" << endl; 
     for(int i = 0; i < tcResults.size(); i++){
-        tcResults[i].seq2json(file, space + "\t"); 
+        jsonForm << tcResults[i].seq2json(space + "\t").rdbuf();  
         if(i != tcResults.size() - 1)
-            file << ", " << endl; 
+            jsonForm << ", " << endl; 
         else 
-            file << endl; 
+            jsonForm << endl; 
     }
-    file << space <<  "] " << endl;  
-    file << "}" << endl; 
-    return true; 
-}
- 
-bool TestCaseResult::seq2json(ostream& file, string space){
-    file << space << "{" << endl;
-    if(memory != -1)
-        file << space << "\"memory\" : "  << memory << "," << endl; 
-    if(time != -1)
-        file << space << "\"time\" : " << time << "," << endl; 
-    file << space << "\"check\" : " << check << "," << endl; 
-    file << space << "\"msg\" : \"" << msg << "\"" << endl; 
-    file << space << "}"; 
-    return true; 
+    jsonForm << space <<  "] " << endl;  
+    jsonForm << "}" << endl; 
+    return jsonForm; 
 }

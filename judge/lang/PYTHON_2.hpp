@@ -23,7 +23,7 @@ private :
     vector<int> syscallList = {};  
 
 public: 
-    virtual const bool getProcCtrlFlag(){
+    virtual const bool getProcCtrl(){
         return processCtrl; 
     }
 
