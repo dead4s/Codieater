@@ -19,10 +19,12 @@ private:
     }; 
     vector<string> executeEnvs = {}; 
     vector<int> syscallList = {}; 
+
+
 public: 
     JAVA_11(){}
 
-    virtual const bool getProcCtrlFlag(){
+    virtual const bool getProcCtrl(){
         return processCtrl; 
     }
 
@@ -41,10 +43,12 @@ public:
     virtual const string& getExecutor(){
         return executor; 
     }
-
-    virtual const void addDynamicExecuteArgs(int memory){
+    
+    virtual const void addDynamicExecuteArgs(const ProblemInfo& p){ 
+        int memory = p.getMemory(); 
         executeArgs.insert(executeArgs.begin(), "-Xmx"+to_string(memory) + "m"); 
         executeArgs.insert(executeArgs.begin(), "-Xss"+to_string(memory) + "m"); 
+        return; 
     } 
 
 
@@ -56,17 +60,18 @@ public:
         return executeEnvs; 
     }
 
-    virtual const ExeResult checkExeResultValue(int exitCode){
-        //https://docs.oracle.com/javase/8/docs/technotes/tools/windows/java.html
-        if(exitCode == 0)
-            return GOOD; 
-        if(exitCode == 1)
-            return MEM_LIM_EXCEED; 
-        return RUNT_ERR; 
-    }
-
     virtual vector<int> getMoreSysList(){
         return syscallList; 
+    }
+
+    virtual const ExeResult checkErrorMsg(char* msg){
+        string errorStr(msg);
+
+        size_t found = errorStr.find("java.lang.OutOfMemoryError", 0); 
+        if(found != string::npos)
+            return MEM_LIM_EXCEED; 
+        else
+            return UNDEFINED; 
     }
 }; 
 #endif

@@ -39,7 +39,7 @@ bool startMeasureTime(){
 }
 
 
-bool endMeasureTime(int& timeUsed){
+int endMeasureTime(){
     if(onTimeMeasuring != 1){
         cerr << "you didn't call startMeasureTIme" << endl; 
         cerr << "you have to call startMeasureTIme, first" << endl; 
@@ -49,8 +49,8 @@ bool endMeasureTime(int& timeUsed){
     gettimeofday(&tend, NULL); 
     int sec = tend.tv_sec - tbegin.tv_sec; 
     int usec = tend.tv_usec - tbegin.tv_usec; 
-    timeUsed = sec * 1000 + usec / 1000; 
-    return true; 
+    int timeUsed = sec * 1000 + usec / 1000; 
+    return timeUsed; 
 }
 
 int startChildProc(string path, string cmd, vector<string> args, vector<string> env, Seccomp* sec) {
@@ -166,6 +166,34 @@ bool setLimitMemory(int maxMemory){
         cerr << "new limits [hard limit] = " << new_lim.rlim_max << endl; 
     }
     #endif 
+    return true; 
+}
+
+
+bool setLimitHeapMemory(int maxMemory){
+    unsigned int byteMemory = static_cast<unsigned int>(maxMemory) * 1000'000; 
+
+    struct rlimit limit; 
+    limit.rlim_cur = byteMemory; 
+    limit.rlim_max = byteMemory; 
+    if(setrlimit(RLIMIT_DATA, &limit) == -1){
+        cerr << "set memory limit fail...tt" << endl; 
+        throw runtime_error(PROC_LIMIT_FAIL); 
+    }
+    return true; 
+}
+
+
+
+bool setLimitStackMemory(int maxMemory){
+    unsigned int byteMemory = static_cast<unsigned int>(maxMemory) * 1000'000;
+    struct rlimit limit; 
+    limit.rlim_cur = byteMemory; 
+    limit.rlim_max = byteMemory; 
+    if(setrlimit(RLIMIT_STACK, &limit) == -1){
+        cerr << "set memory limit fail...tt" << endl; 
+        throw runtime_error(PROC_LIMIT_FAIL); 
+    }
     return true; 
 }
 

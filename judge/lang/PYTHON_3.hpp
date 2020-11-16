@@ -21,7 +21,7 @@ private :
     }; 
 
 public: 
-    virtual const bool getProcCtrlFlag(){
+    virtual const bool getProcCtrl(){
         return processCtrl; 
     }
     
@@ -51,6 +51,16 @@ public:
     
     virtual vector<int> getMoreSysList(){
         return syscallList; 
+    }
+
+    virtual const ExeResult checkErrorMsg(char* msg){
+        string errorStr(msg);
+
+        size_t found = errorStr.find("MemoryError", 0); 
+        if(found != string::npos)
+            return MEM_LIM_EXCEED; 
+        else
+            return UNDEFINED; 
     }
 }; 
 

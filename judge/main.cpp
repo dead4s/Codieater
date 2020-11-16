@@ -43,43 +43,24 @@ int main(int argc, char* argv[]){
     if(compileResult){
         int count = getTestCasesCount(); 
         for(int i = 1; i <= count; i++){
-            int memUsed; //KB
-            int timeUsed; //milliSec
-            ExeResult runtimeCheck = xbox.executeTC(i, memUsed, timeUsed); 
-
-            TestCaseResult* tcResult; 
-            bool correctCheck; 
-            switch (runtimeCheck)
-            {
-            case MEM_LIM_EXCEED:
-                tcResult = new TestCaseResult(false, "Memory Limit Exceeded"); 
-                break;
-            case TIME_LIM_EXCEED: 
-                tcResult = new TestCaseResult(false, "Time Limit Exceeded"); 
-                break; 
-            case RUNT_ERR:
-                tcResult = new TestCaseResult(false, "Runtime Error");
-                break; 
-            case GOOD : 
-                correctCheck = cmpFiles(i); 
-                if(correctCheck)
-                    tcResult = new TestCaseResult(true, "Correct", timeUsed, memUsed); 
-                else 
-                    tcResult = new TestCaseResult(false, "Wrong Answer");        
-                break; 
-            default:
-                tcResult = new TestCaseResult(false, "JudgeSystem Internal Error");   
-                break;
+            TestCaseResult tcResult = xbox.executeTC(i); 
+            if(tcResult.getCheck()){
+                bool correctCheck = cmpFiles(i); 
+                if(correctCheck == true)
+                    tcResult.setResult(CORRECT); 
+                else
+                    tcResult.setResult(WRONG); 
             }
-            tcResult->seq2json(cout, ""); 
+            stringstream jsform = tcResult.seq2json(); 
+            cout << jsform.rdbuf(); 
             cout << endl; 
-            result.tcResults.push_back(*tcResult); 
-            delete tcResult; 
+            result.tcResults.push_back(tcResult); 
         }
     }
    
     ofstream resultFile(MARKPATH + "/result.json"); 
-    result.seq2json(resultFile); 
+    stringstream jsform = result.seq2json(); 
+    resultFile << jsform.rdbuf(); 
     resultFile.close(); 
 
     return 0;

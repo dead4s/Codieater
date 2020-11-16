@@ -38,7 +38,7 @@ public:
             throw logic_error("invalid version for g++ , only 11, 14, 17 is possible");
         }
     }
-    virtual const bool getProcCtrlFlag(){
+    virtual const bool getProcCtrl(){
         return processCtrl; 
     }
 

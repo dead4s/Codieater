@@ -7,20 +7,9 @@
 #include <sstream>
 #include <iomanip>
 #include <string>
+#include "TestCaseResult.hpp"
 
 using namespace std; 
-
-class TestCaseResult{
-friend ostream& operator<< (ostream& os, const TestCaseResult& tcRes); 
-public:
-    bool check; 
-    std::string msg;  
-    int time; 
-    int memory; 
-    TestCaseResult(bool c, string m, int _time, int _memory); 
-    TestCaseResult(bool c, string m); 
-    bool seq2json(ostream& file, string space = "\t"); 
-}; 
 
 class JudgeResult{
 friend ostream& operator<< (ostream& os, const JudgeResult& res); 
@@ -29,7 +18,7 @@ public:
     string compileMessage; 
     vector<TestCaseResult> tcResults; 
     JudgeResult(){}
-    bool seq2json(ostream& file, string space = "\t"); 
+    stringstream seq2json(string space = "\t"); 
 }; 
 
 #endif
