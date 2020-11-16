@@ -14,21 +14,25 @@ friend ostream& operator << (ostream& os, const ProblemInfo& info);
 
 public: 
     ProblemInfo();
-    ProblemInfo(int t, int m, Lang l);
+    ProblemInfo(int t, int m, int s, Lang l);
     ProblemInfo(const ProblemInfo& p); 
     const int getTime() const {
         return _time; 
     }
-    const int getMemory() const {
-        return _memory; 
+    const int getHeap() const {
+        return _heap; 
     }
     const Lang getLang() const {
         return _lang; 
     }
+    const int getStack() const{
+        return _stack; 
+    }
 
 private:
     const int _time; 
-    const int _memory; 
+    const int _heap;
+    const int _stack;  
     const Lang _lang; 
 }; 
 

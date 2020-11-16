@@ -66,7 +66,6 @@ ExeResult ExecuteBox::parseSignalValue(int status){
 
 
 ExeResult ExecuteBox::parseExitValue(int exitCode){
-    cerr << "exit code is " << exitCode << endl; 
     return lang->checkExeResultValue(exitCode); 
 }
 
@@ -180,6 +179,7 @@ TestCaseResult ExecuteBox::executeTC(int testCaseNo){
         
         const int errorSz= 1000; 
         char errorMsg[errorSz];
+        memset(errorMsg, '\0', errorSz); 
         read(pipeFile[0], errorMsg, errorSz - 1);
         cout << errorMsg << endl; 
         ExeResult msgResult = lang->checkErrorMsg(errorMsg); 
@@ -208,7 +208,9 @@ TestCaseResult ExecuteBox::executeTC(int testCaseNo){
         //use process control 
         if(lang->getProcCtrl() == true){
             setLimitProcCount(1); 
-            setLimitMemory(pinfo.getMemory());
+            //setLimitMemory(pinfo.getMemory());
+            setLimitHeapMemory(pinfo.getHeap()); 
+            setLimitStackMemory(pinfo.getStack()); 
         }
         /*TODO
             writing to file might bring overhead :: i'd like to use BUFFER
