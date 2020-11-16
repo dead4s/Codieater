@@ -45,9 +45,10 @@ public:
     }
     
     virtual const void addDynamicExecuteArgs(const ProblemInfo& p){ 
-        int memory = p.getMemory(); 
-        executeArgs.insert(executeArgs.begin(), "-Xmx"+to_string(memory) + "m"); 
-        executeArgs.insert(executeArgs.begin(), "-Xss"+to_string(memory) + "m"); 
+        int heap = p.getHeap(); 
+        int stack = p.getStack(); 
+        executeArgs.insert(executeArgs.begin(), "-Xmx"+to_string(heap) + "m"); 
+        executeArgs.insert(executeArgs.begin(), "-Xss"+to_string(stack) + "m"); 
         return; 
     } 
 

@@ -27,11 +27,12 @@ static bool checkAllArg(Lang l){
 
 ProblemInfo parseInput(int argc, char* argv[]){
     int time = 2000; //default value
-    int memory = 512; //default value
+    int heap = 512; //default value
+    int stack = 1; //default value
     Lang lang = INVALID;
 
     char option; 
-    const char* optstring = "t:m:l:c:d:h"; 
+    const char* optstring = "t:m:s:l:c:d:h"; 
     optind = 1; 
     while(-1 != (option = getopt(argc, argv, optstring)) ){
         switch(option){
@@ -42,7 +43,10 @@ ProblemInfo parseInput(int argc, char* argv[]){
                 time = atoi(optarg); 
                 break; 
             case 'm':
-                memory = atoi(optarg); 
+                heap = atoi(optarg); 
+                break; 
+            case 's' : 
+                stack = atoi(optarg); 
                 break; 
             case 'l':
                 lang = str2Lang(optarg); 
@@ -55,7 +59,8 @@ ProblemInfo parseInput(int argc, char* argv[]){
     if(!good){
         throw invalid_argument("option is missing : -l is needed"); 
     }
-    ProblemInfo pinfo(time, memory, lang);
+    cout <<"good1" << endl; 
+    ProblemInfo pinfo(time, heap, stack, lang);
     return pinfo; 
 }
 
