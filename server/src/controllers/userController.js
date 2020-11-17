@@ -101,7 +101,7 @@ exports.passwordFind = (req, res, next) => {
 };
 
 exports.infoGet = function (req, res) {
-  const STARTDATE = '2020/11/01';
+  const STARTDATE = ['2020/11/01', '2020/11/02', '2020/11/03', '2020/11/04', '2020/11/05', '2020/11/06', '2020/11/07', '2020/11/08', '2020/11/09'];
   const NOWDATE = moment(new Date()).format('YYYY/MM/DD');
 
   res.render('../views/info/index.ejs', {

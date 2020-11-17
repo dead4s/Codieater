@@ -18,17 +18,16 @@
         </div>
         <%- include('../layout/footer') %>
     </div>
-    <% const DATE = STARTDATE; %>
     <script>
         const w = $('#line-chart').parent('div').width() - 2;
         const h = $('#line-chart').parent('div').height() -  $('#grid1').parent('div').find('div.grid_top_wrap').outerHeight(true);
 
         let container = document.getElementById('line-chart');
         let data = {
-            categories: [ '<%= DATE %>' ],
+            categories: [ <% const DATE = STARTDATE; for( let i = 0; i < DATE.length; i++ ) { %> '<%= DATE[i] %>', <% } %> ],
             series: [{
                 name: 'Seoul',
-                data: [-3.5, -1.1, 4.0, 11.3, 17.5, 21.5, 24.9, 25.2, 20.4, 13.9, 6.6, -0.6]
+                data: [-1.1, 4.0, 11.3, 17.5, 21.5, 24.9, 25.2, 20.4, 13.9, 6.6]
             }],
         };
 

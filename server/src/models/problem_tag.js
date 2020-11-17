@@ -8,11 +8,12 @@ module.exports = (sequelize, DataTypes) => {
     },
     tagId: {
       type: DataTypes.INTEGER,
-      allowNull: false
+      allowNull: false,
     }
   }, { tableName: 'problem_tag' });
  
   problem_tag.associate = function(models) {
+    
   };
 
   return problem_tag;

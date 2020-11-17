@@ -27,8 +27,8 @@ module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.bulkInsert('user', [
       {
-        id: 'test',
-        pwd: bcrypt.hashSync('test', bcrypt.genSaltSync(10), null),
+        id: '1',
+        pwd: bcrypt.hashSync('1', bcrypt.genSaltSync(10), null),
         name: '전설',
         kind: 0,
         email: 'test@test.com',
@@ -36,8 +36,35 @@ module.exports = {
         date: faker.date.recent()
       },
       {
-        id: 'test2',
-        pwd: bcrypt.hashSync('test2', bcrypt.genSaltSync(10), null),
+        id: '2',
+        pwd: bcrypt.hashSync('2', bcrypt.genSaltSync(10), null),
+        name: '씅',
+        kind: 0,
+        email: 'test2@test.com',
+        error_count: 0,
+        date: faker.date.recent()
+      },
+      {
+        id: '3',
+        pwd: bcrypt.hashSync('3', bcrypt.genSaltSync(10), null),
+        name: '씅',
+        kind: 0,
+        email: 'test2@test.com',
+        error_count: 0,
+        date: faker.date.recent()
+      },
+      {
+        id: '4',
+        pwd: bcrypt.hashSync('4', bcrypt.genSaltSync(10), null),
+        name: '씅',
+        kind: 0,
+        email: 'test2@test.com',
+        error_count: 0,
+        date: faker.date.recent()
+      },
+      {
+        id: '5',
+        pwd: bcrypt.hashSync('5', bcrypt.genSaltSync(10), null),
         name: '씅',
         kind: 0,
         email: 'test2@test.com',

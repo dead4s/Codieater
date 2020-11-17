@@ -13,10 +13,15 @@ module.exports = (sequelize, DataTypes) => {
   tag.associate = function(models) {
     tag.belongsToMany(models.problem, {
       through: 'problem_tag',
-      // as: 'problem',
+      as: 'problem',
       foreignKey: 'tagId',
       // onDelete: 'CASCADE',
     });
+
+    // tag.hasMany(models.problem, {
+    //   foreignKey: 'probNo',
+    //   as: 'problem'
+    // });
   };
 
   return tag;

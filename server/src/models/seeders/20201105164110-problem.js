@@ -35,7 +35,7 @@ module.exports = {
         // create_at: new Date().toISOString().replace(/T/, ' ').replace(/\..+/, ''),
       },
       {
-        userId: 1,
+        userId: 2,
         title: "RobotCop(로보캅)",
         description: "<p>위험물 창고를 로봇이 그 경계를 돌면서 감시한다.</p>\
           <p>아래 그림에서 굵은 선으로 표시된 다각형이 경계면이다.</p>\
@@ -59,6 +59,39 @@ module.exports = {
           6 7<br>\
           ...<br>\
           ...."
+      },
+      {
+        userId: 3,
+        title: "1",
+        description: "1",
+        memoryLim: 512,
+        timeLim: 1,
+        input: "1",
+        output: "1",
+        sampleInput: "1",
+        sampleOutput: "1"
+      },
+      {
+        userId: 4,
+        title: "2",
+        description: "2",
+        memoryLim: 512,
+        timeLim: 1,
+        input: "2",
+        output: "2",
+        sampleInput: "2",
+        sampleOutput: "2"
+      },
+      {
+        userId: 5,
+        title: "3",
+        description: "3",
+        memoryLim: 512,
+        timeLim: 1,
+        input: "3",
+        output: "3",
+        sampleInput: "3",
+        sampleOutput: "3"
       }
     ], {});
   },

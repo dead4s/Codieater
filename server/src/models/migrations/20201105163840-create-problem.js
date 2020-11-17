@@ -38,11 +38,11 @@ module.exports = {
       },
       sampleOutput: {
         type: Sequelize.TEXT,
+      },
+      createAt: {
+        type: Sequelize.DATE,
+        // defaultValue: Sequelize.NOW
       }
-      // create_at: {
-      //   type: Sequelize.DATE,
-      //   allowNull: false,
-      // },
     }),
   down: (queryInterface, Sequelize) => queryInterface.dropTable('problem'),
 };

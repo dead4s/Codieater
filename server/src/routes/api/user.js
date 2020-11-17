@@ -16,7 +16,7 @@ const emailValidator = [
 
 const signupValidator = [
   check('name').exists().withMessage('name is not null'),
-  check('phone').exists().withMessage('phone is not null'),
+  // check('phone').exists().withMessage('phone is not null'),
 ]
   .concat(idValidator)
   .concat(pwdValidator)

@@ -20,7 +20,7 @@ exports.judgePost = async function(req, res) {
     })
     .then(q => {
         MEM = q['memoryLim'];
-        TIME = q['timeLim']
+        TIME = q['timeLim'];
     })
     .catch(e => {
         console.log(e);
@@ -58,7 +58,7 @@ exports.judgePost = async function(req, res) {
             }
         });
 
-        const ARG = { USERID, MARKNO, PROBNO, LANGKIND, CODE, res };
+        const ARG = { USERID, MARKNO, PROBNO, LANGKIND, CODE, MEM, TIME, res };
 
         system(ARG);
     })
@@ -80,7 +80,7 @@ const system = function (ARG) {
         '-e', 'PROBPATH=/home//prob/',
         '-v', `${PWD}/volume/mark_no/${ARG['MARKNO']}:/home/mark`,
         '-v', `${PWD}/volume/prob_no/${ARG['PROBNO']}:/home/prob`,
-        'codi_judge:2.0', 'sh', '-c', `./judge -l ${ARG['LANGKIND']}`
+        'codi_judge:2.0', 'sh', '-c', `./judge -l ${ARG['LANGKIND']} -m ${ARG['MEM']} -s 1 -t ${ARG['TIME']}`
     ]);
 
     docker.stdout.on('data', (data) => {

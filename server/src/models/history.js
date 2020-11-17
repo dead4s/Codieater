@@ -13,32 +13,32 @@ module.exports = (sequelize, DataTypes) => {
     time: DataTypes.REAL,
     memory: DataTypes.SMALLINT,
     result: DataTypes.SMALLINT,
-    // create_at: {
-    //   type: DataTypes.DATE,
-    //   allowNull: false,
-    //   get: function () {
-    //     const time = this.getDataValue('date');
-    //     if (moment(time, moment.ISO_8601, true).isValid()) {
-    //       return {
-    //         day: moment(time).format('YYYY-MM-DD'),
-    //         time: moment(time).format('HH:mm:ss'),
-    //       };
-    //     }
-    //     return time;
-    //   },
-    // },
+    createAt: {
+      type: DataTypes.DATE,
+      // allowNull: false,
+      get: function () {
+        const time = this.getDataValue('createAt');
+        if (moment(time, moment.ISO_8601, true).isValid()) {
+          return {
+            day: moment(time).format('YYYY-MM-DD'),
+            time: moment(time).format('HH:mm:ss'),
+          };
+        }
+        return time;
+      },
+    },
   }, { tableName: 'history', });
 
   history.associate = function(models) {
     history.belongsTo(models.user, {
       foreignKey: 'userId',
-      as: 'idx',
+      as: 'user',
       onDelete: 'CASCADE',
     });
 
     history.belongsTo(models.problem, {
       foreignKey: 'probNo',
-      as: 'ProbNo',
+      as: 'problem',
       onDelete: 'CASCADE'
     });
   };

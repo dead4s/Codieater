@@ -9,18 +9,18 @@ module.exports = {
       },
       probNo: {
         type: Sequelize.INTEGER,
-        // references: {
-        //       model: 'problem',
-        //       key: 'probNo',
-        // },
+        references: {
+              model: 'problem',
+              key: 'probNo',
+        },
         allowNull: false,
       },
       userId: {
         type: Sequelize.INTEGER,
-        // references: {
-        //   model: 'user',
-        //   key: 'idx',
-        // }
+        references: {
+          model: 'user',
+          key: 'idx',
+        }
       },
       lang: {
         type: Sequelize.STRING(10),
@@ -37,6 +37,10 @@ module.exports = {
       result: {
         type: Sequelize.SMALLINT
       },
+      createAt: {
+        type: Sequelize.DATE,
+        // defaultValue: Sequelize.NOW
+      }
     }),
   down: (queryInterface, Sequelize) => queryInterface.dropTable('history'),
 };

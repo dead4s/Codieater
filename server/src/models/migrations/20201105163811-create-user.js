@@ -32,6 +32,7 @@ module.exports = {
       },
       date: {
         type: Sequelize.DATE,
+        // defaultValue: Sequelize.NOW,
         allowNull: false,
       },
       error_count: {

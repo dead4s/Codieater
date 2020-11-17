@@ -101,10 +101,10 @@ module.exports = (sequelize, DataTypes) => {
   });
 
   User.associate = function (models) {
-    User.hasMany(models.problem, {
-      foreignKey: 'probNo',
-      as: 'problem'
-    });
+    // User.hasMany(models.problem, {
+    //   foreignKey: 'probNo',
+    //   as: 'problem'
+    // });
   }
 
   return User;

@@ -50,12 +50,22 @@
                             <td><a href="/problem/<%= problemData.probNo %>"><%= problemData.title %></a></td>
                             <td>
                                 <%
-                                    /* TO shot tag with coloring
-                                    for(let j = 0; j < problemData.tag.length; j++){
-                                        let tagName = tag[j];  
-                                        let color = tag
-                                    } */
+                                    /* TO shot tag with coloring */
+                                    for(let j = 0; j < problemData.tag.length; j++) {
+                                        const tag = problemData.tag[j].tagName;
+                                        let color;
+
+                                        switch(problemData.tag[j].tagId % 6) {
+                                            case 0: color = "default"; break;
+                                            case 1: color = "primary"; break;
+                                            case 2: color = "success"; break;
+                                            case 3: color = "info"; break;
+                                            case 4: color = "warning"; break;
+                                            case 5: color = "danger"; break;
+                                        }
                                 %>
+                                <span class="label label-<%= color %>"><%= tag %></span>
+                                <% } %>
                             </td>
                         </tr>
                         <% } %>
