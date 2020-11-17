@@ -1,4 +1,6 @@
 # Codieater
+<img width="200" src="https://user-images.githubusercontent.com/61981457/99392262-c83b0180-291e-11eb-9dae-cc07ab454bdf.jpg">
+
 **코드를 먹어서 뱉어주겠다.**
 
 **온라인 저지(코드 채점) 프로그램.**
