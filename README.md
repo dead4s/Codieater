@@ -4,7 +4,7 @@
 **온라인 저지(코드 채점) 프로그램.**
 
 ## Requirement
-- Node.js >= 14.x
+- Node.js == 14.x
 - Yarn
 - docker
 
@@ -13,7 +13,7 @@
 $ git clone https://github.com/Codieater/Codieater.git
 $ cd Codieater
 $ docker build -t codi_db:1.0 -f docker/pg.dockerfile .
-$ docker build -t codi_judge:2.0 -f docker/judge.dockerfile .
+$ docker build -t codi_judge:3.0 -f docker/judge.dockerfile .
 ```
 도커로 돌릴 postgres와 judge 도커파일을 빌드해서 이미지로 만든다.
 
@@ -38,13 +38,6 @@ http://localhost:5000
 ## Contributors
 - 윤승희 / <zetwhite@naver.com> / 코드 채점 judge 내부 개발 담당
 - 전설 / <rafch@naver.com> / 도커, 개발환경 개발 담당
-
-
-## Reference
-- node >  MIT License 
-- postgres > PostgreSQL License(https://www.postgresql.org/about/licence/)
-- docker > Apache License 2.0
-
 
 ## License
 - [MIT](http://opensource.org/licenses/MIT)
