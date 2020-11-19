@@ -34,6 +34,11 @@ http://localhost:5000
 ```
 로컬 테스트 개발 주소
 
+
+## More documents
+- [judge program(container) input and output](https://github.com/Codieater/Codieater/blob/main/document/Judge_Input_Output.md)
+
+
 ## Caution
 - run.sh를 실행하면 관리자 모드가 필요한 경우가 있으므로 오류가 날시 sudo를 붙여야 합니다.
 
